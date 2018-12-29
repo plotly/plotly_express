@@ -85,33 +85,32 @@ def configure_cartesian_axes(fig, axes, args):
             if letter_number not in layout["grid"][letter+"axes"]:
                 layout["grid"][letter+"axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter+"axis")
-                layout[axis] = {"scaleanchor": letter, "overlaying": letter}
+                layout[axis] = {}
+                if len(letter_number) > 1:
+                    layout[axis]["scaleanchor"] = letter+"1"
                 layout[axis]["title"] = args[letter]
                 if args["log_"+letter]:
                     layout[axis]["type"] = "log"
     layout["grid"]["yaxes"] = [i for i in reversed(layout["grid"]["yaxes"])]
 
-    annotation_template = {
-        "xref": "paper", "yref": "paper", "showarrow": False,
-        "xanchor": "center", "yanchor": "middle"
-    }
     layout["annotations"] = []
-    if args["row"]:
-        ystep = 1.0/(len(layout["grid"]["yaxes"])-gap)
-        for key, value in axes["y"].items():
-            i = len(layout["grid"]["yaxes"])-int(value[1:])
-            layout["annotations"].append({
-                **annotation_template, "text": args["row"]+"="+str(key),
-                "x": 1.01, "y": ystep*(i+(0.5-gap/2)), "textangle": 90
-            })
-    if args["col"]:
-        xstep = 1.0/(len(layout["grid"]["xaxes"])-gap)
-        for key, value in axes["x"].items():
-            i = int(value[1:])-1
-            layout["annotations"].append({
-                **annotation_template, "text": args["col"]+"="+str(key),
-                "y": 1.02, "x": xstep*(i+(0.5-gap/2))
-            })
+    for letter, direction, row in (("x", "col", False), ("y", "row", True)):
+        if args[direction]:
+            step = 1.0/(len(layout["grid"][letter+"axes"])-gap)
+            for key, value in axes[letter].items():
+                i = int(value[1:])
+                if row:
+                    i = len(layout["grid"][letter+"axes"])-i
+                else:
+                    i -= 1
+                layout["annotations"].append({
+                    "xref": "paper", "yref": "paper", "showarrow": False,
+                    "xanchor": "center", "yanchor": "middle",
+                    "text": args[direction]+"="+str(key),
+                    "x": 1.01 if row else step*(i+(0.5-gap/2)),
+                    "y": step*(i+(0.5-gap/2))if row else 1.02,
+                    "textangle": 90 if row else 0
+                })
     fig.layout.update(layout)
 
 
@@ -169,7 +168,7 @@ def density_contour(df, x=None, y=None, row=None, col=None, log_x=False, log_y=F
     return fig
 
 
-def line(df, x=None, y=None, color=None, dash=None,
+def line(df, x=None, y=None, color=None, dash=None, split=None,
          color_map={}, dash_map={},
          color_sequence=default_color_seq,
          dash_sequence=default_dash_seq,
@@ -183,7 +182,10 @@ def line(df, x=None, y=None, color=None, dash=None,
             make_cartesian_facet_mapping("x", col, axes["x"]),
             make_cartesian_facet_mapping("y", row, axes["y"]),
             make_mapping("color", "marker", locals()),
-            make_mapping("dash", "line", locals())
+            make_mapping("dash", "line", locals()),
+            Mapping(facet=False, grouper=split, val_map={}, sequence=[''],
+                    updater=lambda trace, v: v
+                    )
         ]
     )
     configure_cartesian_axes(fig, axes, locals())
@@ -243,7 +245,7 @@ def violin(df, x=None, y=None, color=None, color_map={}, color_sequence=default_
         ]
     )
     configure_cartesian_axes(fig, axes, locals())
-    fig.layout.violinmode = mode
+    fig.layout.update(dict(violinmode=mode))
     return fig
 
 
@@ -292,7 +294,7 @@ def line_ternary(df, a=None, b=None, c=None, color=None, dash=None,
                  color_sequence=default_color_seq,
                  dash_sequence=default_dash_seq):
     fig = make_figure(
-        df, go.Scatter,
+        df, go.Scatterternary,
         lambda g: dict(mode='lines', a=a and g[a], b=b and g[b], c=c and g[c]),
         [
             make_mapping("color", "marker", locals()),
@@ -329,7 +331,7 @@ def line_polar(df, r, theta, color=None, dash=None,
                color_sequence=default_color_seq,
                dash_sequence=default_dash_seq):
     fig = make_figure(
-        df, go.Scatter,
+        df, go.Scatterpolar,
         lambda g: dict(mode='lines', r=r and g[r], theta=theta and g[theta]),
         [
             make_mapping("color", "marker", locals()),
@@ -374,6 +376,8 @@ def splom(df, dimensions=None, color=None, symbol=None,
     )
     return fig
 
+# TODO cartesian_axes doesn't need fig, could return a delta object
+# TODO pass in more arguments to make_figure such that it returns the whole figure
 # TODO gl vs not gl
 # TODO violin infers extra categories for traces, doesn't honor legendgroup
 # TODO lock ranges on shared axes, including colormap ... shared colormap?
@@ -383,7 +387,7 @@ def splom(df, dimensions=None, color=None, symbol=None,
 # TODO test defaults
 # TODO histogram weights and calcs
 # TODO various box and violin options
-# TODO log scales in SPLOM and generally in facets
+# TODO log scales in SPLOM
 # TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
