@@ -11,171 +11,268 @@ default_color_seq = ["#3366cc", "#dc3912", "#ff9900", "#109618",
 default_symbol_seq = ["circle", "triangle-down", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash",
                     "longdash", "dashdot", "longdashdot"]
-Mapping = namedtuple('Mapping', ['grouper', 'val_map', 'sequence', 'updater'])
+Mapping = namedtuple(
+    'Mapping', ['facet', 'grouper', 'val_map', 'sequence', 'updater'])
 
 
 def make_mapping(variable, parent, args):
     return Mapping(
+        facet=False,
         grouper=args[variable],
         val_map=args[variable+"_map"].copy(),
         sequence=args[variable+"_sequence"],
-        updater=lambda x: {parent: {variable: x}},
+        updater=lambda trace, v: trace.update({parent: {variable: v}}),
+    )
+
+
+def make_cartesian_facet_mapping(letter, column, facet_map):
+    return Mapping(
+        facet=True,
+        grouper=column,
+        val_map=facet_map,
+        sequence=[letter+str(i) for i in range(1, 1000)],
+        updater=lambda trace, v: trace.update({letter+"axis": v}),
     )
 
 
 def make_figure(df, constructor, trace_kwargs_by_group, mappings):
     fig = go.FigureWidget(
-        {"layout": {'template': 'plotly', 'hovermode': 'closest'}})
+        layout={'template': 'plotly', 'height': 600,
+                'margin': {'t': 40},
+                'hovermode': 'closest', 'legend': {'tracegroupgap': 0}}
+    )
 
     def one_group(x): return ""
     grouper = [x.grouper or one_group for x in mappings] or [one_group]
+    trace_names = set()
+    traces = []
     for group_name, group in df.groupby(grouper):
         if len(grouper) == 1:
             group_name = [group_name]
         mapping_str = []
-        for col, val in zip(grouper, group_name):
-            if col != one_group:
+        for col, val, m in zip(grouper, group_name, mappings):
+            if col != one_group and not m.facet:
                 s = "%s=%s" % (col, val)
                 if s not in mapping_str:
                     mapping_str.append(s)
-        trace = constructor(name=", ".join(mapping_str))
+        trace_name = ", ".join(mapping_str)
+
+        trace = constructor(name=trace_name, legendgroup=trace_name,
+                            showlegend=(
+                                trace_name != '' and trace_name not in trace_names),
+                            **trace_kwargs_by_group(group))
+        trace_names.add(trace_name)
         for i, m in enumerate(mappings):
             val = group_name[i]
             if val not in m.val_map:
                 m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
-            trace.update(m.updater(m.val_map[val]))
-        trace.update(trace_kwargs_by_group(group))
-        fig.add_trace(trace)
+            m.updater(trace, m.val_map[val])
+        traces.append(trace)
+    fig.add_traces(traces)
     return fig
 
 
-def cartesian_axes(fig, args):
-    fig.layout.xaxis.title = args["x"]
-    fig.layout.yaxis.title = args["y"]
-    if args["log_x"]:
-        fig.layout.xaxis.type = "log"
-    if args["log_y"]:
-        fig.layout.yaxis.type = "log"
+def auto_sizeref(df, size):
+    return size and df[size].max() / (45*45)
 
 
-def scatter(df, x, y, color=None, symbol=None, size=None, name=None,
+def configure_cartesian_axes(fig, axes, args):
+    gap = 0.1
+    layout = {"grid": {"xaxes": [], "yaxes": [], "xgap": gap, "ygap": gap,
+                       "xside": "bottom", "yside": "left"}}
+    for letter in ["x", "y"]:
+        for letter_number in set(t[letter+"axis"] for t in fig.data):
+            if letter_number not in layout["grid"][letter+"axes"]:
+                layout["grid"][letter+"axes"].append(letter_number)
+                axis = letter_number.replace(letter, letter+"axis")
+                layout[axis] = {"scaleanchor": letter, "overlaying": letter}
+                layout[axis]["title"] = args[letter]
+                if args["log_"+letter]:
+                    layout[axis]["type"] = "log"
+    layout["grid"]["yaxes"] = [i for i in reversed(layout["grid"]["yaxes"])]
+
+    annotation_template = {
+        "xref": "paper", "yref": "paper", "showarrow": False,
+        "xanchor": "center", "yanchor": "middle"
+    }
+    layout["annotations"] = []
+    if args["row"]:
+        ystep = 1.0/(len(layout["grid"]["yaxes"])-gap)
+        for key, value in axes["y"].items():
+            i = len(layout["grid"]["yaxes"])-int(value[1:])
+            layout["annotations"].append({
+                **annotation_template, "text": args["row"]+"="+str(key),
+                "x": 1.01, "y": ystep*(i+(0.5-gap/2)), "textangle": 90
+            })
+    if args["col"]:
+        xstep = 1.0/(len(layout["grid"]["xaxes"])-gap)
+        for key, value in axes["x"].items():
+            i = int(value[1:])-1
+            layout["annotations"].append({
+                **annotation_template, "text": args["col"]+"="+str(key),
+                "y": 1.02, "x": xstep*(i+(0.5-gap/2))
+            })
+    fig.layout.update(layout)
+
+
+def scatter(df, x=None, y=None, color=None, symbol=None, size=None, name=None,
             color_map={}, symbol_map={},
             color_sequence=default_color_seq,
             symbol_sequence=default_symbol_seq,
+            row=None, col=None,
             log_x=False, log_y=False):
-    if size:
-        sizeref = df[size].max() / (45*45)
+    sizeref = auto_sizeref(df, size)
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Scatter,
-        lambda g: dict(mode='markers', x=g[x], y=g[y],
+        lambda g: dict(mode='markers', x=x and g[x], y=y and g[y],
                        hovertext=name and g[name],
                        marker=size and dict(
                            size=g[size], sizemode="area", sizeref=sizeref)
                        ),
         [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
             make_mapping("color", "marker", locals()),
             make_mapping("symbol", "marker", locals())
         ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     return fig
 
 
-def density_heatmap(df, x, y, log_x=False, log_y=False):
+def density_heatmap(df, x=None, y=None,  row=None, col=None, log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Histogram2d,
-        lambda g: dict(x=g[x], y=g[y]),
-        []
+        lambda g: dict(x=x and g[x], y=y and g[y]),
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"])
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     return fig
 
 
-def density_contour(df, x, y, log_x=False, log_y=False):
+def density_contour(df, x=None, y=None, row=None, col=None, log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Histogram2dContour,
-        lambda g: dict(x=g[x], y=g[y]),
-        []
+        lambda g: dict(x=x and g[x], y=y and g[y]),
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     return fig
 
 
-def line(df, x, y, color=None, dash=None,
+def line(df, x=None, y=None, color=None, dash=None,
          color_map={}, dash_map={},
          color_sequence=default_color_seq,
-         dash_sequence=default_dash_seq, log_x=False, log_y=False):
+         dash_sequence=default_dash_seq,
+         row=None, col=None,
+         log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Scatter,
-        lambda g: dict(mode='lines', x=g[x], y=g[y]),
+        lambda g: dict(mode='lines', x=x and g[x], y=y and g[y]),
         [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
             make_mapping("color", "marker", locals()),
             make_mapping("dash", "line", locals())
         ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     return fig
 
 
-def bar(df, x, y, color=None, color_map={}, color_sequence=default_color_seq,
+def bar(df, x=None, y=None, color=None, color_map={}, color_sequence=default_color_seq,
+        row=None, col=None,
         orientation='v', normalization="", mode="relative", log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Bar,
-        lambda g: dict(x=g[x], y=g[y], orientation=orientation),
-        [make_mapping("color", "marker", locals())]
+        lambda g: dict(x=x and g[x], y=y and g[y], orientation=orientation),
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
+            make_mapping("color", "marker", locals())
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     fig.layout.barnorm = normalization
     fig.layout.barmode = mode
     return fig
 
 
-def histogram(df, x, y, color=None, color_map={}, color_sequence=default_color_seq,
-              orientation='v', mode="stack", normalization=None, log_x=False, log_y=False):
+def histogram(df, x=None, y=None, color=None, color_map={}, color_sequence=default_color_seq,
+              row=None, col=None,
+              orientation='v', mode="stack", normalization=None,
+              log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Histogram,
-        lambda g: dict(x=g[x], y=g[y], orientation=orientation,
+        lambda g: dict(x=x and g[x], y=y and g[y], orientation=orientation,
                        histnorm=normalization),
-        [make_mapping("color", "marker", locals())]
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
+            make_mapping("color", "marker", locals())
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     fig.layout.barmode = mode
     return fig
 
 
-def violin(df, x, y, color=None, color_map={}, color_sequence=default_color_seq,
-           orientation='v', mode="group", log_x=False, log_y=False):
+def violin(df, x=None, y=None, color=None, color_map={}, color_sequence=default_color_seq,
+           orientation='v', mode="group",
+           row=None, col=None, log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Violin,
-        lambda g: dict(x=g[x], y=g[y], orientation=orientation),
-        [make_mapping("color", "marker", locals())]
+        lambda g: dict(x=x and g[x], y=y and g[y], orientation=orientation),
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
+            make_mapping("color", "marker", locals())
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     fig.layout.violinmode = mode
     return fig
 
 
-def box(df, x, y, color=None, color_map={}, color_sequence=default_color_seq,
-        orientation='v', mode="group", log_x=False, log_y=False):
+def box(df, x=None, y=None, color=None, color_map={}, color_sequence=default_color_seq,
+        orientation='v', mode="group",
+        row=None, col=None, log_x=False, log_y=False):
+    axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Box,
-        lambda g: dict(x=g[x], y=g[y], orientation=orientation),
-        [make_mapping("color", "marker", locals())]
+        lambda g: dict(x=x and g[x], y=y and g[y], orientation=orientation),
+        [
+            make_cartesian_facet_mapping("x", col, axes["x"]),
+            make_cartesian_facet_mapping("y", row, axes["y"]),
+            make_mapping("color", "marker", locals())
+        ]
     )
-    cartesian_axes(fig, locals())
+    configure_cartesian_axes(fig, axes, locals())
     fig.layout.boxmode = mode
     return fig
 
 
-def scatter_ternary(df, a, b, c, color=None, symbol=None, size=None,
+def scatter_ternary(df, a=None, b=None, c=None, color=None, symbol=None, size=None,
                     color_map={}, symbol_map={},
                     color_sequence=default_color_seq,
                     symbol_sequence=default_symbol_seq):
-    if size:
-        sizeref = df[size].max() / (45*45)
+    sizeref = auto_sizeref(df, size)
     fig = make_figure(
         df, go.Scatterternary,
-        lambda g: dict(mode='markers', a=g[a], b=g[b], c=g[c],
+        lambda g: dict(mode='markers', a=a and g[a], b=b and g[b], c=c and g[c],
                        marker=size and dict(
                            size=g[size], sizemode="area", sizeref=sizeref)
                        ),
@@ -190,13 +287,13 @@ def scatter_ternary(df, a, b, c, color=None, symbol=None, size=None,
     return fig
 
 
-def line_ternary(df, a, b, c, color=None, dash=None,
+def line_ternary(df, a=None, b=None, c=None, color=None, dash=None,
                  color_map={}, dash_map={},
                  color_sequence=default_color_seq,
                  dash_sequence=default_dash_seq):
     fig = make_figure(
         df, go.Scatter,
-        lambda g: dict(mode='lines', a=g[a], b=g[b], c=g[c]),
+        lambda g: dict(mode='lines', a=a and g[a], b=b and g[b], c=c and g[c]),
         [
             make_mapping("color", "marker", locals()),
             make_mapping("dash", "line", locals())
@@ -212,11 +309,10 @@ def scatter_polar(df, r, theta, color=None, symbol=None, size=None,
                   color_map={}, symbol_map={},
                   color_sequence=default_color_seq,
                   symbol_sequence=default_symbol_seq):
-    if size:
-        sizeref = df[size].max() / (45*45)
+    sizeref = auto_sizeref(df, size)
     fig = make_figure(
         df, go.Scatterpolar,
-        lambda g: dict(mode='markers', r=g[r], theta=g[theta],
+        lambda g: dict(mode='markers', r=r and g[r], theta=theta and g[theta],
                        marker=size and dict(
                            size=g[size], sizemode="area", sizeref=sizeref)
                        ),
@@ -234,7 +330,7 @@ def line_polar(df, r, theta, color=None, dash=None,
                dash_sequence=default_dash_seq):
     fig = make_figure(
         df, go.Scatter,
-        lambda g: dict(mode='lines', r=g[r], theta=g[theta]),
+        lambda g: dict(mode='lines', r=r and g[r], theta=theta and g[theta]),
         [
             make_mapping("color", "marker", locals()),
             make_mapping("dash", "line", locals())
@@ -243,11 +339,11 @@ def line_polar(df, r, theta, color=None, dash=None,
     return fig
 
 
-def bar_polar(df, r, theta, color=None, color_map={}, color_sequence=default_color_seq,
+def bar_polar(df, r=None, theta=None, color=None, color_map={}, color_sequence=default_color_seq,
               normalization="", mode="relative"):
     fig = make_figure(
         df, go.Barpolar,
-        lambda g: dict(r=g[r], theta=g[theta]),
+        lambda g: dict(r=r and g[r], theta=theta and g[theta]),
         [
             make_mapping("color", "marker", locals())
         ]
@@ -278,6 +374,9 @@ def splom(df, dimensions=None, color=None, symbol=None,
     )
     return fig
 
+# TODO gl vs not gl
+# TODO violin infers extra categories for traces, doesn't honor legendgroup
+# TODO lock ranges on shared axes, including colormap ... shared colormap?
 # TODO canonical examples ... needed now!
 # TODO test with none, all, any mappings
 # TODO test each plot
@@ -286,7 +385,8 @@ def splom(df, dimensions=None, color=None, symbol=None,
 # TODO various box and violin options
 # TODO log scales in SPLOM and generally in facets
 # TODO check on dates
-# TODO facets
+# TODO facet wrap
+# TODO non-cartesian faceting
 # TODO marginals
 # TODO validate inputs
 # TODO name / hover labels
