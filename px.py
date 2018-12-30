@@ -1,6 +1,19 @@
 import plotly.graph_objs as go
-
+from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple
+
+
+class FigurePx(go.Figure):
+    offline_initialized = False
+
+    def __init__(self, *args, **kwargs):
+        super(FigurePx, self).__init__(*args, **kwargs)
+        if not FigurePx.offline_initialized:
+            init_notebook_mode()
+            FigurePx.offline_initialized = True
+
+    def _ipython_display_(self):
+        iplot(self, show_link=False)
 
 
 default_color_seq = ["#3366cc", "#dc3912", "#ff9900", "#109618",
@@ -36,7 +49,7 @@ def make_cartesian_facet_mapping(letter, column, facet_map):
 
 
 def make_figure(df, constructor, trace_kwargs_by_group, mappings):
-    fig = go.FigureWidget(
+    fig = FigurePx(
         layout={'template': 'plotly', 'height': 600,
                 'margin': {'t': 40},
                 'hovermode': 'closest', 'legend': {'tracegroupgap': 0}}
@@ -154,21 +167,25 @@ def density_heatmap(df, x=None, y=None,  row=None, col=None, log_x=False, log_y=
     return fig
 
 
-def density_contour(df, x=None, y=None, row=None, col=None, log_x=False, log_y=False):
+def density_contour(df, x=None, y=None, color=None, color_map={},
+                    color_sequence=default_color_seq,
+                    row=None, col=None, log_x=False, log_y=False):
     axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Histogram2dContour,
-        lambda g: dict(x=x and g[x], y=y and g[y]),
+        lambda g: dict(x=x and g[x], y=y and g[y],
+                       contours=dict(coloring="none")),
         [
             make_cartesian_facet_mapping("x", col, axes["x"]),
             make_cartesian_facet_mapping("y", row, axes["y"]),
+            make_mapping("color", "line", locals()),
         ]
     )
     configure_cartesian_axes(fig, axes, locals())
     return fig
 
 
-def line(df, x=None, y=None, color=None, dash=None, split=None,
+def line(df, x=None, y=None, color=None, dash=None, split=None, name=None,
          color_map={}, dash_map={},
          color_sequence=default_color_seq,
          dash_sequence=default_dash_seq,
@@ -177,13 +194,14 @@ def line(df, x=None, y=None, color=None, dash=None, split=None,
     axes = {"x": {}, "y": {}}
     fig = make_figure(
         df, go.Scatter,
-        lambda g: dict(mode='lines', x=x and g[x], y=y and g[y]),
+        lambda g: dict(mode='lines', x=x and g[x], y=y and g[y],
+                       hovertext=name and g[name],),
         [
             make_cartesian_facet_mapping("x", col, axes["x"]),
             make_cartesian_facet_mapping("y", row, axes["y"]),
-            make_mapping("color", "marker", locals()),
+            make_mapping("color", "line", locals()),
             make_mapping("dash", "line", locals()),
-            Mapping(facet=False, grouper=split, val_map={}, sequence=[''],
+            Mapping(facet=True, grouper=split, val_map={}, sequence=[''],
                     updater=lambda trace, v: v
                     )
         ]
@@ -366,7 +384,7 @@ def splom(df, dimensions=None, color=None, symbol=None,
             for name, column in g.iteritems()
             if (
                 (dimensions and name in dimensions) or
-                (not dimensions and column.dtype in ["int64", "float64"])
+                (not dimensions)
             )
         ]),
         [
