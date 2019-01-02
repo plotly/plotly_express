@@ -16,28 +16,7 @@ class FigurePx(go.Figure):
         iplot(self, show_link=False)
 
 
-default_color_seq = [
-    "#3366cc",
-    "#dc3912",
-    "#ff9900",
-    "#109618",
-    "#990099",
-    "#0099c6",
-    "#dd4477",
-    "#66aa00",
-    "#b82e2e",
-    "#316395",
-    "#994499",
-    "#22aa99",
-    "#aaaa11",
-    "#6633cc",
-    "#e67300",
-    "#8b0707",
-    "#651067",
-    "#329262",
-    "#5574a6",
-    "#3b3eac",
-]
+default_color_seq = ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#19d3f3", "#e763fa"]
 default_symbol_seq = ["circle", "triangle-down", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
 Mapping = namedtuple(
