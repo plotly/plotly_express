@@ -1,13 +1,21 @@
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple
+import plotly.io as pio
+
+
+pio.templates["px"] = dict(
+    layout=dict(margin={"t": 60}, height=600, legend={"tracegroupgap": 0})
+)
 
 
 class FigurePx(go.Figure):
     offline_initialized = False
 
     def __init__(self, *args, **kwargs):
-        super(FigurePx, self).__init__(*args, **kwargs)
+        super(FigurePx, self).__init__(
+            *args, layout={"template": "plotly+px"}, **kwargs
+        )
         if not FigurePx.offline_initialized:
             init_notebook_mode()
             FigurePx.offline_initialized = True
@@ -20,13 +28,14 @@ default_color_seq = ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#19d3f3", "#e7
 default_symbol_seq = ["circle", "triangle-down", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
 Mapping = namedtuple(
-    "Mapping", ["facet", "grouper", "val_map", "sequence", "updater", "variable"]
+    "Mapping",
+    ["show_in_trace_name", "grouper", "val_map", "sequence", "updater", "variable"],
 )
 
 
 def make_mapping(variable, parent, args):
     return Mapping(
-        facet=False,
+        show_in_trace_name=True,
         variable=variable,
         grouper=args[variable],
         val_map=args[variable + "_map"].copy(),
@@ -37,7 +46,7 @@ def make_mapping(variable, parent, args):
 
 def make_cartesian_facet_mapping(letter, column):
     return Mapping(
-        facet=True,
+        show_in_trace_name=False,
         variable=letter,
         grouper=column,
         val_map={},
@@ -70,15 +79,25 @@ def make_cartesian_axes_configurator(args):
     def configure_cartesian_axes(fig, axes):
         if "marginal_x" in args and (args["marginal_x"] or args["marginal_y"]):
             layout = {}
-            if args["marginal_y"]:
-                layout["xaxis1"] = {"domain": [0, 0.79], "showgrid": True}
-                layout["xaxis2"] = {"domain": [0.8, 1], "showticklabels": False}
-            if args["marginal_x"]:
-                layout["yaxis1"] = {"domain": [0, 0.79], "showgrid": True}
-                layout["yaxis2"] = {"domain": [0.8, 1], "showticklabels": False}
             for letter in ["x", "y"]:
-                if args["log_" + letter]:
-                    layout[letter + "axis1"]["type"] = "log"
+                otherletter = "x" if letter == "y" else "y"
+                if args["marginal_" + letter]:
+                    if args["marginal_" + letter] == "histogram" or (
+                        "color" in args and args["color"]
+                    ):
+                        main_size = 0.74
+                    else:
+                        main_size = 0.84
+                    layout[otherletter + "axis1"] = {
+                        "domain": [0, main_size],
+                        "showgrid": True,
+                    }
+                    layout[otherletter + "axis2"] = {
+                        "domain": [main_size + 0.005, 1],
+                        "showticklabels": False,
+                    }
+                    if args["log_" + letter]:
+                        layout[letter + "axis1"]["type"] = "log"
             return dict(layout=layout)
         gap = 0.1
         layout = {
@@ -148,37 +167,31 @@ def make_ternary_axes_configurator(args):
 
 
 def make_marginals_definition(letter, args):
-    if args["marginal_" + letter] == "violin":
+    axis_map = dict(
+        xaxis="x1" if letter == "x" else "x2", yaxis="y1" if letter == "y" else "y2"
+    )
+    if args["marginal_" + letter] == "histogram":
         return (
-            go.Violin,
-            trace_kwargs_setter(
-                [letter],
-                args,
-                xaxis="x1" if letter == "x" else "x2",
-                yaxis="y1" if letter == "y" else "y2",
-                side="positive",
-            ),
+            go.Histogram,
+            trace_kwargs_setter([letter], args, opacity=0.5, **axis_map),
         )
+    if args["marginal_" + letter] == "violin":
+        return (go.Violin, trace_kwargs_setter([letter], args, **axis_map))
     if args["marginal_" + letter] == "box":
+        return (go.Box, trace_kwargs_setter([letter], args, notched=True, **axis_map))
+    if args["marginal_" + letter] == "rug":
         return (
             go.Box,
             trace_kwargs_setter(
                 [letter],
                 args,
-                xaxis="x1" if letter == "x" else "x2",
-                yaxis="y1" if letter == "y" else "y2",
-                notched=True,
-            ),
-        )
-    if args["marginal_" + letter] == "histogram":
-        return (
-            go.Histogram,
-            trace_kwargs_setter(
-                [letter],
-                args,
-                opacity=0.5,
-                xaxis="x1" if letter == "x" else "x2",
-                yaxis="y1" if letter == "y" else "y2",
+                fillcolor="rgba(255,255,255,0)",
+                line={"color": "rgba(255,255,255,0)"},
+                boxpoints="all",
+                jitter=0,
+                hoveron="points",
+                marker={"symbol": "line-ew-open" if letter == "y" else "line-ns-open"},
+                **axis_map
             ),
         )
     return (None, None)
@@ -192,15 +205,7 @@ def make_marginals_definition(letter, args):
 def make_figure(
     df, constructors, mappings=[], axis_configurator=lambda x, y: {}, layout_patch={}
 ):
-    fig = FigurePx(
-        layout={
-            "template": "plotly",
-            "height": 600,
-            "margin": {"t": 40},
-            "hovermode": "closest",
-            "legend": {"tracegroupgap": 0},
-        }
-    )
+    fig = FigurePx()
 
     def one_group(x):
         return ""
@@ -213,7 +218,7 @@ def make_figure(
             group_name = [group_name]
         mapping_str = []
         for col, val, m in zip(grouper, group_name, mappings):
-            if col != one_group and not m.facet:
+            if col != one_group and m.show_in_trace_name:
                 s = "%s=%s" % (col, val)
                 if s not in mapping_str:
                     mapping_str.append(s)
@@ -235,7 +240,11 @@ def make_figure(
                 try:
                     m.updater(trace, m.val_map[val])
                 except Exception:
-                    if constructors[0][0] != go.Scatter or m.variable != "symbol":
+                    if (
+                        len(constructors) != 1
+                        or constructors[0][0] != go.Scatter
+                        or m.variable != "symbol"
+                    ):
                         raise
             trace.update(trace_kwargs_by_group(group))
             traces.append(trace)
@@ -292,7 +301,7 @@ def scatter(
             make_mapping("symbol", "marker", args),
         ],
         make_cartesian_axes_configurator(args),
-        dict(barmode="overlay"),
+        dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
 
@@ -320,7 +329,7 @@ def density_heatmap(
             make_cartesian_facet_mapping("y", row),
         ],
         make_cartesian_axes_configurator(args),
-        dict(barmode="overlay"),
+        dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
 
@@ -355,7 +364,7 @@ def density_contour(
             make_mapping("color", "line", args),
         ],
         make_cartesian_axes_configurator(args),
-        dict(barmode="overlay"),
+        dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
 
@@ -396,7 +405,7 @@ def line(
             make_mapping("color", "line", args),
             make_mapping("dash", "line", args),
             Mapping(
-                facet=True,
+                show_in_trace_name=False,
                 grouper=split,
                 val_map={},
                 sequence=[""],
@@ -606,7 +615,7 @@ def line_ternary(
             make_mapping("color", "marker", args),
             make_mapping("dash", "line", args),
             Mapping(
-                facet=True,
+                show_in_trace_name=False,
                 grouper=split,
                 val_map={},
                 sequence=[""],
@@ -680,7 +689,7 @@ def line_polar(
             make_mapping("color", "marker", args),
             make_mapping("dash", "line", args),
             Mapping(
-                facet=True,
+                show_in_trace_name=False,
                 grouper=split,
                 val_map={},
                 sequence=[""],
@@ -744,13 +753,10 @@ def splom(
 # TODO symbol in line ?
 # TODO testing of some kind (try Percy)
 # TODO error bars on bar/line/scatter
-# TODO rug plot?
-# TODO marginals
 # TODO gl vs not gl
 # TODO lock ranges on shared axes, including colormap ... shared colormap?
 # TODO histogram weights and calcs
 # TODO various box and violin options
-# TODO log scales in SPLOM
 # TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
