@@ -25,7 +25,7 @@ class FigurePx(go.Figure):
 
 
 default_color_seq = ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#19d3f3", "#e763fa"]
-default_symbol_seq = ["circle", "triangle-down", "square", "x", "cross"]
+default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
 Mapping = namedtuple(
     "Mapping",
@@ -68,7 +68,7 @@ def trace_kwargs_setter(vars, args, **kwargs):
                     result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
                 elif k.startswith("error"):
                     error_xy = k[:7]
-                    arr = "array" if k.endswith("plus") else "arrayminus"
+                    arr = "arrayminus" if k.endswith("minus") else "array"
                     if error_xy not in result:
                         result[error_xy] = {}
                     result[error_xy][arr] = g[v]
@@ -165,6 +165,21 @@ def make_ternary_axes_configurator(args):
                     aaxis=dict(title=args["a"]),
                     baxis=dict(title=args["b"]),
                     caxis=dict(title=args["c"]),
+                )
+            )
+        )
+
+    return configure_ternary_axes
+
+
+def make_3d_axes_configurator(args):
+    def configure_ternary_axes(fig, axes):
+        return dict(
+            layout=dict(
+                scene=dict(
+                    xaxis=dict(title=args["x"]),
+                    yaxis=dict(title=args["y"]),
+                    zaxis=dict(title=args["z"]),
                 )
             )
         )
@@ -284,9 +299,9 @@ def scatter(
     log_y=False,
     marginal_x=None,
     marginal_y=None,
-    error_x_plus=None,
+    error_x=None,
     error_x_minus=None,
-    error_y_plus=None,
+    error_y=None,
     error_y_minus=None,
 ):
     args = locals()
@@ -302,9 +317,9 @@ def scatter(
                         "hover",
                         "size",
                         "text",
-                        "error_x_plus",
+                        "error_x",
                         "error_x_minus",
-                        "error_y_plus",
+                        "error_y",
                         "error_y_minus",
                     ],
                     args,
@@ -405,9 +420,9 @@ def line(
     col=None,
     log_x=False,
     log_y=False,
-    error_x_plus=None,
+    error_x=None,
     error_x_minus=None,
-    error_y_plus=None,
+    error_y=None,
     error_y_minus=None,
 ):
     args = locals()
@@ -422,9 +437,9 @@ def line(
                         "y",
                         "hover",
                         "text",
-                        "error_x_plus",
+                        "error_x",
                         "error_x_minus",
-                        "error_y_plus",
+                        "error_y",
                         "error_y_minus",
                     ],
                     args,
@@ -466,9 +481,9 @@ def bar(
     mode="relative",
     log_x=False,
     log_y=False,
-    error_x_plus=None,
+    error_x=None,
     error_x_minus=None,
-    error_y_plus=None,
+    error_y=None,
     error_y_minus=None,
 ):
     args = locals()
@@ -483,9 +498,9 @@ def bar(
                         "y",
                         "hover",
                         "text",
-                        "error_x_plus",
+                        "error_x",
                         "error_x_minus",
-                        "error_y_plus",
+                        "error_y",
                         "error_y_minus",
                     ],
                     args,
@@ -593,6 +608,108 @@ def box(
         ],
         make_cartesian_axes_configurator(args),
         dict(boxmode=mode),
+    )
+
+
+def scatter_3d(
+    df,
+    x=None,
+    y=None,
+    z=None,
+    color=None,
+    symbol=None,
+    size=None,
+    text=None,
+    color_map={},
+    symbol_map={},
+    hover=None,
+    color_sequence=default_color_seq,
+    symbol_sequence=default_symbol_seq,
+    error_x=None,
+    error_x_minus=None,
+    error_y=None,
+    error_y_minus=None,
+    error_z=None,
+    error_z_minus=None,
+):
+    args = locals()
+    return make_figure(
+        df,
+        [
+            (
+                go.Scatter3d,
+                trace_kwargs_setter(
+                    [
+                        "x",
+                        "y",
+                        "z",
+                        "hover",
+                        "text",
+                        "size",
+                        "error_x",
+                        "error_x_minus",
+                        "error_y",
+                        "error_y_minus",
+                        "error_z",
+                        "error_z_minus",
+                    ],
+                    args,
+                    mode="markers" + ("+text" if text else ""),
+                ),
+            )
+        ],
+        [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
+        make_3d_axes_configurator(args),
+    )
+
+
+def line_3d(
+    df,
+    x=None,
+    y=None,
+    z=None,
+    color=None,
+    dash=None,
+    text=None,
+    color_map={},
+    dash_map={},
+    hover=None,
+    color_sequence=default_color_seq,
+    dash_sequence=default_dash_seq,
+    error_x=None,
+    error_x_minus=None,
+    error_y=None,
+    error_y_minus=None,
+    error_z=None,
+    error_z_minus=None,
+):
+    args = locals()
+    return make_figure(
+        df,
+        [
+            (
+                go.Scatter3d,
+                trace_kwargs_setter(
+                    [
+                        "x",
+                        "y",
+                        "z",
+                        "hover",
+                        "text",
+                        "error_x",
+                        "error_x_minus",
+                        "error_y",
+                        "error_y_minus",
+                        "error_z",
+                        "error_z_minus",
+                    ],
+                    args,
+                    mode="lines" + ("+markers+text" if text else ""),
+                ),
+            )
+        ],
+        [make_mapping("color", "line", args), make_mapping("dash", "line", args)],
+        make_3d_axes_configurator(args),
     )
 
 
