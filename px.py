@@ -66,6 +66,12 @@ def trace_kwargs_setter(vars, args, **kwargs):
             if v:
                 if k == "size":
                     result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
+                elif k.startswith("error"):
+                    error_xy = k[:7]
+                    arr = "array" if k.endswith("plus") else "arrayminus"
+                    if error_xy not in result:
+                        result[error_xy] = {}
+                    result[error_xy][arr] = g[v]
                 elif k == "hover":
                     result["hovertext"] = g[v]
                 else:
@@ -278,6 +284,10 @@ def scatter(
     log_y=False,
     marginal_x=None,
     marginal_y=None,
+    error_x_plus=None,
+    error_x_minus=None,
+    error_y_plus=None,
+    error_y_minus=None,
 ):
     args = locals()
     return make_figure(
@@ -286,7 +296,17 @@ def scatter(
             (
                 go.Scatter,
                 trace_kwargs_setter(
-                    ["x", "y", "hover", "size", "text"],
+                    [
+                        "x",
+                        "y",
+                        "hover",
+                        "size",
+                        "text",
+                        "error_x_plus",
+                        "error_x_minus",
+                        "error_y_plus",
+                        "error_y_minus",
+                    ],
                     args,
                     mode="markers" + ("+text" if text else ""),
                 ),
@@ -385,6 +405,10 @@ def line(
     col=None,
     log_x=False,
     log_y=False,
+    error_x_plus=None,
+    error_x_minus=None,
+    error_y_plus=None,
+    error_y_minus=None,
 ):
     args = locals()
     return make_figure(
@@ -393,7 +417,16 @@ def line(
             (
                 go.Scatter,
                 trace_kwargs_setter(
-                    ["x", "y", "hover", "text"],
+                    [
+                        "x",
+                        "y",
+                        "hover",
+                        "text",
+                        "error_x_plus",
+                        "error_x_minus",
+                        "error_y_plus",
+                        "error_y_minus",
+                    ],
                     args,
                     mode="lines" + ("+markers+text" if text else ""),
                 ),
@@ -433,6 +466,10 @@ def bar(
     mode="relative",
     log_x=False,
     log_y=False,
+    error_x_plus=None,
+    error_x_minus=None,
+    error_y_plus=None,
+    error_y_minus=None,
 ):
     args = locals()
     return make_figure(
@@ -441,7 +478,16 @@ def bar(
             (
                 go.Bar,
                 trace_kwargs_setter(
-                    ["x", "y", "hover", "text"],
+                    [
+                        "x",
+                        "y",
+                        "hover",
+                        "text",
+                        "error_x_plus",
+                        "error_x_minus",
+                        "error_y_plus",
+                        "error_y_minus",
+                    ],
                     args,
                     orientation=orientation,
                     textposition="auto",
@@ -752,7 +798,6 @@ def splom(
 
 # TODO symbol in line ?
 # TODO testing of some kind (try Percy)
-# TODO error bars on bar/line/scatter
 # TODO gl vs not gl
 # TODO lock ranges on shared axes, including colormap ... shared colormap?
 # TODO histogram weights and calcs
