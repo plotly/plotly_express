@@ -68,6 +68,18 @@ def trace_kwargs_setter(vars, args, **kwargs):
 
 def make_cartesian_axes_configurator(args):
     def configure_cartesian_axes(fig, axes):
+        if "marginal_x" in args and (args["marginal_x"] or args["marginal_y"]):
+            layout = {}
+            if args["marginal_y"]:
+                layout["xaxis1"] = {"domain": [0, 0.79], "showgrid": True}
+                layout["xaxis2"] = {"domain": [0.8, 1], "showticklabels": False}
+            if args["marginal_x"]:
+                layout["yaxis1"] = {"domain": [0, 0.79], "showgrid": True}
+                layout["yaxis2"] = {"domain": [0.8, 1], "showticklabels": False}
+            for letter in ["x", "y"]:
+                if args["log_" + letter]:
+                    layout[letter + "axis1"]["type"] = "log"
+            return dict(layout=layout)
         gap = 0.1
         layout = {
             "grid": {
@@ -135,18 +147,50 @@ def make_ternary_axes_configurator(args):
     return configure_ternary_axes
 
 
+def make_marginals_definition(letter, args):
+    if args["marginal_" + letter] == "violin":
+        return (
+            go.Violin,
+            trace_kwargs_setter(
+                [letter],
+                args,
+                xaxis="x1" if letter == "x" else "x2",
+                yaxis="y1" if letter == "y" else "y2",
+                side="positive",
+            ),
+        )
+    if args["marginal_" + letter] == "box":
+        return (
+            go.Box,
+            trace_kwargs_setter(
+                [letter],
+                args,
+                xaxis="x1" if letter == "x" else "x2",
+                yaxis="y1" if letter == "y" else "y2",
+                notched=True,
+            ),
+        )
+    if args["marginal_" + letter] == "histogram":
+        return (
+            go.Histogram,
+            trace_kwargs_setter(
+                [letter],
+                args,
+                opacity=0.5,
+                xaxis="x1" if letter == "x" else "x2",
+                yaxis="y1" if letter == "y" else "y2",
+            ),
+        )
+    return (None, None)
+
+
 ##########################################
 # MAKE_FIGURE
 ##########################################
 
 
 def make_figure(
-    df,
-    constructor,
-    trace_kwargs_by_group,
-    mappings=[],
-    axis_configurator=None,
-    patch=None,
+    df, constructors, mappings=[], axis_configurator=lambda x, y: {}, layout_patch={}
 ):
     fig = FigurePx(
         layout={
@@ -175,24 +219,29 @@ def make_figure(
                     mapping_str.append(s)
         trace_name = ", ".join(mapping_str)
 
-        trace = constructor(
-            name=trace_name,
-            legendgroup=trace_name,
-            showlegend=(trace_name != "" and trace_name not in trace_names),
-            **trace_kwargs_by_group(group)
-        )
-        trace_names.add(trace_name)
-        for i, m in enumerate(mappings):
-            val = group_name[i]
-            if val not in m.val_map:
-                m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
-            m.updater(trace, m.val_map[val])
-        traces.append(trace)
+        for constructor, trace_kwargs_by_group in constructors:
+            if not constructor:
+                continue
+            trace = constructor(
+                name=trace_name,
+                legendgroup=trace_name,
+                showlegend=(trace_name != "" and trace_name not in trace_names),
+            )
+            trace_names.add(trace_name)
+            for i, m in enumerate(mappings):
+                val = group_name[i]
+                if val not in m.val_map:
+                    m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
+                try:
+                    m.updater(trace, m.val_map[val])
+                except Exception:
+                    if constructors[0][0] != go.Scatter or m.variable != "symbol":
+                        raise
+            trace.update(trace_kwargs_by_group(group))
+            traces.append(trace)
     fig.add_traces(traces)
-    if axis_configurator:
-        fig.update(axis_configurator(fig, {m.variable: m.val_map for m in mappings}))
-    if patch:
-        fig.update(patch)
+    fig.update(axis_configurator(fig, {m.variable: m.val_map for m in mappings}))
+    fig.layout.update(layout_patch)
     return fig
 
 
@@ -218,35 +267,60 @@ def scatter(
     col=None,
     log_x=False,
     log_y=False,
+    marginal_x=None,
+    marginal_y=None,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatter,
-        trace_kwargs_setter(
-            ["x", "y", "hover", "size", "text"],
-            locals(),
-            mode="markers" + ("+text" if text else ""),
-        ),
+        [
+            (
+                go.Scatter,
+                trace_kwargs_setter(
+                    ["x", "y", "hover", "size", "text"],
+                    args,
+                    mode="markers" + ("+text" if text else ""),
+                ),
+            ),
+            make_marginals_definition("y", args),
+            make_marginals_definition("x", args),
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "marker", locals()),
-            make_mapping("symbol", "marker", locals()),
+            make_mapping("color", "marker", args),
+            make_mapping("symbol", "marker", args),
         ],
-        make_cartesian_axes_configurator(locals()),
+        make_cartesian_axes_configurator(args),
+        dict(barmode="overlay"),
     )
 
 
-def density_heatmap(df, x=None, y=None, row=None, col=None, log_x=False, log_y=False):
+def density_heatmap(
+    df,
+    x=None,
+    y=None,
+    row=None,
+    col=None,
+    log_x=False,
+    log_y=False,
+    marginal_x=None,
+    marginal_y=None,
+):
+    args = locals()
     return make_figure(
         df,
-        go.Histogram2d,
-        trace_kwargs_setter(["x", "y"], locals()),
+        [
+            (go.Histogram2d, trace_kwargs_setter(["x", "y"], args)),
+            make_marginals_definition("y", args),
+            make_marginals_definition("x", args),
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
         ],
-        make_cartesian_axes_configurator(locals()),
+        make_cartesian_axes_configurator(args),
+        dict(barmode="overlay"),
     )
 
 
@@ -261,17 +335,27 @@ def density_contour(
     col=None,
     log_x=False,
     log_y=False,
+    marginal_x=None,
+    marginal_y=None,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Histogram2dContour,
-        trace_kwargs_setter(["x", "y"], locals(), contours=dict(coloring="none")),
+        [
+            (
+                go.Histogram2dContour,
+                trace_kwargs_setter(["x", "y"], args, contours=dict(coloring="none")),
+            ),
+            make_marginals_definition("y", args),
+            make_marginals_definition("x", args),
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "line", locals()),
+            make_mapping("color", "line", args),
         ],
-        make_cartesian_axes_configurator(locals()),
+        make_cartesian_axes_configurator(args),
+        dict(barmode="overlay"),
     )
 
 
@@ -293,19 +377,24 @@ def line(
     log_x=False,
     log_y=False,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatter,
-        trace_kwargs_setter(
-            ["x", "y", "hover", "text"],
-            locals(),
-            mode="lines" + ("+markers+text" if text else ""),
-        ),
+        [
+            (
+                go.Scatter,
+                trace_kwargs_setter(
+                    ["x", "y", "hover", "text"],
+                    args,
+                    mode="lines" + ("+markers+text" if text else ""),
+                ),
+            )
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "line", locals()),
-            make_mapping("dash", "line", locals()),
+            make_mapping("color", "line", args),
+            make_mapping("dash", "line", args),
             Mapping(
                 facet=True,
                 grouper=split,
@@ -315,7 +404,7 @@ def line(
                 updater=(lambda trace, v: v),
             ),
         ],
-        make_cartesian_axes_configurator(locals()),
+        make_cartesian_axes_configurator(args),
     )
 
 
@@ -336,22 +425,27 @@ def bar(
     log_x=False,
     log_y=False,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Bar,
-        trace_kwargs_setter(
-            ["x", "y", "hover", "text"],
-            locals(),
-            orientation=orientation,
-            textposition="auto",
-        ),
+        [
+            (
+                go.Bar,
+                trace_kwargs_setter(
+                    ["x", "y", "hover", "text"],
+                    args,
+                    orientation=orientation,
+                    textposition="auto",
+                ),
+            )
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "marker", locals()),
+            make_mapping("color", "marker", args),
         ],
-        make_cartesian_axes_configurator(locals()),
-        dict(layout=dict(barnorm=normalization, barmode=mode)),
+        make_cartesian_axes_configurator(args),
+        dict(barnorm=normalization, barmode=mode),
     )
 
 
@@ -370,19 +464,24 @@ def histogram(
     log_x=False,
     log_y=False,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Histogram,
-        trace_kwargs_setter(
-            ["x", "y"], locals(), orientation=orientation, histnorm=normalization
-        ),
+        [
+            (
+                go.Histogram,
+                trace_kwargs_setter(
+                    ["x", "y"], args, orientation=orientation, histnorm=normalization
+                ),
+            )
+        ],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "marker", locals()),
+            make_mapping("color", "marker", args),
         ],
-        make_cartesian_axes_configurator(locals()),
-        dict(layout=dict(barmode=mode)),
+        make_cartesian_axes_configurator(args),
+        dict(barmode=mode),
     )
 
 
@@ -400,17 +499,17 @@ def violin(
     log_x=False,
     log_y=False,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Violin,
-        trace_kwargs_setter(["x", "y"], locals(), orientation=orientation),
+        [(go.Violin, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "marker", locals()),
+            make_mapping("color", "marker", args),
         ],
-        make_cartesian_axes_configurator(locals()),
-        dict(layout=dict(violinmode=mode)),
+        make_cartesian_axes_configurator(args),
+        dict(violinmode=mode),
     )
 
 
@@ -428,17 +527,17 @@ def box(
     log_x=False,
     log_y=False,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Box,
-        trace_kwargs_setter(["x", "y"], locals(), orientation=orientation),
+        [(go.Box, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
         [
             make_cartesian_facet_mapping("x", col),
             make_cartesian_facet_mapping("y", row),
-            make_mapping("color", "marker", locals()),
+            make_mapping("color", "marker", args),
         ],
-        make_cartesian_axes_configurator(locals()),
-        dict(layout=dict(boxmode=mode)),
+        make_cartesian_axes_configurator(args),
+        dict(boxmode=mode),
     )
 
 
@@ -457,19 +556,21 @@ def scatter_ternary(
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatterternary,
-        trace_kwargs_setter(
-            ["a", "b", "c", "hover", "text", "size"],
-            locals(),
-            mode="markers" + ("+text" if text else ""),
-        ),
         [
-            make_mapping("color", "marker", locals()),
-            make_mapping("symbol", "marker", locals()),
+            (
+                go.Scatterternary,
+                trace_kwargs_setter(
+                    ["a", "b", "c", "hover", "text", "size"],
+                    args,
+                    mode="markers" + ("+text" if text else ""),
+                ),
+            )
         ],
-        make_ternary_axes_configurator(locals()),
+        [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
+        make_ternary_axes_configurator(args),
     )
 
 
@@ -488,17 +589,22 @@ def line_ternary(
     color_sequence=default_color_seq,
     dash_sequence=default_dash_seq,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatterternary,
-        trace_kwargs_setter(
-            ["a", "b", "c", "hover", "text"],
-            locals(),
-            mode="lines" + ("+markers+text" if text else ""),
-        ),
         [
-            make_mapping("color", "marker", locals()),
-            make_mapping("dash", "line", locals()),
+            (
+                go.Scatterternary,
+                trace_kwargs_setter(
+                    ["a", "b", "c", "hover", "text"],
+                    args,
+                    mode="lines" + ("+markers+text" if text else ""),
+                ),
+            )
+        ],
+        [
+            make_mapping("color", "marker", args),
+            make_mapping("dash", "line", args),
             Mapping(
                 facet=True,
                 grouper=split,
@@ -508,7 +614,7 @@ def line_ternary(
                 updater=(lambda trace, v: v),
             ),
         ],
-        make_ternary_axes_configurator(locals()),
+        make_ternary_axes_configurator(args),
     )
 
 
@@ -526,18 +632,20 @@ def scatter_polar(
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatterpolar,
-        trace_kwargs_setter(
-            ["r", "theta", "hover", "size", "text"],
-            locals(),
-            mode="markers" + ("+text" if text else ""),
-        ),
         [
-            make_mapping("color", "marker", locals()),
-            make_mapping("symbol", "marker", locals()),
+            (
+                go.Scatterpolar,
+                trace_kwargs_setter(
+                    ["r", "theta", "hover", "size", "text"],
+                    args,
+                    mode="markers" + ("+text" if text else ""),
+                ),
+            )
         ],
+        [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
     )
 
 
@@ -555,17 +663,22 @@ def line_polar(
     color_sequence=default_color_seq,
     dash_sequence=default_dash_seq,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Scatterpolar,
-        trace_kwargs_setter(
-            ["r", "theta", "hover", "text"],
-            locals(),
-            mode="lines" + ("+markers+text" if text else ""),
-        ),
         [
-            make_mapping("color", "marker", locals()),
-            make_mapping("dash", "line", locals()),
+            (
+                go.Scatterpolar,
+                trace_kwargs_setter(
+                    ["r", "theta", "hover", "text"],
+                    args,
+                    mode="lines" + ("+markers+text" if text else ""),
+                ),
+            )
+        ],
+        [
+            make_mapping("color", "marker", args),
+            make_mapping("dash", "line", args),
             Mapping(
                 facet=True,
                 grouper=split,
@@ -589,13 +702,13 @@ def bar_polar(
     normalization="",
     mode="relative",
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Barpolar,
-        trace_kwargs_setter(["r", "theta", "hover"], locals()),
-        [make_mapping("color", "marker", locals())],
-        None,
-        dict(layout=dict(barnorm=normalization, barmode=mode)),
+        [(go.Barpolar, trace_kwargs_setter(["r", "theta", "hover"], args))],
+        [make_mapping("color", "marker", args)],
+        lambda x, y: {},
+        dict(barnorm=normalization, barmode=mode),
     )
 
 
@@ -609,20 +722,22 @@ def splom(
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
 ):
+    args = locals()
     return make_figure(
         df,
-        go.Splom,
-        lambda g: dict(
-            dimensions=[
-                dict(label=name, values=column.values)
-                for name, column in g.iteritems()
-                if (not dimensions) or (name in dimensions)
-            ]
-        ),
         [
-            make_mapping("color", "marker", locals()),
-            make_mapping("symbol", "marker", locals()),
+            (
+                go.Splom,
+                lambda g: dict(
+                    dimensions=[
+                        dict(label=name, values=column.values)
+                        for name, column in g.iteritems()
+                        if (not dimensions) or (name in dimensions)
+                    ]
+                ),
+            )
         ],
+        [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
     )
 
 
