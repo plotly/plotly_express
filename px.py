@@ -24,6 +24,7 @@ class FigurePx(go.Figure):
         iplot(self, show_link=False)
 
 
+default_max_size = 20
 default_color_seq = ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#19d3f3", "#e763fa"]
 default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
@@ -55,17 +56,21 @@ def make_cartesian_facet_mapping(letter, column):
     )
 
 
-def trace_kwargs_setter(vars, args, **kwargs):
+def trace_kwargs_setter(vars, args, hovertemplate=False, **kwargs):
     if "size" in vars and args["size"]:
-        sizeref = args["df"][args["size"]].max() / (30 * 30)
+        sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
-    def setter(g):
+    def setter(g, mapping_labels):
+        if "close_lines" in args and args["close_lines"]:
+            g = g.append(g.iloc[0])
         result = kwargs or {}
+        hover_header = ""
         for k in vars:
             v = args[k]
             if v:
                 if k == "size":
                     result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
+                    mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
                 elif k.startswith("error"):
                     error_xy = k[:7]
                     arr = "arrayminus" if k.endswith("minus") else "array"
@@ -74,8 +79,14 @@ def trace_kwargs_setter(vars, args, **kwargs):
                     result[error_xy][arr] = g[v]
                 elif k == "hover":
                     result["hovertext"] = g[v]
+                    hover_header = "<b>%{hovertext}</b><br><br>"
                 else:
                     result[k] = g[v]
+                    mapping_labels.append(("%s=%%{%s}" % (v, k), None))
+        if hovertemplate:
+            result["hovertemplate"] = hover_header + (
+                "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
+            )
         return result
 
     return setter
@@ -172,6 +183,21 @@ def make_ternary_axes_configurator(args):
     return configure_ternary_axes
 
 
+def make_polar_axes_configurator(args):
+    def configure_polar_axes(fig, axes):
+        return dict(
+            layout=dict(
+                polar=dict(
+                    angularaxis=dict(
+                        direction=args["direction"], rotation=args["startangle"]
+                    )
+                )
+            )
+        )
+
+    return configure_polar_axes
+
+
 def make_3d_axes_configurator(args):
     def configure_ternary_axes(fig, axes):
         return dict(
@@ -237,13 +263,13 @@ def make_figure(
     for group_name, group in df.groupby(grouper):
         if len(grouper) == 1:
             group_name = [group_name]
-        mapping_str = []
+        mapping_labels = []
         for col, val, m in zip(grouper, group_name, mappings):
-            if col != one_group and m.show_in_trace_name:
-                s = "%s=%s" % (col, val)
-                if s not in mapping_str:
-                    mapping_str.append(s)
-        trace_name = ", ".join(mapping_str)
+            if col != one_group:
+                s = ("%s=%s" % (col, val), m.show_in_trace_name)
+                if s not in mapping_labels:
+                    mapping_labels.append(s)
+        trace_name = ", ".join(s for s, t in mapping_labels if t)
 
         for constructor, trace_kwargs_by_group in constructors:
             if not constructor:
@@ -260,14 +286,14 @@ def make_figure(
                     m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
                 try:
                     m.updater(trace, m.val_map[val])
-                except Exception:
+                except ValueError:
                     if (
-                        len(constructors) != 1
+                        len(constructors) == 1
                         or constructors[0][0] != go.Scatter
                         or m.variable != "symbol"
                     ):
                         raise
-            trace.update(trace_kwargs_by_group(group))
+            trace.update(trace_kwargs_by_group(group, mapping_labels))
             traces.append(trace)
     fig.add_traces(traces)
     fig.update(axis_configurator(fig, {m.variable: m.val_map for m in mappings}))
@@ -303,6 +329,7 @@ def scatter(
     error_x_minus=None,
     error_y=None,
     error_y_minus=None,
+    max_size=default_max_size,
 ):
     args = locals()
     return make_figure(
@@ -323,6 +350,7 @@ def scatter(
                         "error_y_minus",
                     ],
                     args,
+                    hovertemplate=True,
                     mode="markers" + ("+text" if text else ""),
                 ),
             ),
@@ -443,6 +471,7 @@ def line(
                         "error_y_minus",
                     ],
                     args,
+                    hovertemplate=True,
                     mode="lines" + ("+markers+text" if text else ""),
                 ),
             )
@@ -504,6 +533,7 @@ def bar(
                         "error_y_minus",
                     ],
                     args,
+                    hovertemplate=True,
                     orientation=orientation,
                     textposition="auto",
                 ),
@@ -631,6 +661,7 @@ def scatter_3d(
     error_y_minus=None,
     error_z=None,
     error_z_minus=None,
+    max_size=default_max_size,
 ):
     args = locals()
     return make_figure(
@@ -727,6 +758,7 @@ def scatter_ternary(
     hover=None,
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
+    max_size=default_max_size,
 ):
     args = locals()
     return make_figure(
@@ -803,6 +835,9 @@ def scatter_polar(
     symbol_map={},
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
+    direction="clockwise",
+    startangle=90,
+    max_size=default_max_size,
 ):
     args = locals()
     return make_figure(
@@ -818,6 +853,7 @@ def scatter_polar(
             )
         ],
         [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
+        make_polar_axes_configurator(args),
     )
 
 
@@ -834,6 +870,9 @@ def line_polar(
     dash_map={},
     color_sequence=default_color_seq,
     dash_sequence=default_dash_seq,
+    direction="clockwise",
+    startangle=90,
+    close_lines=False,
 ):
     args = locals()
     return make_figure(
@@ -860,6 +899,7 @@ def line_polar(
                 updater=(lambda trace, v: v),
             ),
         ],
+        make_polar_axes_configurator(args),
     )
 
 
@@ -873,13 +913,15 @@ def bar_polar(
     color_sequence=default_color_seq,
     normalization="",
     mode="relative",
+    direction="clockwise",
+    startangle=90,
 ):
     args = locals()
     return make_figure(
         df,
         [(go.Barpolar, trace_kwargs_setter(["r", "theta", "hover"], args))],
         [make_mapping("color", "marker", args)],
-        lambda x, y: {},
+        make_polar_axes_configurator(args),
         dict(barnorm=normalization, barmode=mode),
     )
 
@@ -900,7 +942,7 @@ def splom(
         [
             (
                 go.Splom,
-                lambda g: dict(
+                lambda g, t: dict(
                     dimensions=[
                         dict(label=name, values=column.values)
                         for name, column in g.iteritems()
@@ -913,21 +955,21 @@ def splom(
     )
 
 
-# TODO symbol in line ?
-# TODO testing of some kind (try Percy)
-# TODO gl vs not gl
-# TODO lock ranges on shared axes, including colormap ... shared colormap?
+# TODO extend the palette
 # TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO check on dates
+# TODO continuous color
+# TODO parcoords, parcats
+# TODO symbol in line ?
 # TODO facet wrap
 # TODO non-cartesian faceting
+# TODO testing of some kind (try Percy)
+# TODO gl vs not gl
+# TODO lock ranges on shared axes, including colormap ... shared colormap?
 # TODO validate inputs
-# TODO name / hover labels
 # TODO opacity
-# TODO continuous color
 # TODO color splits in densities
 # TODO groupby ignores NaN ... ?
 # TODO suppress plotly.py errors... don't show our programming errors?
-# TODO parcoords, parcats
 # TODO optional widget mode
