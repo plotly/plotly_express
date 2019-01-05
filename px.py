@@ -118,6 +118,7 @@ def make_cartesian_axes_configurator(args):
             return dict(layout=layout)
         gap = 0.1
         layout = {
+            "annotations": [],
             "grid": {
                 "xaxes": [],
                 "yaxes": [],
@@ -125,10 +126,10 @@ def make_cartesian_axes_configurator(args):
                 "ygap": gap,
                 "xside": "bottom",
                 "yside": "left",
-            }
+            },
         }
         for letter in ["x", "y"]:
-            for letter_number in set(t[letter + "axis"] for t in fig.data):
+            for letter_number in [t[letter + "axis"] for t in fig.data]:
                 if letter_number not in layout["grid"][letter + "axes"]:
                     layout["grid"][letter + "axes"].append(letter_number)
                     axis = letter_number.replace(letter, letter + "axis")
@@ -138,9 +139,7 @@ def make_cartesian_axes_configurator(args):
                     layout[axis]["title"] = args[letter]
                     if args["log_" + letter]:
                         layout[axis]["type"] = "log"
-        layout["grid"]["yaxes"] = [i for i in reversed(layout["grid"]["yaxes"])]
 
-        layout["annotations"] = []
         for letter, direction, row in (("x", "col", False), ("y", "row", True)):
             if args[direction]:
                 step = 1.0 / (len(layout["grid"][letter + "axes"]) - gap)
@@ -260,7 +259,7 @@ def make_figure(
     grouper = [x.grouper or one_group for x in mappings] or [one_group]
     trace_names = set()
     traces = []
-    for group_name, group in df.groupby(grouper):
+    for group_name, group in df.groupby(grouper, sort=False):
         if len(grouper) == 1:
             group_name = [group_name]
         mapping_labels = []
