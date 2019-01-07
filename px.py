@@ -67,7 +67,13 @@ def trace_kwargs_setter(vars, args, hovertemplate=False, **kwargs):
         hover_header = ""
         for k in vars:
             v = args[k]
-            if v:
+            if k == "dimensions":
+                result["dimensions"] = [
+                    dict(label=name, values=column.values)
+                    for name, column in g.iteritems()
+                    if (not v) or (name in v)
+                ]
+            elif v:
                 if k == "size":
                     result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
                     mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
@@ -93,7 +99,7 @@ def trace_kwargs_setter(vars, args, hovertemplate=False, **kwargs):
 
 
 def make_cartesian_axes_configurator(args):
-    def configure_cartesian_axes(fig, axes):
+    def configure_cartesian_axes(fig, axes, orders):
         if "marginal_x" in args and (args["marginal_x"] or args["marginal_y"]):
             layout = {}
             for letter in ["x", "y"]:
@@ -137,6 +143,13 @@ def make_cartesian_axes_configurator(args):
                     if len(letter_number) > 1:
                         layout[axis]["scaleanchor"] = letter + "1"
                     layout[axis]["title"] = args[letter]
+                    if args[letter] in orders:
+                        layout[axis]["categoryorder"] = "array"
+                        layout[axis]["categoryarray"] = (
+                            orders[args[letter]]
+                            if letter == "x"
+                            else list(reversed(orders[args[letter]]))
+                        )
                     if args["log_" + letter]:
                         layout[axis]["type"] = "log"
 
@@ -168,7 +181,7 @@ def make_cartesian_axes_configurator(args):
 
 
 def make_ternary_axes_configurator(args):
-    def configure_ternary_axes(fig, axes):
+    def configure_ternary_axes(fig, axes, orders):
         return dict(
             layout=dict(
                 ternary=dict(
@@ -183,23 +196,30 @@ def make_ternary_axes_configurator(args):
 
 
 def make_polar_axes_configurator(args):
-    def configure_polar_axes(fig, axes):
-        return dict(
+    def configure_polar_axes(fig, axes, orders):
+        patch = dict(
             layout=dict(
                 polar=dict(
                     angularaxis=dict(
                         direction=args["direction"], rotation=args["startangle"]
-                    )
+                    ),
+                    radialaxis=dict(),
                 )
             )
         )
+        for var, axis in [("r", "radialaxis"), ("theta", "angularaxis")]:
+            if args[var] in orders:
+                patch["layout"]["polar"][axis]["categoryorder"] = "array"
+                patch["layout"]["polar"][axis]["categoryarray"] = orders[args[var]]
+
+        return patch
 
     return configure_polar_axes
 
 
 def make_3d_axes_configurator(args):
-    def configure_ternary_axes(fig, axes):
-        return dict(
+    def configure_ternary_axes(fig, axes, orders):
+        patch = dict(
             layout=dict(
                 scene=dict(
                     xaxis=dict(title=args["x"]),
@@ -208,6 +228,11 @@ def make_3d_axes_configurator(args):
                 )
             )
         )
+        for letter in ["x", "y", "z"]:
+            if args[letter] in orders:
+                patch["layout"]["scene"][letter]["categoryorder"] = "array"
+                patch["layout"]["scene"][letter]["categoryarray"] = orders[args[letter]]
+        return patch
 
     return configure_ternary_axes
 
@@ -249,7 +274,12 @@ def make_marginals_definition(letter, args):
 
 
 def make_figure(
-    df, constructors, mappings=[], axis_configurator=lambda x, y: {}, layout_patch={}
+    df,
+    args,
+    constructors,
+    mappings=[],
+    axis_configurator=lambda x, y, z: {},
+    layout_patch={},
 ):
     fig = FigurePx()
 
@@ -259,9 +289,28 @@ def make_figure(
     grouper = [x.grouper or one_group for x in mappings] or [one_group]
     trace_names = set()
     traces = []
-    for group_name, group in df.groupby(grouper, sort=False):
+    grouped = df.groupby(grouper, sort=False)
+    orders = args["orders"].copy()
+    group_names = []
+    for group_name in grouped.groups:
         if len(grouper) == 1:
-            group_name = [group_name]
+            group_name = (group_name,)
+        group_names.append(group_name)
+        for col, val in zip(grouper, group_name):
+            if col not in orders:
+                orders[col] = []
+            if val not in orders[col]:
+                orders[col].append(val)
+
+    for i, col in reversed(list(enumerate(grouper))):
+        if col != one_group:
+            group_names = sorted(
+                group_names,
+                key=lambda g: orders[col].index(g[i]) if g[i] in orders[col] else -1,
+            )
+
+    for group_name in group_names:
+        group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
         for col, val, m in zip(grouper, group_name, mappings):
             if col != one_group:
@@ -295,7 +344,9 @@ def make_figure(
             trace.update(trace_kwargs_by_group(group, mapping_labels))
             traces.append(trace)
     fig.add_traces(traces)
-    fig.update(axis_configurator(fig, {m.variable: m.val_map for m in mappings}))
+    fig.update(
+        axis_configurator(fig, {m.variable: m.val_map for m in mappings}, orders)
+    )
     fig.layout.update(layout_patch)
     return fig
 
@@ -329,10 +380,12 @@ def scatter(
     error_y=None,
     error_y_minus=None,
     max_size=default_max_size,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatter,
@@ -377,10 +430,12 @@ def density_heatmap(
     log_y=False,
     marginal_x=None,
     marginal_y=None,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (go.Histogram2d, trace_kwargs_setter(["x", "y"], args)),
             make_marginals_definition("y", args),
@@ -408,10 +463,12 @@ def density_contour(
     log_y=False,
     marginal_x=None,
     marginal_y=None,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Histogram2dContour,
@@ -451,10 +508,12 @@ def line(
     error_x_minus=None,
     error_y=None,
     error_y_minus=None,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatter,
@@ -506,17 +565,19 @@ def bar(
     text=None,
     orientation="v",
     normalization="",
-    mode="relative",
+    mode="group",
     log_x=False,
     log_y=False,
     error_x=None,
     error_x_minus=None,
     error_y=None,
     error_y_minus=None,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Bar,
@@ -562,10 +623,12 @@ def histogram(
     normalization=None,
     log_x=False,
     log_y=False,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Histogram,
@@ -597,10 +660,12 @@ def violin(
     col=None,
     log_x=False,
     log_y=False,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [(go.Violin, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
         [
             make_cartesian_facet_mapping("x", col),
@@ -625,10 +690,12 @@ def box(
     col=None,
     log_x=False,
     log_y=False,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [(go.Box, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
         [
             make_cartesian_facet_mapping("x", col),
@@ -661,10 +728,12 @@ def scatter_3d(
     error_z=None,
     error_z_minus=None,
     max_size=default_max_size,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatter3d,
@@ -712,10 +781,12 @@ def line_3d(
     error_y_minus=None,
     error_z=None,
     error_z_minus=None,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatter3d,
@@ -758,10 +829,12 @@ def scatter_ternary(
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
     max_size=default_max_size,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatterternary,
@@ -791,10 +864,12 @@ def line_ternary(
     dash_map={},
     color_sequence=default_color_seq,
     dash_sequence=default_dash_seq,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatterternary,
@@ -837,10 +912,12 @@ def scatter_polar(
     direction="clockwise",
     startangle=90,
     max_size=default_max_size,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatterpolar,
@@ -872,10 +949,12 @@ def line_polar(
     direction="clockwise",
     startangle=90,
     close_lines=False,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [
             (
                 go.Scatterpolar,
@@ -914,10 +993,12 @@ def bar_polar(
     mode="relative",
     direction="clockwise",
     startangle=90,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
+        args,
         [(go.Barpolar, trace_kwargs_setter(["r", "theta", "hover"], args))],
         [make_mapping("color", "marker", args)],
         make_polar_axes_configurator(args),
@@ -934,22 +1015,13 @@ def splom(
     symbol_map={},
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
+    orders={},
 ):
     args = locals()
     return make_figure(
         df,
-        [
-            (
-                go.Splom,
-                lambda g, t: dict(
-                    dimensions=[
-                        dict(label=name, values=column.values)
-                        for name, column in g.iteritems()
-                        if (not dimensions) or (name in dimensions)
-                    ]
-                ),
-            )
-        ],
+        args,
+        [(go.Splom, trace_kwargs_setter(["dimensions"], args))],
         [make_mapping("color", "marker", args), make_mapping("symbol", "marker", args)],
     )
 
@@ -972,3 +1044,6 @@ def splom(
 # TODO groupby ignores NaN ... ?
 # TODO suppress plotly.py errors... don't show our programming errors?
 # TODO optional widget mode
+# TODO missing values
+# TODO warnings
+# TODO maximum number of categories ... what does Seaborn do when too many colors?
