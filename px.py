@@ -16,16 +16,27 @@ class FigurePx(go.Figure):
         super(FigurePx, self).__init__(
             *args, layout={"template": "plotly+px"}, **kwargs
         )
+
+    def _ipython_display_(self):
         if not FigurePx.offline_initialized:
             init_notebook_mode()
             FigurePx.offline_initialized = True
-
-    def _ipython_display_(self):
         iplot(self, show_link=False)
 
 
 default_max_size = 20
-default_color_seq = ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#19d3f3", "#e763fa"]
+default_color_seq = [
+    "#636efa",
+    "#EF553B",
+    "#00cc96",
+    "#ab63fa",
+    "#19d3f3",
+    "#e763fa",
+    "#fecb52",
+    "#ffa15a",
+    "#ff6692",
+    "#b6e880",
+]
 default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
 Mapping = namedtuple(
@@ -1027,12 +1038,12 @@ def splom(
 
 
 # TODO extend the palette
+# TODO animations!!!
 # TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO check on dates
 # TODO continuous color
 # TODO parcoords, parcats
-# TODO symbol in line ?
 # TODO facet wrap
 # TODO non-cartesian faceting
 # TODO testing of some kind (try Percy)
@@ -1047,3 +1058,5 @@ def splom(
 # TODO missing values
 # TODO warnings
 # TODO maximum number of categories ... what does Seaborn do when too many colors?
+
+# TODO grid react bugs
