@@ -446,9 +446,8 @@ def scatter(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatter,
         vars=[
             "x",
@@ -480,9 +479,8 @@ def density_heatmap(
     marginal_y=None,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Histogram2d,
         vars=["x", "y"],
         grouped_mappings=["col", "row"],
@@ -506,9 +504,8 @@ def density_contour(
     marginal_y=None,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Histogram2dContour,
         vars=["x", "y"],
         trace_patch=dict(contours=dict(coloring="none")),
@@ -541,9 +538,8 @@ def line(
     error_y_minus=None,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatter,
         vars=[
             "x",
@@ -583,9 +579,8 @@ def bar(
     error_y_minus=None,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Bar,
         vars=[
             "x",
@@ -620,9 +615,8 @@ def histogram(
     log_y=False,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Histogram,
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation, histnorm=normalization),
@@ -647,9 +641,8 @@ def violin(
     log_y=False,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Violin,
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation),
@@ -674,9 +667,8 @@ def box(
     log_y=False,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Box,
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation),
@@ -709,9 +701,8 @@ def scatter_3d(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatter3d,
         vars=[
             "x",
@@ -754,9 +745,8 @@ def line_3d(
     error_z_minus=None,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatter3d,
         vars=[
             "x",
@@ -794,9 +784,8 @@ def scatter_ternary(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatterternary,
         vars=["a", "b", "c", "hover", "text", "size"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
@@ -821,9 +810,8 @@ def line_ternary(
     dash_sequence=default_dash_seq,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatterternary,
         vars=["a", "b", "c", "hover", "text"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
@@ -850,9 +838,8 @@ def scatter_polar(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatterpolar,
         vars=["r", "theta", "hover", "size", "text"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
@@ -879,9 +866,8 @@ def line_polar(
     close_lines=False,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scatterpolar,
         vars=["r", "theta", "hover", "text"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
@@ -904,9 +890,8 @@ def bar_polar(
     startangle=90,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Barpolar,
         vars=["r", "theta", "hover"],
         grouped_mappings=["marker.color"],
@@ -929,9 +914,8 @@ def choropleth(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Choropleth,
         vars=["locations", "z", "text", "hover"],
         axis_type="geo",
@@ -952,9 +936,8 @@ def scatter_geo(
     max_size=default_max_size,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scattergeo,
         vars=["lat", "lon", "locations", "size", "text", "hover"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
@@ -977,9 +960,8 @@ def scatter_mapbox(
     zoom=8,  # roughly city-scale
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scattermapbox,
         vars=["lat", "lon", "size", "text", "hover"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
@@ -1001,9 +983,8 @@ def line_mapbox(
     zoom=8,  # roughly city-scale
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Scattermapbox,
         vars=["lat", "lon", "text", "hover"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
@@ -1023,9 +1004,8 @@ def splom(
     symbol_sequence=default_symbol_seq,
     orders={},
 ):
-    args = locals()
     return make_figure(
-        args,
+        args=locals(),
         constructor=go.Splom,
         vars=["dimensions"],
         grouped_mappings=["marker.color", "marker.symbol"],
