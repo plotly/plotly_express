@@ -51,6 +51,9 @@ Mapping = namedtuple(
     "Mapping",
     ["show_in_trace_name", "grouper", "val_map", "sequence", "updater", "variable"],
 )
+TraceSpec = namedtuple(
+    "TraceSpec", ["constructor", "vars", "hovertemplate", "trace_patch"]
+)
 
 
 def make_mapping(variable, args):
@@ -84,46 +87,41 @@ def make_mapping(variable, args):
     )
 
 
-def trace_kwargs_setter(vars, args, hovertemplate=False, **kwargs):
-    if "size" in vars and args["size"]:
-        sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
+def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
 
-    def setter(g, mapping_labels):
-        if "close_lines" in args and args["close_lines"]:
-            g = g.append(g.iloc[0])
-        result = kwargs or {}
-        hover_header = ""
-        for k in vars:
-            v = args[k]
-            if k == "dimensions":
-                result["dimensions"] = [
-                    dict(label=name, values=column.values)
-                    for name, column in g.iteritems()
-                    if (not v) or (name in v)
-                ]
-            elif v:
-                if k == "size":
-                    result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
-                    mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
-                elif k.startswith("error"):
-                    error_xy = k[:7]
-                    arr = "arrayminus" if k.endswith("minus") else "array"
-                    if error_xy not in result:
-                        result[error_xy] = {}
-                    result[error_xy][arr] = g[v]
-                elif k == "hover":
-                    result["hovertext"] = g[v]
-                    hover_header = "<b>%{hovertext}</b><br><br>"
-                else:
-                    result[k] = g[v]
-                    mapping_labels.append(("%s=%%{%s}" % (v, k), None))
-        if hovertemplate:
-            result["hovertemplate"] = hover_header + (
-                "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
-            )
-        return result
-
-    return setter
+    if "close_lines" in args and args["close_lines"]:
+        g = g.append(g.iloc[0])
+    result = trace_spec.trace_patch or {}
+    hover_header = ""
+    for k in trace_spec.vars:
+        v = args[k]
+        if k == "dimensions":
+            result["dimensions"] = [
+                dict(label=name, values=column.values)
+                for name, column in g.iteritems()
+                if (not v) or (name in v)
+            ]
+        elif v:
+            if k == "size":
+                result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
+                mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
+            elif k.startswith("error"):
+                error_xy = k[:7]
+                arr = "arrayminus" if k.endswith("minus") else "array"
+                if error_xy not in result:
+                    result[error_xy] = {}
+                result[error_xy][arr] = g[v]
+            elif k == "hover":
+                result["hovertext"] = g[v]
+                hover_header = "<b>%{hovertext}</b><br><br>"
+            else:
+                result[k] = g[v]
+                mapping_labels.append(("%s=%%{%s}" % (v, k), None))
+    if trace_spec.hovertemplate:
+        result["hovertemplate"] = hover_header + (
+            "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
+        )
+    return result
 
 
 def configure_cartesian_axes(args, fig, axes, orders):
@@ -279,20 +277,32 @@ def make_marginals_definition(letter, args):
         xaxis="x1" if letter == "x" else "x2", yaxis="y1" if letter == "y" else "y2"
     )
     if args["marginal_" + letter] == "histogram":
-        return (
-            go.Histogram,
-            trace_kwargs_setter([letter], args, opacity=0.5, **axis_map),
+        return TraceSpec(
+            constructor=go.Histogram,
+            vars=[letter],
+            hovertemplate=False,
+            trace_patch=dict(opacity=0.5, **axis_map),
         )
     if args["marginal_" + letter] == "violin":
-        return (go.Violin, trace_kwargs_setter([letter], args, **axis_map))
+        return TraceSpec(
+            constructor=go.Violin,
+            vars=[letter],
+            hovertemplate=False,
+            trace_patch=axis_map,
+        )
     if args["marginal_" + letter] == "box":
-        return (go.Box, trace_kwargs_setter([letter], args, notched=True, **axis_map))
+        return TraceSpec(
+            constructor=go.Box,
+            vars=[letter],
+            hovertemplate=False,
+            trace_patch=dict(notched=True, **axis_map),
+        )
     if args["marginal_" + letter] == "rug":
-        return (
-            go.Box,
-            trace_kwargs_setter(
-                [letter],
-                args,
+        return TraceSpec(
+            constructor=go.Box,
+            vars=[letter],
+            hovertemplate=False,
+            trace_patch=dict(
                 fillcolor="rgba(255,255,255,0)",
                 line={"color": "rgba(255,255,255,0)"},
                 boxpoints="all",
@@ -302,7 +312,7 @@ def make_marginals_definition(letter, args):
                 **axis_map
             ),
         )
-    return (None, None)
+    return TraceSpec(None, None, None, None)
 
 
 ##########################################
@@ -311,7 +321,7 @@ def make_marginals_definition(letter, args):
 
 
 def make_figure(
-    args, constructors, grouped_mappings=[], axis_type=None, layout_patch={}
+    args, trace_specs, grouped_mappings=[], axis_type=None, layout_patch={}
 ):
     fig = FigurePx()
 
@@ -352,10 +362,15 @@ def make_figure(
                     mapping_labels.append(s)
         trace_name = ", ".join(s for s, t in mapping_labels if t)
 
-        for constructor, trace_kwargs_by_group in constructors:
-            if not constructor:
+        for trace_spec in trace_specs:
+            if not trace_spec.constructor:
                 continue
-            trace = constructor(
+            sizeref = 0
+            if "size" in trace_spec.vars and args["size"]:
+                sizeref = args["df"][args["size"]].max() / (
+                    args["max_size"] * args["max_size"]
+                )
+            trace = trace_spec.constructor(
                 name=trace_name,
                 legendgroup=trace_name,
                 showlegend=(trace_name != "" and trace_name not in trace_names),
@@ -369,12 +384,14 @@ def make_figure(
                     m.updater(trace, m.val_map[val])
                 except ValueError:
                     if (
-                        len(constructors) == 1
-                        or constructors[0][0] != go.Scatter
+                        len(trace_specs) == 1
+                        or trace_specs[0].constructor != go.Scatter
                         or m.variable != "symbol"
                     ):
                         raise
-            trace.update(trace_kwargs_by_group(group, mapping_labels))
+            trace.update(
+                make_trace_kwargs(args, trace_spec, group, mapping_labels, sizeref)
+            )
             traces.append(trace)
     fig.add_traces(traces)
     if axis_type:
@@ -428,24 +445,21 @@ def scatter(
     return make_figure(
         args,
         [
-            (
-                go.Scatter,
-                trace_kwargs_setter(
-                    [
-                        "x",
-                        "y",
-                        "hover",
-                        "size",
-                        "text",
-                        "error_x",
-                        "error_x_minus",
-                        "error_y",
-                        "error_y_minus",
-                    ],
-                    args,
-                    hovertemplate=True,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatter,
+                vars=[
+                    "x",
+                    "y",
+                    "hover",
+                    "size",
+                    "text",
+                    "error_x",
+                    "error_x_minus",
+                    "error_y",
+                    "error_y_minus",
+                ],
+                hovertemplate=True,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             ),
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
@@ -472,7 +486,12 @@ def density_heatmap(
     return make_figure(
         args,
         [
-            (go.Histogram2d, trace_kwargs_setter(["x", "y"], args)),
+            TraceSpec(
+                constructor=go.Histogram2d,
+                vars=["x", "y"],
+                hovertemplate=False,
+                trace_patch=dict(),
+            ),
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
         ],
@@ -501,9 +520,11 @@ def density_contour(
     return make_figure(
         args,
         [
-            (
-                go.Histogram2dContour,
-                trace_kwargs_setter(["x", "y"], args, contours=dict(coloring="none")),
+            TraceSpec(
+                constructor=go.Histogram2dContour,
+                vars=["x", "y"],
+                hovertemplate=False,
+                trace_patch=dict(contours=dict(coloring="none")),
             ),
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
@@ -541,23 +562,20 @@ def line(
     return make_figure(
         args,
         [
-            (
-                go.Scatter,
-                trace_kwargs_setter(
-                    [
-                        "x",
-                        "y",
-                        "hover",
-                        "text",
-                        "error_x",
-                        "error_x_minus",
-                        "error_y",
-                        "error_y_minus",
-                    ],
-                    args,
-                    hovertemplate=True,
-                    mode="lines" + ("+markers+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatter,
+                vars=[
+                    "x",
+                    "y",
+                    "hover",
+                    "text",
+                    "error_x",
+                    "error_x_minus",
+                    "error_y",
+                    "error_y_minus",
+                ],
+                hovertemplate=True,
+                trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
             )
         ],
         grouped_mappings=["col", "row", "line.color", "line.dash", "split"],
@@ -591,24 +609,20 @@ def bar(
     return make_figure(
         args,
         [
-            (
-                go.Bar,
-                trace_kwargs_setter(
-                    [
-                        "x",
-                        "y",
-                        "hover",
-                        "text",
-                        "error_x",
-                        "error_x_minus",
-                        "error_y",
-                        "error_y_minus",
-                    ],
-                    args,
-                    hovertemplate=True,
-                    orientation=orientation,
-                    textposition="auto",
-                ),
+            TraceSpec(
+                constructor=go.Bar,
+                vars=[
+                    "x",
+                    "y",
+                    "hover",
+                    "text",
+                    "error_x",
+                    "error_x_minus",
+                    "error_y",
+                    "error_y_minus",
+                ],
+                hovertemplate=True,
+                trace_patch=dict(orientation=orientation, textposition="auto"),
             )
         ],
         grouped_mappings=["col", "row", "marker.color"],
@@ -637,11 +651,11 @@ def histogram(
     return make_figure(
         args,
         [
-            (
-                go.Histogram,
-                trace_kwargs_setter(
-                    ["x", "y"], args, orientation=orientation, histnorm=normalization
-                ),
+            TraceSpec(
+                constructor=go.Histogram,
+                vars=["x", "y"],
+                hovertemplate=False,
+                trace_patch=dict(orientation=orientation, histnorm=normalization),
             )
         ],
         grouped_mappings=["col", "row", "marker.color"],
@@ -668,7 +682,14 @@ def violin(
     args = locals()
     return make_figure(
         args,
-        [(go.Violin, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
+        [
+            TraceSpec(
+                constructor=go.Violin,
+                vars=["x", "y"],
+                hovertemplate=False,
+                trace_patch=dict(orientation=orientation),
+            )
+        ],
         grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(violinmode=mode),
@@ -693,7 +714,14 @@ def box(
     args = locals()
     return make_figure(
         args,
-        [(go.Box, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
+        [
+            TraceSpec(
+                constructor=go.Box,
+                vars=["x", "y"],
+                hovertemplate=False,
+                trace_patch=dict(orientation=orientation),
+            )
+        ],
         grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(boxmode=mode),
@@ -727,26 +755,24 @@ def scatter_3d(
     return make_figure(
         args,
         [
-            (
-                go.Scatter3d,
-                trace_kwargs_setter(
-                    [
-                        "x",
-                        "y",
-                        "z",
-                        "hover",
-                        "text",
-                        "size",
-                        "error_x",
-                        "error_x_minus",
-                        "error_y",
-                        "error_y_minus",
-                        "error_z",
-                        "error_z_minus",
-                    ],
-                    args,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatter3d,
+                vars=[
+                    "x",
+                    "y",
+                    "z",
+                    "hover",
+                    "text",
+                    "size",
+                    "error_x",
+                    "error_x_minus",
+                    "error_y",
+                    "error_y_minus",
+                    "error_z",
+                    "error_z_minus",
+                ],
+                hovertemplate=False,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color", "marker.symbol"],
@@ -779,25 +805,23 @@ def line_3d(
     return make_figure(
         args,
         [
-            (
-                go.Scatter3d,
-                trace_kwargs_setter(
-                    [
-                        "x",
-                        "y",
-                        "z",
-                        "hover",
-                        "text",
-                        "error_x",
-                        "error_x_minus",
-                        "error_y",
-                        "error_y_minus",
-                        "error_z",
-                        "error_z_minus",
-                    ],
-                    args,
-                    mode="lines" + ("+markers+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatter3d,
+                vars=[
+                    "x",
+                    "y",
+                    "z",
+                    "hover",
+                    "text",
+                    "error_x",
+                    "error_x_minus",
+                    "error_y",
+                    "error_y_minus",
+                    "error_z",
+                    "error_z_minus",
+                ],
+                hovertemplate=False,
+                trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
             )
         ],
         grouped_mappings=["line.color", "line.dash"],
@@ -826,13 +850,11 @@ def scatter_ternary(
     return make_figure(
         args,
         [
-            (
-                go.Scatterternary,
-                trace_kwargs_setter(
-                    ["a", "b", "c", "hover", "text", "size"],
-                    args,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatterternary,
+                vars=["a", "b", "c", "hover", "text", "size"],
+                hovertemplate=False,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color", "marker.symbol"],
@@ -860,13 +882,11 @@ def line_ternary(
     return make_figure(
         args,
         [
-            (
-                go.Scatterternary,
-                trace_kwargs_setter(
-                    ["a", "b", "c", "hover", "text"],
-                    args,
-                    mode="lines" + ("+markers+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatterternary,
+                vars=["a", "b", "c", "hover", "text"],
+                hovertemplate=False,
+                trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color", "line.dash", "split"],
@@ -896,13 +916,11 @@ def scatter_polar(
     return make_figure(
         args,
         [
-            (
-                go.Scatterpolar,
-                trace_kwargs_setter(
-                    ["r", "theta", "hover", "size", "text"],
-                    args,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatterpolar,
+                vars=["r", "theta", "hover", "size", "text"],
+                hovertemplate=False,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color", "marker.symbol"],
@@ -932,13 +950,11 @@ def line_polar(
     return make_figure(
         args,
         [
-            (
-                go.Scatterpolar,
-                trace_kwargs_setter(
-                    ["r", "theta", "hover", "text"],
-                    args,
-                    mode="lines" + ("+markers+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scatterpolar,
+                vars=["r", "theta", "hover", "text"],
+                hovertemplate=False,
+                trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color", "line.dash", "split"],
@@ -963,7 +979,14 @@ def bar_polar(
     args = locals()
     return make_figure(
         args,
-        [(go.Barpolar, trace_kwargs_setter(["r", "theta", "hover"], args))],
+        [
+            TraceSpec(
+                constructor=go.Barpolar,
+                vars=["r", "theta", "hover"],
+                hovertemplate=False,
+                trace_patch=dict(),
+            )
+        ],
         grouped_mappings=["marker.color"],
         axis_type="polar",
         layout_patch=dict(barnorm=normalization, barmode=mode),
@@ -988,9 +1011,11 @@ def choropleth(
     return make_figure(
         args,
         [
-            (
-                go.Choropleth,
-                trace_kwargs_setter(["locations", "z", "text", "hover"], args),
+            TraceSpec(
+                constructor=go.Choropleth,
+                vars=["locations", "z", "text", "hover"],
+                hovertemplate=False,
+                trace_patch=dict(),
             )
         ],
         grouped_mappings=[],
@@ -1016,13 +1041,11 @@ def scatter_geo(
     return make_figure(
         args,
         [
-            (
-                go.Scattergeo,
-                trace_kwargs_setter(
-                    ["lat", "lon", "locations", "size", "text", "hover"],
-                    args,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scattergeo,
+                vars=["lat", "lon", "locations", "size", "text", "hover"],
+                hovertemplate=False,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color"],
@@ -1048,13 +1071,11 @@ def scatter_mapbox(
     return make_figure(
         args,
         [
-            (
-                go.Scattermapbox,
-                trace_kwargs_setter(
-                    ["lat", "lon", "size", "text", "hover"],
-                    args,
-                    mode="markers" + ("+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scattermapbox,
+                vars=["lat", "lon", "size", "text", "hover"],
+                hovertemplate=False,
+                trace_patch=dict(mode="markers" + ("+text" if text else "")),
             )
         ],
         grouped_mappings=["marker.color"],
@@ -1079,13 +1100,11 @@ def line_mapbox(
     return make_figure(
         args,
         [
-            (
-                go.Scattermapbox,
-                trace_kwargs_setter(
-                    ["lat", "lon", "text", "hover"],
-                    args,
-                    mode="lines" + ("+markers+text" if text else ""),
-                ),
+            TraceSpec(
+                constructor=go.Scattermapbox,
+                vars=["lat", "lon", "text", "hover"],
+                hovertemplate=False,
+                trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
             )
         ],
         grouped_mappings=["line.color", "split"],
@@ -1107,7 +1126,14 @@ def splom(
     args = locals()
     return make_figure(
         args,
-        [(go.Splom, trace_kwargs_setter(["dimensions"], args))],
+        [
+            TraceSpec(
+                constructor=go.Splom,
+                vars=["dimensions"],
+                hovertemplate=False,
+                trace_patch=dict(),
+            )
+        ],
         grouped_mappings=["marker.color", "marker.symbol"],
     )
 
