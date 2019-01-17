@@ -310,16 +310,19 @@ def make_marginals_definition(letter, args):
 ##########################################
 
 
-def make_figure(df, args, constructors, mappings=[], axis_type=None, layout_patch={}):
+def make_figure(
+    args, constructors, grouped_mappings=[], axis_type=None, layout_patch={}
+):
     fig = FigurePx()
 
     def one_group(x):
         return ""
 
-    grouper = [x.grouper or one_group for x in mappings] or [one_group]
+    grouped_mappings = [make_mapping(g, args) for g in grouped_mappings]
+    grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     trace_names = set()
     traces = []
-    grouped = df.groupby(grouper, sort=False)
+    grouped = args["df"].groupby(grouper, sort=False)
     orders = args["orders"].copy()
     group_names = []
     for group_name in grouped.groups:
@@ -342,7 +345,7 @@ def make_figure(df, args, constructors, mappings=[], axis_type=None, layout_patc
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
-        for col, val, m in zip(grouper, group_name, mappings):
+        for col, val, m in zip(grouper, group_name, grouped_mappings):
             if col != one_group:
                 s = ("%s=%s" % (col, val), m.show_in_trace_name)
                 if s not in mapping_labels:
@@ -358,7 +361,7 @@ def make_figure(df, args, constructors, mappings=[], axis_type=None, layout_patc
                 showlegend=(trace_name != "" and trace_name not in trace_names),
             )
             trace_names.add(trace_name)
-            for i, m in enumerate(mappings):
+            for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
                 if val not in m.val_map:
                     m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
@@ -375,6 +378,7 @@ def make_figure(df, args, constructors, mappings=[], axis_type=None, layout_patc
             traces.append(trace)
     fig.add_traces(traces)
     if axis_type:
+        axes = {m.variable: m.val_map for m in grouped_mappings}
         fig.update(
             {
                 "2d": configure_cartesian_axes,
@@ -383,7 +387,7 @@ def make_figure(df, args, constructors, mappings=[], axis_type=None, layout_patc
                 "ternary": configure_ternary_axes,
                 "geo": configure_geo,
                 "mapbox": configure_mapbox,
-            }[axis_type](args, fig, {m.variable: m.val_map for m in mappings}, orders)
+            }[axis_type](args, fig, axes, orders)
         )
     fig.layout.update(layout_patch)
     return fig
@@ -422,7 +426,6 @@ def scatter(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -447,12 +450,7 @@ def scatter(
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
         ],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("marker.color", args),
-            make_mapping("marker.symbol", args),
-        ],
+        grouped_mappings=["col", "row", "marker.color", "marker.symbol"],
         axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
@@ -472,14 +470,13 @@ def density_heatmap(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (go.Histogram2d, trace_kwargs_setter(["x", "y"], args)),
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
         ],
-        [make_mapping("col", args), make_mapping("row", args)],
+        grouped_mappings=["col", "row"],
         axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
@@ -502,7 +499,6 @@ def density_contour(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -512,11 +508,7 @@ def density_contour(
             make_marginals_definition("y", args),
             make_marginals_definition("x", args),
         ],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("line.color", args),
-        ],
+        grouped_mappings=["col", "row", "line.color"],
         axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
@@ -547,7 +539,6 @@ def line(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -569,13 +560,7 @@ def line(
                 ),
             )
         ],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("line.color", args),
-            make_mapping("line.dash", args),
-            make_mapping("split", args),
-        ],
+        grouped_mappings=["col", "row", "line.color", "line.dash", "split"],
         axis_type="2d",
     )
 
@@ -604,7 +589,6 @@ def bar(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -627,11 +611,7 @@ def bar(
                 ),
             )
         ],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("marker.color", args),
-        ],
+        grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
@@ -655,7 +635,6 @@ def histogram(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -665,11 +644,7 @@ def histogram(
                 ),
             )
         ],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("marker.color", args),
-        ],
+        grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(barmode=mode),
     )
@@ -692,14 +667,9 @@ def violin(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [(go.Violin, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("marker.color", args),
-        ],
+        grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(violinmode=mode),
     )
@@ -722,14 +692,9 @@ def box(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [(go.Box, trace_kwargs_setter(["x", "y"], args, orientation=orientation))],
-        [
-            make_mapping("col", args),
-            make_mapping("row", args),
-            make_mapping("marker.color", args),
-        ],
+        grouped_mappings=["col", "row", "marker.color"],
         axis_type="2d",
         layout_patch=dict(boxmode=mode),
     )
@@ -760,7 +725,6 @@ def scatter_3d(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -785,7 +749,7 @@ def scatter_3d(
                 ),
             )
         ],
-        [make_mapping("marker.color", args), make_mapping("marker.symbol", args)],
+        grouped_mappings=["marker.color", "marker.symbol"],
         axis_type="3d",
     )
 
@@ -813,7 +777,6 @@ def line_3d(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -837,7 +800,7 @@ def line_3d(
                 ),
             )
         ],
-        [make_mapping("line.color", args), make_mapping("line.dash", args)],
+        grouped_mappings=["line.color", "line.dash"],
         axis_type="3d",
     )
 
@@ -861,7 +824,6 @@ def scatter_ternary(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -873,7 +835,7 @@ def scatter_ternary(
                 ),
             )
         ],
-        [make_mapping("marker.color", args), make_mapping("marker.symbol", args)],
+        grouped_mappings=["marker.color", "marker.symbol"],
         axis_type="ternary",
     )
 
@@ -896,7 +858,6 @@ def line_ternary(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -908,11 +869,7 @@ def line_ternary(
                 ),
             )
         ],
-        [
-            make_mapping("marker.color", args),
-            make_mapping("line.dash", args),
-            make_mapping("split", args),
-        ],
+        grouped_mappings=["marker.color", "line.dash", "split"],
         axis_type="ternary",
     )
 
@@ -937,7 +894,6 @@ def scatter_polar(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -949,7 +905,7 @@ def scatter_polar(
                 ),
             )
         ],
-        [make_mapping("marker.color", args), make_mapping("marker.symbol", args)],
+        grouped_mappings=["marker.color", "marker.symbol"],
         axis_type="polar",
     )
 
@@ -974,7 +930,6 @@ def line_polar(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -986,11 +941,7 @@ def line_polar(
                 ),
             )
         ],
-        [
-            make_mapping("marker.color", args),
-            make_mapping("line.dash", args),
-            make_mapping("split", args),
-        ],
+        grouped_mappings=["marker.color", "line.dash", "split"],
         axis_type="polar",
     )
 
@@ -1011,10 +962,9 @@ def bar_polar(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [(go.Barpolar, trace_kwargs_setter(["r", "theta", "hover"], args))],
-        [make_mapping("marker.color", args)],
+        grouped_mappings=["marker.color"],
         axis_type="polar",
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
@@ -1036,7 +986,6 @@ def choropleth(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -1044,7 +993,7 @@ def choropleth(
                 trace_kwargs_setter(["locations", "z", "text", "hover"], args),
             )
         ],
-        [],
+        grouped_mappings=[],
         axis_type="geo",
     )
 
@@ -1065,7 +1014,6 @@ def scatter_geo(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -1077,7 +1025,7 @@ def scatter_geo(
                 ),
             )
         ],
-        [make_mapping("marker.color", args)],
+        grouped_mappings=["marker.color"],
         axis_type="geo",
     )
 
@@ -1098,7 +1046,6 @@ def scatter_mapbox(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -1110,7 +1057,7 @@ def scatter_mapbox(
                 ),
             )
         ],
-        [make_mapping("marker.color", args)],
+        grouped_mappings=["marker.color"],
         axis_type="mapbox",
     )
 
@@ -1130,7 +1077,6 @@ def line_mapbox(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [
             (
@@ -1142,7 +1088,7 @@ def line_mapbox(
                 ),
             )
         ],
-        [make_mapping("line.color", args), make_mapping("split", args)],
+        grouped_mappings=["line.color", "split"],
         axis_type="mapbox",
     )
 
@@ -1160,13 +1106,13 @@ def splom(
 ):
     args = locals()
     return make_figure(
-        df,
         args,
         [(go.Splom, trace_kwargs_setter(["dimensions"], args))],
-        [make_mapping("marker.color", args), make_mapping("marker.symbol", args)],
+        grouped_mappings=["marker.color", "marker.symbol"],
     )
 
 
+# TODO axes vs orders ?
 # TODO animations
 # TODO geo locationmode, projection, etc
 # TODO line_geo
