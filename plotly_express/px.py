@@ -250,7 +250,7 @@ def configure_3d_axes(args, fig, axes, orders):
 
 
 def configure_mapbox(args, fig, axes, orders):
-    patch = dict(
+    return dict(
         layout=dict(
             mapbox=dict(
                 accesstoken=MAPBOX_TOKEN,
@@ -258,16 +258,16 @@ def configure_mapbox(args, fig, axes, orders):
                     lat=args["df"][args["lat"]].mean(),
                     lon=args["df"][args["lon"]].mean(),
                 ),
-                zoom=args["zoom"],
+                zoom=args["zoom"]
+                or abs(args["df"][args["lat"]].max() - args["df"][args["lat"]].min())
+                * 50,
             )
         )
     )
-    return patch
 
 
 def configure_geo(args, fig, axes, orders):
-    patch = dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
-    return patch
+    return dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
 
 
 def make_marginals_definition(letter, args):
@@ -946,6 +946,32 @@ def scatter_geo(
     )
 
 
+def line_geo(
+    df,
+    lat=None,
+    lon=None,
+    locations=None,
+    color=None,
+    dash=None,
+    text=None,
+    hover=None,
+    split=None,
+    color_map={},
+    color_sequence=default_color_seq,
+    dash_map={},
+    dash_sequence=default_dash_seq,
+    orders={},
+):
+    return make_figure(
+        args=locals(),
+        constructor=go.Scattergeo,
+        vars=["lat", "lon", "locations", "text", "hover"],
+        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
+        grouped_mappings=["line.color", "line.dash", "split"],
+        axis_type="geo",
+    )
+
+
 def scatter_mapbox(
     df,
     lat=None,
@@ -957,7 +983,7 @@ def scatter_mapbox(
     color_sequence=default_color_seq,
     size=None,
     max_size=default_max_size,
-    zoom=8,  # roughly city-scale
+    zoom=None,
     orders={},
 ):
     return make_figure(
@@ -980,7 +1006,7 @@ def line_mapbox(
     split=None,
     color_map={},
     color_sequence=default_color_seq,
-    zoom=8,  # roughly city-scale
+    zoom=None,
     orders={},
 ):
     return make_figure(
@@ -1012,23 +1038,20 @@ def splom(
     )
 
 
-# TODO infer mappings from available args ?
-# TODO axes vs orders ?
+# TODO continuous color
+# TODO parcoords, parcats
 # TODO animations
+# TODO infer mappings from available args ?
 # TODO geo locationmode, projection, etc
-# TODO line_geo
 # TODO choropleth z vs color
-# TODO scatter_geo hover vs text?
-# TODO geo and mapbox hover templates
-# TODO mapbox auto zoom based on longitude range
+# TODO choropleth has no hovertext?
+# TODO 1.44.0 hover templates
 # TODO max_size makes no sense?
 # TODO regression lines
 # TODO secondary Y axis
 # TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO check on dates
-# TODO continuous color
-# TODO parcoords, parcats
 # TODO facet wrap
 # TODO non-cartesian faceting
 # TODO testing of some kind (try Percy)

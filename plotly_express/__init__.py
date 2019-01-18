@@ -10,6 +10,7 @@ from .px import (
     line_polar,
     line_ternary,
     line_mapbox,
+    line_geo,
     bar,
     bar_polar,
     violin,
