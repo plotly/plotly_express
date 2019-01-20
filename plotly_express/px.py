@@ -21,9 +21,8 @@ class FigurePx(go.Figure):
     offline_initialized = False
 
     def __init__(self, *args, **kwargs):
-        super(FigurePx, self).__init__(
-            *args, layout={"template": "plotly+px"}, **kwargs
-        )
+        super(FigurePx, self).__init__(*args, **kwargs)
+        self.update(layout={"template": "plotly+px"})
 
     def _ipython_display_(self):
         if not FigurePx.offline_initialized:
@@ -54,7 +53,7 @@ Mapping = namedtuple(
 TraceSpec = namedtuple("TraceSpec", ["constructor", "vars", "trace_patch"])
 
 
-def make_mapping(variable, args):
+def make_mapping(args, variable):
     if variable == "split":
         return Mapping(
             show_in_trace_name=False,
@@ -120,6 +119,27 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
             "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
         )
     return result
+
+
+def configure_axes(args, constructor, fig, axes, orders):
+    configurators = {
+        go.Scatter: configure_cartesian_axes,
+        go.Bar: configure_cartesian_axes,
+        go.Box: configure_cartesian_axes,
+        go.Violin: configure_cartesian_axes,
+        go.Histogram: configure_cartesian_axes,
+        go.Histogram2dContour: configure_cartesian_axes,
+        go.Histogram2d: configure_cartesian_axes,
+        go.Scatter3d: configure_3d_axes,
+        go.Scatterternary: configure_ternary_axes,
+        go.Scatterpolar: configure_polar_axes,
+        go.Barpolar: configure_polar_axes,
+        go.Scattermapbox: configure_mapbox,
+        go.Scattergeo: configure_geo,
+        go.Choropleth: configure_geo,
+    }
+    if constructor in configurators:
+        fig.update(configurators[constructor](args, fig, axes, orders))
 
 
 def configure_cartesian_axes(args, fig, axes, orders):
@@ -270,47 +290,61 @@ def configure_geo(args, fig, axes, orders):
     return dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
 
 
-def make_marginals_definition(letter, args):
-    axis_map = dict(
-        xaxis="x1" if letter == "x" else "x2", yaxis="y1" if letter == "y" else "y2"
-    )
-    if args["marginal_" + letter] == "histogram":
-        return TraceSpec(
-            constructor=go.Histogram,
-            vars=[letter],
-            trace_patch=dict(opacity=0.5, **axis_map),
-        )
-    if args["marginal_" + letter] == "violin":
-        return TraceSpec(constructor=go.Violin, vars=[letter], trace_patch=axis_map)
-    if args["marginal_" + letter] == "box":
-        return TraceSpec(
-            constructor=go.Box,
-            vars=[letter],
-            trace_patch=dict(notched=True, **axis_map),
-        )
-    if args["marginal_" + letter] == "rug":
-        return TraceSpec(
-            constructor=go.Box,
-            vars=[letter],
-            trace_patch=dict(
-                fillcolor="rgba(255,255,255,0)",
-                line={"color": "rgba(255,255,255,0)"},
-                boxpoints="all",
-                jitter=0,
-                hoveron="points",
-                marker={"symbol": "line-ew-open" if letter == "y" else "line-ns-open"},
-                **axis_map
-            ),
-        )
-    return TraceSpec(None, None, None)
-
-
-def augment_trace_spec(constructor, vars, trace_patch, args):
+def make_trace_spec(args, constructor, vars, trace_patch):
     result = [TraceSpec(constructor, vars, trace_patch)]
     for letter in ["x", "y"]:
         if "marginal_" + letter in args:
-            result.append(make_marginals_definition(letter, args))
+            axis_map = dict(
+                xaxis="x1" if letter == "x" else "x2",
+                yaxis="y1" if letter == "y" else "y2",
+            )
+            if args["marginal_" + letter] == "histogram":
+                result.append(
+                    TraceSpec(
+                        constructor=go.Histogram,
+                        vars=[letter],
+                        trace_patch=dict(opacity=0.5, **axis_map),
+                    )
+                )
+            elif args["marginal_" + letter] == "violin":
+                result.append(
+                    TraceSpec(
+                        constructor=go.Violin, vars=[letter], trace_patch=axis_map
+                    )
+                )
+            elif args["marginal_" + letter] == "box":
+                result.append(
+                    TraceSpec(
+                        constructor=go.Box,
+                        vars=[letter],
+                        trace_patch=dict(notched=True, **axis_map),
+                    )
+                )
+            elif args["marginal_" + letter] == "rug":
+                result.append(
+                    TraceSpec(
+                        constructor=go.Box,
+                        vars=[letter],
+                        trace_patch=dict(
+                            fillcolor="rgba(255,255,255,0)",
+                            line={"color": "rgba(255,255,255,0)"},
+                            boxpoints="all",
+                            jitter=0,
+                            hoveron="points",
+                            marker={
+                                "symbol": "line-ew-open"
+                                if letter == "y"
+                                else "line-ns-open"
+                            },
+                            **axis_map
+                        ),
+                    )
+                )
     return result
+
+
+def one_group(x):
+    return ""
 
 
 ##########################################
@@ -319,23 +353,14 @@ def augment_trace_spec(constructor, vars, trace_patch, args):
 
 
 def make_figure(
-    args,
-    constructor,
-    vars,
-    grouped_mappings=[],
-    axis_type=None,
-    trace_patch={},
-    layout_patch={},
+    args, constructor, vars, grouped_mappings=[], trace_patch={}, layout_patch={}
 ):
-    fig = FigurePx()
+    sizeref = 0
+    if "size" in args and args["size"]:
+        sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
-    def one_group(x):
-        return ""
-
-    grouped_mappings = [make_mapping(g, args) for g in grouped_mappings]
+    grouped_mappings = [make_mapping(args, g) for g in grouped_mappings]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
-    trace_names = set()
-    traces = []
     grouped = args["df"].groupby(grouper, sort=False)
     orders = args["orders"].copy()
     group_names = []
@@ -356,7 +381,9 @@ def make_figure(
                 key=lambda g: orders[col].index(g[i]) if g[i] in orders[col] else -1,
             )
 
-    trace_specs = augment_trace_spec(constructor, vars, trace_patch, args)
+    trace_names = set()
+    traces = []
+    trace_specs = make_trace_spec(args, constructor, vars, trace_patch)
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
@@ -368,13 +395,6 @@ def make_figure(
         trace_name = ", ".join(s for s, t in mapping_labels if t)
 
         for trace_spec in trace_specs:
-            if not trace_spec.constructor:
-                continue
-            sizeref = 0
-            if "size" in trace_spec.vars and args["size"]:
-                sizeref = args["df"][args["size"]].max() / (
-                    args["max_size"] * args["max_size"]
-                )
             trace = trace_spec.constructor(
                 name=trace_name,
                 legendgroup=trace_name,
@@ -398,20 +418,10 @@ def make_figure(
                 make_trace_kwargs(args, trace_spec, group, mapping_labels, sizeref)
             )
             traces.append(trace)
-    fig.add_traces(traces)
-    if axis_type:
-        axes = {m.variable: m.val_map for m in grouped_mappings}
-        fig.update(
-            {
-                "2d": configure_cartesian_axes,
-                "3d": configure_3d_axes,
-                "polar": configure_polar_axes,
-                "ternary": configure_ternary_axes,
-                "geo": configure_geo,
-                "mapbox": configure_mapbox,
-            }[axis_type](args, fig, axes, orders)
-        )
-    fig.layout.update(layout_patch)
+
+    fig = FigurePx(data=traces, layout=layout_patch)
+    axes = {m.variable: m.val_map for m in grouped_mappings}
+    configure_axes(args, constructor, fig, axes, orders)
     return fig
 
 
@@ -462,7 +472,6 @@ def scatter(
         ],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["col", "row", "marker.color", "marker.symbol"],
-        axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
@@ -484,7 +493,6 @@ def density_heatmap(
         constructor=go.Histogram2d,
         vars=["x", "y"],
         grouped_mappings=["col", "row"],
-        axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
@@ -510,7 +518,6 @@ def density_contour(
         vars=["x", "y"],
         trace_patch=dict(contours=dict(coloring="none")),
         grouped_mappings=["col", "row", "line.color"],
-        axis_type="2d",
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
@@ -553,7 +560,6 @@ def line(
         ],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["col", "row", "line.color", "line.dash", "split"],
-        axis_type="2d",
     )
 
 
@@ -594,7 +600,6 @@ def bar(
         ],
         trace_patch=dict(orientation=orientation, textposition="auto"),
         grouped_mappings=["col", "row", "marker.color"],
-        axis_type="2d",
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
 
@@ -621,7 +626,6 @@ def histogram(
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation, histnorm=normalization),
         grouped_mappings=["col", "row", "marker.color"],
-        axis_type="2d",
         layout_patch=dict(barmode=mode),
     )
 
@@ -647,7 +651,6 @@ def violin(
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation),
         grouped_mappings=["col", "row", "marker.color"],
-        axis_type="2d",
         layout_patch=dict(violinmode=mode),
     )
 
@@ -673,7 +676,6 @@ def box(
         vars=["x", "y"],
         trace_patch=dict(orientation=orientation),
         grouped_mappings=["col", "row", "marker.color"],
-        axis_type="2d",
         layout_patch=dict(boxmode=mode),
     )
 
@@ -720,7 +722,6 @@ def scatter_3d(
         ],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["marker.color", "marker.symbol"],
-        axis_type="3d",
     )
 
 
@@ -763,7 +764,6 @@ def line_3d(
         ],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["line.color", "line.dash"],
-        axis_type="3d",
     )
 
 
@@ -790,7 +790,6 @@ def scatter_ternary(
         vars=["a", "b", "c", "hover", "text", "size"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["marker.color", "marker.symbol"],
-        axis_type="ternary",
     )
 
 
@@ -816,7 +815,6 @@ def line_ternary(
         vars=["a", "b", "c", "hover", "text"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["marker.color", "line.dash", "split"],
-        axis_type="ternary",
     )
 
 
@@ -844,7 +842,6 @@ def scatter_polar(
         vars=["r", "theta", "hover", "size", "text"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["marker.color", "marker.symbol"],
-        axis_type="polar",
     )
 
 
@@ -872,7 +869,6 @@ def line_polar(
         vars=["r", "theta", "hover", "text"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["marker.color", "line.dash", "split"],
-        axis_type="polar",
     )
 
 
@@ -895,7 +891,6 @@ def bar_polar(
         constructor=go.Barpolar,
         vars=["r", "theta", "hover"],
         grouped_mappings=["marker.color"],
-        axis_type="polar",
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
 
@@ -918,7 +913,6 @@ def choropleth(
         args=locals(),
         constructor=go.Choropleth,
         vars=["locations", "z", "text", "hover"],
-        axis_type="geo",
     )
 
 
@@ -942,7 +936,6 @@ def scatter_geo(
         vars=["lat", "lon", "locations", "size", "text", "hover"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["marker.color"],
-        axis_type="geo",
     )
 
 
@@ -968,7 +961,6 @@ def line_geo(
         vars=["lat", "lon", "locations", "text", "hover"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["line.color", "line.dash", "split"],
-        axis_type="geo",
     )
 
 
@@ -992,7 +984,6 @@ def scatter_mapbox(
         vars=["lat", "lon", "size", "text", "hover"],
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
         grouped_mappings=["marker.color"],
-        axis_type="mapbox",
     )
 
 
@@ -1015,7 +1006,6 @@ def line_mapbox(
         vars=["lat", "lon", "text", "hover"],
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
         grouped_mappings=["line.color", "split"],
-        axis_type="mapbox",
     )
 
 
