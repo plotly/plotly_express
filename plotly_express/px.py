@@ -334,10 +334,6 @@ def one_group(x):
     return ""
 
 
-##########################################
-# MAKE_FIGURE
-##########################################
-
 available_vars = (
     ["x", "y", "z", "a", "b", "c", "r", "theta", "lat", "lon", "locations"]
     + ["dimensions", "hover", "size", "text", "error_x", "error_x_minus"]
@@ -419,11 +415,6 @@ def make_figure(
     axes = {m.variable: m.val_map for m in grouped_mappings}
     configure_axes(args, constructor, fig, axes, orders)
     return fig
-
-
-##########################################
-# PLOT TYPES
-##########################################
 
 
 def scatter(
