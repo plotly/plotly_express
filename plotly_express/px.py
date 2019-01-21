@@ -89,7 +89,15 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
             result["dimensions"] = [
                 dict(label=name, values=column.values)
                 for name, column in g.iteritems()
-                if (not v) or (name in v)
+                if ((not v) or (name in v))
+                and (
+                    trace_spec.constructor != go.Parcoords
+                    or args["df"][name].dtype.kind in "bifc"
+                )
+                and (
+                    trace_spec.constructor != go.Parcats
+                    or len(args["df"][name].unique()) <= 20
+                )
             ]
         elif v:
             if k == "size":
@@ -348,6 +356,10 @@ def make_figure(
     if "size" in args and args["size"]:
         sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
+    # if args["color"] and (line.color or marker.color in grouped_mappings):
+    #    if the series is continuous, add color to vars
+    #    and compute colorbar information
+
     if vars is None:
         vars = [k for k in available_vars if k in args]
 
@@ -387,11 +399,12 @@ def make_figure(
         trace_name = ", ".join(s for s, t in mapping_labels if t)
 
         for trace_spec in trace_specs:
-            trace = trace_spec.constructor(
-                name=trace_name,
-                legendgroup=trace_name,
-                showlegend=(trace_name != "" and trace_name not in trace_names),
-            )
+            trace = trace_spec.constructor(name=trace_name)
+            if trace_spec.constructor != go.Parcats:
+                trace.update(
+                    legendgroup=trace_name,
+                    showlegend=(trace_name != "" and trace_name not in trace_names),
+                )
             trace_names.add(trace_name)
             for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
@@ -920,7 +933,7 @@ def line_mapbox(
     )
 
 
-def splom(
+def scatter_matrix(
     df,
     dimensions=None,
     color=None,
@@ -938,18 +951,25 @@ def splom(
     )
 
 
+def parallel_coordinates(df, dimensions=None, orders={}):
+    return make_figure(args=locals(), constructor=go.Parcoords)
+
+
+def parallel_categories(df, dimensions=None, orders={}):
+    return make_figure(args=locals(), constructor=go.Parcats)
+
+
 # TODO continuous color
-# TODO parcoords, parcats
-# TODO animations
-# TODO geo locationmode, projection, etc
 # TODO choropleth z vs color
 # TODO choropleth has no hovertext?
-# TODO 1.44.0 hover templates
-# TODO max_size makes no sense?
-# TODO regression lines
-# TODO secondary Y axis
+# TODO parcoords, parcats orders, colors
+# TODO animations
+# TODO geo locationmode, projection, etc
 # TODO histogram weights and calcs
 # TODO various box and violin options
+# TODO 1.44.0 hover templates
+# TODO regression lines
+# TODO secondary Y axis
 # TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
