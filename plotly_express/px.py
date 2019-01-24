@@ -112,6 +112,16 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
             elif k == "hover":
                 result["hovertext"] = g[v]
                 hover_header = "<b>%{hovertext}</b><br><br>"
+            elif k == "color":
+                if trace_spec.constructor == go.Choropleth:
+                    result["z"] = g[v]
+                else:
+                    colorable = "marker"
+                    if trace_spec.constructor in [go.Parcats, go.Parcoords]:
+                        colorable = "line"
+                    if colorable not in result:
+                        result[colorable] = dict()
+                    result[colorable]["color"] = g[v]
             else:
                 result[k] = g[v]
                 mapping_labels.append(("%s=%%{%s}" % (v, k), None))
@@ -352,16 +362,26 @@ available_vars = (
 def make_figure(
     args, constructor, vars=None, grouped_mappings=[], trace_patch={}, layout_patch={}
 ):
+    if vars is None:
+        vars = [k for k in available_vars if k in args]
+
     sizeref = 0
     if "size" in args and args["size"]:
         sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
-    # if args["color"] and (line.color or marker.color in grouped_mappings):
-    #    if the series is continuous, add color to vars
-    #    and compute colorbar information
+    if "color" in args and args["color"]:
+        if "line.color" in grouped_mappings:
+            pass
+        elif "marker.color" in grouped_mappings:
+            if constructor not in [go.Box, go.Violin, go.Histogram]:
+                if args["df"][args["color"]].dtype.kind in "bifc":
+                    vars.append("color")
+                    grouped_mappings.remove("marker.color")
+        else:
+            vars.append("color")
 
-    if vars is None:
-        vars = [k for k in available_vars if k in args]
+    if "color" in vars:
+        pass
 
     grouped_mappings = [make_mapping(args, g) for g in grouped_mappings]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
@@ -832,11 +852,9 @@ def choropleth(
     lat=None,
     lon=None,
     locations=None,
-    z=None,
+    color=None,
     text=None,
     hover=None,
-    color_map={},
-    color_sequence=default_color_seq,
     size=None,
     max_size=default_max_size,
     orders={},
@@ -942,6 +960,8 @@ def scatter_matrix(
     symbol_map={},
     color_sequence=default_color_seq,
     symbol_sequence=default_symbol_seq,
+    size=None,
+    max_size=default_max_size,
     orders={},
 ):
     return make_figure(
@@ -951,18 +971,17 @@ def scatter_matrix(
     )
 
 
-def parallel_coordinates(df, dimensions=None, orders={}):
+def parallel_coordinates(df, dimensions=None, color=None, orders={}):
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
-def parallel_categories(df, dimensions=None, orders={}):
+def parallel_categories(df, dimensions=None, color=None, orders={}):
     return make_figure(args=locals(), constructor=go.Parcats)
 
 
-# TODO continuous color
-# TODO choropleth z vs color
+# TODO continuous color: shared across facets, configurable
 # TODO choropleth has no hovertext?
-# TODO parcoords, parcats orders, colors
+# TODO parcoords, parcats orders
 # TODO animations
 # TODO geo locationmode, projection, etc
 # TODO histogram weights and calcs
