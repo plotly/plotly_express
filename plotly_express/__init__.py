@@ -1,4 +1,4 @@
-from .px import (
+from ._px import (  # noqa: F401
     scatter,
     scatter_3d,
     scatter_polar,
@@ -25,3 +25,5 @@ from .px import (
     set_mapbox_access_token,
 )
 
+from . import data  # noqa: F401
+from . import colors  # noqa: F401

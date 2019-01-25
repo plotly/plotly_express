@@ -1,2 +1,2 @@
 pandas
-plotly
+https://github.com/plotly/plotly.py/archive/plotlyjs_1.44.0.zip
