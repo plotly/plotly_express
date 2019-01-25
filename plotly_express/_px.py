@@ -988,11 +988,11 @@ def scatter_matrix(
     )
 
 
-def parallel_coordinates(df, dimensions=None, color=None, orders={}):
+def parallel_coordinates(df, dimensions=None, color=None):
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
-def parallel_categories(df, dimensions=None, color=None, orders={}):
+def parallel_categories(df, dimensions=None, color=None):
     return make_figure(args=locals(), constructor=go.Parcats)
 
 
