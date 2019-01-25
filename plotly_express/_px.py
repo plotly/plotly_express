@@ -2,7 +2,8 @@ import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple
 import plotly.io as pio
-from .colors.categorical import Plotly as default_color_seq
+from .colors.categorical import Plotly as default_categorical_seq
+from .colors.sequential import Plotly as default_sequential_seq
 
 
 MAPBOX_TOKEN = ""
@@ -73,7 +74,7 @@ def make_mapping(args, variable):
     )
 
 
-def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
+def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range):
 
     if "close_lines" in args and args["close_lines"]:
         g = g.append(g.iloc[0])
@@ -117,8 +118,11 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
                     result["hovertext"] = g[v]
                     hover_header = "<b>%{hovertext}</b><br><br>"
             elif k == "color":
+                colorbar_container = None
                 if trace_spec.constructor == go.Choropleth:
                     result["z"] = g[v]
+                    colorbar_container = result
+                    color_letter = "z"
                     mapping_labels.append(("%s=%%{z}" % (v), None))
                 else:
                     colorable = "marker"
@@ -127,7 +131,20 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
                     if colorable not in result:
                         result[colorable] = dict()
                     result[colorable]["color"] = g[v]
+                    colorbar_container = result[colorable]
+                    color_letter = "c"
                     mapping_labels.append(("%s=%%{%s.color}" % (v, colorable), None))
+                if color_range is None:
+                    colorbar_container["showscale"] = False
+                else:
+                    colorbar_container["showscale"] = True
+                    d = len(args["color_sequence"]) - 1
+                    colorbar_container["colorscale"] = [
+                        [i / d, x] for i, x in enumerate(args["color_sequence"])
+                    ]
+                    colorbar_container["colorbar"] = dict(title=v)
+                    colorbar_container[color_letter + "min"] = color_range[0]
+                    colorbar_container[color_letter + "max"] = color_range[1]
             else:
                 result[k] = g[v]
                 mapping_labels.append(
@@ -379,7 +396,9 @@ def make_figure(
     args, constructor, vars=None, grouped_mappings=[], trace_patch={}, layout_patch={}
 ):
     if vars is None:
-        vars = [k for k in available_vars if k in args]
+        vars = [
+            k for k in available_vars if k in args and (args[k] or k == "dimensions")
+        ]
 
     sizeref = 0
     if "size" in args and args["size"]:
@@ -398,13 +417,23 @@ def make_figure(
             else:
                 vars.remove("color")
 
+    color_range = None
     if "color" in vars:
-        pass
+        if args["color"]:
+            color_range = [
+                args["df"][args["color"]].min(),
+                args["df"][args["color"]].max(),
+            ]
+        if "color_sequence" in args and not args["color_sequence"]:
+            args["color_sequence"] = default_sequential_seq
+    else:
+        if "color_sequence" in args and not args["color_sequence"]:
+            args["color_sequence"] = default_categorical_seq
 
     grouped_mappings = [make_mapping(args, g) for g in grouped_mappings]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     grouped = args["df"].groupby(grouper, sort=False)
-    orders = args["orders"].copy()
+    orders = {} if "orders" not in args else args["orders"].copy()
     group_names = []
     for group_name in grouped.groups:
         if len(grouper) == 1:
@@ -458,8 +487,11 @@ def make_figure(
                     ):
                         raise
             trace.update(
-                make_trace_kwargs(args, trace_spec, group, mapping_labels, sizeref)
+                make_trace_kwargs(
+                    args, trace_spec, group, mapping_labels, sizeref, color_range
+                )
             )
+            color_range = None
             traces.append(trace)
 
     fig = FigurePx(data=traces, layout=layout_patch)
@@ -479,7 +511,7 @@ def scatter(
     text=None,
     color_map={},
     symbol_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     symbol_sequence=default_symbol_seq,
     row=None,
     col=None,
@@ -503,33 +535,13 @@ def scatter(
     )
 
 
-def density_heatmap(
-    df,
-    x=None,
-    y=None,
-    row=None,
-    col=None,
-    log_x=False,
-    log_y=False,
-    marginal_x=None,
-    marginal_y=None,
-    orders={},
-):
-    return make_figure(
-        args=locals(),
-        constructor=go.Histogram2d,
-        grouped_mappings=["col", "row"],
-        layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
-    )
-
-
 def density_contour(
     df,
     x=None,
     y=None,
     color=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     row=None,
     col=None,
     log_x=False,
@@ -558,7 +570,7 @@ def line(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     dash_sequence=default_dash_seq,
     row=None,
     col=None,
@@ -584,7 +596,7 @@ def bar(
     y=None,
     color=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     row=None,
     col=None,
     hover=None,
@@ -615,7 +627,7 @@ def histogram(
     y=None,
     color=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     row=None,
     col=None,
     orientation="v",
@@ -640,7 +652,7 @@ def violin(
     y=None,
     color=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     orientation="v",
     mode="group",
     row=None,
@@ -664,7 +676,7 @@ def box(
     y=None,
     color=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     orientation="v",
     mode="group",
     row=None,
@@ -694,7 +706,7 @@ def scatter_3d(
     color_map={},
     symbol_map={},
     hover=None,
-    color_sequence=default_color_seq,
+    color_sequence=None,
     symbol_sequence=default_symbol_seq,
     error_x=None,
     error_x_minus=None,
@@ -724,7 +736,7 @@ def line_3d(
     color_map={},
     dash_map={},
     hover=None,
-    color_sequence=default_color_seq,
+    color_sequence=None,
     dash_sequence=default_dash_seq,
     error_x=None,
     error_x_minus=None,
@@ -754,7 +766,7 @@ def scatter_ternary(
     color_map={},
     symbol_map={},
     hover=None,
-    color_sequence=default_color_seq,
+    color_sequence=None,
     symbol_sequence=default_symbol_seq,
     max_size=default_max_size,
     orders={},
@@ -779,7 +791,7 @@ def line_ternary(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     dash_sequence=default_dash_seq,
     orders={},
 ):
@@ -802,7 +814,7 @@ def scatter_polar(
     text=None,
     color_map={},
     symbol_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     symbol_sequence=default_symbol_seq,
     direction="clockwise",
     startangle=90,
@@ -828,7 +840,7 @@ def line_polar(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     dash_sequence=default_dash_seq,
     direction="clockwise",
     startangle=90,
@@ -850,7 +862,7 @@ def bar_polar(
     color=None,
     hover=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     normalization="",
     mode="relative",
     direction="clockwise",
@@ -871,6 +883,7 @@ def choropleth(
     lon=None,
     locations=None,
     color=None,
+    color_sequence=None,
     hover=None,
     size=None,
     max_size=default_max_size,
@@ -888,7 +901,7 @@ def scatter_geo(
     text=None,
     hover=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     size=None,
     max_size=default_max_size,
     orders={},
@@ -912,7 +925,7 @@ def line_geo(
     hover=None,
     split=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     dash_map={},
     dash_sequence=default_dash_seq,
     orders={},
@@ -933,7 +946,7 @@ def scatter_mapbox(
     text=None,
     hover=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     size=None,
     max_size=default_max_size,
     zoom=8,
@@ -956,7 +969,7 @@ def line_mapbox(
     hover=None,
     split=None,
     color_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     zoom=8,
     orders={},
 ):
@@ -975,7 +988,7 @@ def scatter_matrix(
     symbol=None,
     color_map={},
     symbol_map={},
-    color_sequence=default_color_seq,
+    color_sequence=None,
     symbol_sequence=default_symbol_seq,
     size=None,
     max_size=default_max_size,
@@ -988,15 +1001,14 @@ def scatter_matrix(
     )
 
 
-def parallel_coordinates(df, dimensions=None, color=None):
+def parallel_coordinates(df, dimensions=None, color=None, color_sequence=None):
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
-def parallel_categories(df, dimensions=None, color=None):
+def parallel_categories(df, dimensions=None, color=None, color_sequence=None):
     return make_figure(args=locals(), constructor=go.Parcats)
 
 
-# TODO continuous color: shared across facets, configurable
 # TODO parcoords, parcats orders
 # TODO animations
 # TODO geo locationmode, projection, etc
