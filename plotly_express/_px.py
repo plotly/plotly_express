@@ -19,7 +19,6 @@ pio.templates["px"] = dict(
 
 
 class FigurePx(go.Figure):
-    print(MAPBOX_TOKEN)
     offline_initialized = False
 
     def __init__(self, *args, **kwargs):
@@ -98,7 +97,11 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
             ]
         elif v:
             if k == "size":
-                result["marker"] = dict(size=g[v], sizemode="area", sizeref=sizeref)
+                if "marker" not in result:
+                    result["marker"] = dict()
+                result["marker"]["size"] = g[v]
+                result["marker"]["sizemode"] = "area"
+                result["marker"]["sizeref"] = sizeref
                 mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
             elif k.startswith("error"):
                 error_xy = k[:7]
@@ -303,9 +306,7 @@ def configure_mapbox(args, fig, axes, orders):
                     lat=args["df"][args["lat"]].mean(),
                     lon=args["df"][args["lon"]].mean(),
                 ),
-                zoom=args["zoom"]
-                or abs(args["df"][args["lat"]].max() - args["df"][args["lat"]].min())
-                * 50,
+                zoom=args["zoom"],
             )
         )
     )
@@ -367,9 +368,10 @@ def one_group(x):
 
 
 available_vars = (
-    ["x", "y", "z", "a", "b", "c", "r", "theta", "lat", "lon", "locations"]
-    + ["dimensions", "hover", "size", "text", "error_x", "error_x_minus"]
+    ["x", "y", "z", "a", "b", "c", "r", "theta", "color", "size"]
+    + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
     + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
+    + ["lat", "lon", "locations"]
 )
 
 
@@ -384,15 +386,17 @@ def make_figure(
         sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
     if "color" in args and args["color"]:
-        if "line.color" in grouped_mappings:
-            pass
+        if "line.color" in grouped_mappings or constructor in [
+            go.Box,
+            go.Violin,
+            go.Histogram,
+        ]:
+            vars.remove("color")
         elif "marker.color" in grouped_mappings:
-            if constructor not in [go.Box, go.Violin, go.Histogram]:
-                if args["df"][args["color"]].dtype.kind in "bifc":
-                    vars.append("color")
-                    grouped_mappings.remove("marker.color")
-        else:
-            vars.append("color")
+            if args["df"][args["color"]].dtype.kind in "bifc":
+                grouped_mappings.remove("marker.color")
+            else:
+                vars.remove("color")
 
     if "color" in vars:
         pass
@@ -433,7 +437,7 @@ def make_figure(
         trace_name = ", ".join(s for s, t in mapping_labels if t)
 
         for trace_spec in trace_specs:
-            trace = trace_spec.constructor(name=trace_name)
+            trace = trace_spec.constructor(name=trace_name or " ")
             if trace_spec.constructor != go.Parcats:
                 trace.update(
                     legendgroup=trace_name,
@@ -932,7 +936,7 @@ def scatter_mapbox(
     color_sequence=default_color_seq,
     size=None,
     max_size=default_max_size,
-    zoom=None,
+    zoom=8,
     orders={},
 ):
     return make_figure(
@@ -953,7 +957,7 @@ def line_mapbox(
     split=None,
     color_map={},
     color_sequence=default_color_seq,
-    zoom=None,
+    zoom=8,
     orders={},
 ):
     return make_figure(
