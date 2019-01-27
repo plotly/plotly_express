@@ -20,7 +20,6 @@ from ._px import (  # noqa: F401
     parallel_coordinates,
     parallel_categories,
     choropleth,
-    density_heatmap,
     density_contour,
     set_mapbox_access_token,
 )
