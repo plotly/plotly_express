@@ -1,2 +1,2 @@
-pandas
-plotly==3.6.0rc1
+pandas>=0.20.0
+plotly>=3.6.0

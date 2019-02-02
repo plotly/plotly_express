@@ -2,3 +2,6 @@
 scratch.ipynb
 .ipynb_checkpoints
 .mapbox_token
+dist
+build
+plotly_express.egg-info
