@@ -1,4 +1,4 @@
-from ._px import (  # noqa: F401
+from ._chart_types import (  # noqa: F401
     scatter,
     scatter_3d,
     scatter_polar,
@@ -21,8 +21,8 @@ from ._px import (  # noqa: F401
     parallel_categories,
     choropleth,
     density_contour,
-    set_mapbox_access_token,
 )
 
-from . import data  # noqa: F401
-from . import colors  # noqa: F401
+from ._px import set_mapbox_access_token  # noqa: F401
+
+from . import data, colors  # noqa: F401

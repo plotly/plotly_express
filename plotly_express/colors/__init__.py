@@ -1,9 +1,12 @@
-from . import categorical  # noqa: F401
-from . import sequential  # noqa: F401
-from . import cyclical  # noqa: F401
-from . import cmocean  # noqa: F401
-from . import colorbrewer  # noqa: F401
-from . import divergent  # noqa: F401
+from . import (  # noqa: F401
+    qualitative,
+    sequential,
+    diverging,
+    cyclical,
+    cmocean,
+    colorbrewer,
+    carto,
+)
 
 
 def swatches(mod):
