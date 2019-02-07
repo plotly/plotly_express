@@ -305,9 +305,13 @@ def configure_3d_axes(args, fig, axes, orders):
         )
     )
     for letter in ["x", "y", "z"]:
+        if args["log_" + letter]:
+            patch["layout"]["scene"][letter + "axis"]["type"] = "log"
         if args[letter] in orders:
-            patch["layout"]["scene"][letter]["categoryorder"] = "array"
-            patch["layout"]["scene"][letter]["categoryarray"] = orders[args[letter]]
+            patch["layout"]["scene"][letter + "axis"]["categoryorder"] = "array"
+            patch["layout"]["scene"][letter + "axis"]["categoryarray"] = orders[
+                args[letter]
+            ]
     return patch
 
 
@@ -498,7 +502,6 @@ def make_figure(
 
 
 # TODO codegen?
-# TODO 3d log scales
 # TODO parcoords, parcats orders
 # TODO animations
 # TODO geo locationmode, projection, etc

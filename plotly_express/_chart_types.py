@@ -214,6 +214,9 @@ def scatter_3d(
     hover=None,
     color_sequence=None,
     symbol_sequence=default_symbol_seq,
+    log_x=False,
+    log_y=False,
+    log_z=False,
     error_x=None,
     error_x_minus=None,
     error_y=None,
@@ -244,6 +247,9 @@ def line_3d(
     hover=None,
     color_sequence=None,
     dash_sequence=default_dash_seq,
+    log_x=False,
+    log_y=False,
+    log_z=False,
     error_x=None,
     error_x_minus=None,
     error_y=None,
@@ -305,7 +311,7 @@ def line_ternary(
         args=locals(),
         constructor=go.Scatterternary,
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["marker.color", "line.dash", "split"],
+        grouped_mappings=["line.color", "line.dash", "split"],
     )
 
 
@@ -357,7 +363,7 @@ def line_polar(
         args=locals(),
         constructor=go.Scatterpolar,
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["marker.color", "line.dash", "split"],
+        grouped_mappings=["line.color", "line.dash", "split"],
     )
 
 
