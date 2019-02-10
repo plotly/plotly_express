@@ -26,3 +26,30 @@ from ._chart_types import (  # noqa: F401
 from ._px import set_mapbox_access_token  # noqa: F401
 
 from . import data, colors  # noqa: F401
+
+__all__ = [
+    "scatter",
+    "scatter_3d",
+    "scatter_polar",
+    "scatter_ternary",
+    "scatter_mapbox",
+    "scatter_geo",
+    "line",
+    "line_polar",
+    "line_ternary",
+    "line_mapbox",
+    "line_geo",
+    "bar",
+    "bar_polar",
+    "violin",
+    "box",
+    "histogram",
+    "scatter_matrix",
+    "parallel_coordinates",
+    "parallel_categories",
+    "choropleth",
+    "density_contour",
+    "data",
+    "colors",
+    "set_mapbox_access_token",
+]
