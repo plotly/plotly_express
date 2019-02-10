@@ -42,7 +42,7 @@ TraceSpec = namedtuple("TraceSpec", ["constructor", "vars", "trace_patch"])
 
 
 def make_mapping(args, variable):
-    if variable == "split" or variable == "frame":
+    if variable == "split" or variable == "animation_frame":
         return Mapping(
             show_in_trace_name=False,
             grouper=args[variable],
@@ -345,6 +345,62 @@ def configure_geo(args, fig, axes, orders):
     return dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
 
 
+def configure_animation_controls(args, fig):
+    def frame_args(duration):
+        return {
+            "frame": {"duration": duration, "redraw": False},
+            "mode": "immediate",
+            "fromcurrent": True,
+            "transition": {"duration": duration, "easing": "linear"},
+        }
+
+    if "animation_frame" in args and args["animation_frame"] and len(fig.frames) > 1:
+        fig.layout.updatemenus = [
+            {
+                "buttons": [
+                    {
+                        "args": [None, frame_args(500)],
+                        "label": "&#9654;",
+                        "method": "animate",
+                    },
+                    {
+                        "args": [[None], frame_args(0)],
+                        "label": "&#9724;",
+                        "method": "animate",
+                    },
+                ],
+                "direction": "left",
+                "pad": {"r": 10, "t": 70},
+                "showactive": False,
+                "type": "buttons",
+                "x": 0.1,
+                "xanchor": "right",
+                "y": 0,
+                "yanchor": "top",
+            }
+        ]
+        fig.layout.sliders = [
+            {
+                "active": 0,
+                "yanchor": "top",
+                "xanchor": "left",
+                "currentvalue": {"prefix": args["animation_frame"] + "="},
+                "pad": {"b": 10, "t": 60},
+                "len": 0.9,
+                "x": 0.1,
+                "y": 0,
+                "steps": [
+                    {
+                        "args": [[f.name], frame_args(0)],
+                        "label": f.name,
+                        "method": "animate",
+                    }
+                    for f in fig.frames
+                ],
+            }
+        ]
+
+
 def make_trace_spec(args, constructor, vars, trace_patch):
     result = [TraceSpec(constructor, vars, trace_patch)]
     for letter in ["x", "y"]:
@@ -465,9 +521,7 @@ def make_figure(
             )
 
     trace_names_by_frame = {}
-    frame_variable = None
     frames = OrderedDict()
-    first_frame = None
     trace_specs = make_trace_spec(args, constructor, vars, trace_patch)
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
@@ -478,9 +532,8 @@ def make_figure(
                 s = ("%s=%s" % (col, val), m.show_in_trace_name)
                 if s not in mapping_labels:
                     mapping_labels.append(s)
-                if m.variable == "frame":
+                if m.variable == "animation_frame":
                     frame_name = str(val)
-                    frame_variable = col
         trace_name = ", ".join(s for s, t in mapping_labels if t)
         if frame_name not in trace_names_by_frame:
             trace_names_by_frame[frame_name] = set()
@@ -493,6 +546,7 @@ def make_figure(
                     legendgroup=trace_name,
                     showlegend=(trace_name != "" and trace_name not in trace_names),
                 )
+            trace_names.add(trace_name)
             for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
                 if val not in m.val_map:
@@ -513,99 +567,28 @@ def make_figure(
                     group,
                     mapping_labels,
                     sizeref,
-                    color_range=None if trace_name in trace_names else color_range,
+                    color_range=color_range if frame_name not in frames else None,
                 )
             )
-            trace_names.add(trace_name)
             if frame_name not in frames:
                 frames[frame_name] = dict(data=[], name=frame_name)
-            if first_frame is None:
-                first_frame = frame_name
             frames[frame_name]["data"].append(trace)
-    initial_frame = frames[first_frame]
-    del frames[first_frame]
+    frame_list = [f for _, f in frames.items()]
     fig = FigurePx(
-        data=initial_frame["data"],
+        data=frame_list[0]["data"] if len(frame_list) > 0 else [],
         layout=layout_patch,
-        frames=[f for _, f in frames.items()],
+        frames=frame_list if len(frames) > 1 else [],
     )
     axes = {m.variable: m.val_map for m in grouped_mappings}
     configure_axes(args, constructor, fig, axes, orders)
-    fig.layout.updatemenus = [
-        {
-            "buttons": [
-                {
-                    "args": [
-                        None,
-                        {
-                            "frame": {"duration": 500, "redraw": False},
-                            "fromcurrent": True,
-                            "transition": {
-                                "duration": 300,
-                                "easing": "quadratic-in-out",
-                            },
-                        },
-                    ],
-                    "label": "&#9654;",
-                    "method": "animate",
-                },
-                {
-                    "args": [
-                        [None],
-                        {
-                            "frame": {"duration": 0, "redraw": False},
-                            "mode": "immediate",
-                            "transition": {"duration": 0},
-                        },
-                    ],
-                    "label": "&#9724;",
-                    "method": "animate",
-                },
-            ],
-            "direction": "left",
-            "pad": {"r": 10, "t": 87},
-            "showactive": False,
-            "type": "buttons",
-            "x": 0.1,
-            "xanchor": "right",
-            "y": 0,
-            "yanchor": "top",
-        }
-    ]
-    fig.layout.sliders = [
-        {
-            "active": 0,
-            "yanchor": "top",
-            "xanchor": "left",
-            "currentvalue": {"prefix": frame_variable + "="},
-            "transition": {"duration": 300, "easing": "cubic-in-out"},
-            "pad": {"b": 10, "t": 80},
-            "len": 0.9,
-            "x": 0.1,
-            "y": 0,
-            "steps": [
-                {
-                    "args": [
-                        [frame_name],
-                        {
-                            "frame": {"duration": 300, "redraw": False},
-                            "mode": "immediate",
-                            "transition": {"duration": 300},
-                        },
-                    ],
-                    "label": frame_name,
-                    "method": "animate",
-                }
-                for frame_name in frames
-            ],
-        }
-    ]
+    configure_animation_controls(args, fig)
     return fig
 
 
+# TODO infer grouped_mapping and trace_patch.mode
 # TODO codegen?
 # TODO parcoords, parcats orders
-# TODO animations
+# TODO animations: redraw setting
 # TODO geo locationmode, projection, etc
 # TODO histogram weights and calcs
 # TODO various box and violin options

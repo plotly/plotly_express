@@ -30,7 +30,7 @@ def scatter(
     error_y=None,
     error_y_minus=None,
     max_size=default_max_size,
-    frame=None,
+    animation_frame=None,
     animation_key=None,
     orders={},
     x_range=None,
@@ -40,7 +40,13 @@ def scatter(
         args=locals(),
         constructor=go.Scatter,
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["frame", "col", "row", "marker.color", "marker.symbol"],
+        grouped_mappings=[
+            "animation_frame",
+            "col",
+            "row",
+            "marker.color",
+            "marker.symbol",
+        ],
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
@@ -59,6 +65,10 @@ def density_contour(
     marginal_x=None,
     marginal_y=None,
     orders={},
+    x_range=None,
+    y_range=None,
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -93,14 +103,21 @@ def line(
     orders={},
     x_range=None,
     y_range=None,
-    frame=None,
+    animation_frame=None,
     animation_key=None,
 ):
     return make_figure(
         args=locals(),
         constructor=go.Scatter,
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["frame", "col", "row", "line.color", "line.dash", "split"],
+        grouped_mappings=[
+            "animation_frame",
+            "col",
+            "row",
+            "line.color",
+            "line.dash",
+            "split",
+        ],
     )
 
 
@@ -125,6 +142,10 @@ def bar(
     error_y=None,
     error_y_minus=None,
     orders={},
+    x_range=None,
+    y_range=None,
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -150,6 +171,10 @@ def histogram(
     log_x=False,
     log_y=False,
     orders={},
+    x_range=None,
+    y_range=None,
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -174,6 +199,10 @@ def violin(
     log_x=False,
     log_y=False,
     orders={},
+    x_range=None,
+    y_range=None,
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -198,6 +227,10 @@ def box(
     log_x=False,
     log_y=False,
     orders={},
+    x_range=None,
+    y_range=None,
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -233,6 +266,8 @@ def scatter_3d(
     error_z_minus=None,
     max_size=default_max_size,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -265,6 +300,8 @@ def line_3d(
     error_z=None,
     error_z_minus=None,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -290,6 +327,8 @@ def scatter_ternary(
     symbol_sequence=default_symbol_seq,
     max_size=default_max_size,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -314,6 +353,8 @@ def line_ternary(
     color_sequence=None,
     dash_sequence=default_dash_seq,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -340,6 +381,8 @@ def scatter_polar(
     startangle=90,
     max_size=default_max_size,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -366,6 +409,8 @@ def line_polar(
     startangle=90,
     close_lines=False,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -388,6 +433,8 @@ def bar_polar(
     direction="clockwise",
     startangle=90,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -408,11 +455,11 @@ def choropleth(
     size=None,
     max_size=default_max_size,
     orders={},
-    frame=None,
+    animation_frame=None,
     animation_key=None,
 ):
     return make_figure(
-        args=locals(), constructor=go.Choropleth, grouped_mappings=["frame"]
+        args=locals(), constructor=go.Choropleth, grouped_mappings=["animation_frame"]
     )
 
 
@@ -429,6 +476,8 @@ def scatter_geo(
     size=None,
     max_size=default_max_size,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -453,6 +502,8 @@ def line_geo(
     dash_map={},
     dash_sequence=default_dash_seq,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -475,6 +526,8 @@ def scatter_mapbox(
     max_size=default_max_size,
     zoom=8,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
@@ -496,6 +549,8 @@ def line_mapbox(
     color_sequence=None,
     zoom=8,
     orders={},
+    animation_frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
