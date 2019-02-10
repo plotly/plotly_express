@@ -36,19 +36,7 @@ def scatter(
     x_range=None,
     y_range=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatter,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=[
-            "animation_frame",
-            "col",
-            "row",
-            "marker.color",
-            "marker.symbol",
-        ],
-        layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
-    )
+    return make_figure(args=locals(), constructor=go.Scatter)
 
 
 def density_contour(
@@ -74,8 +62,6 @@ def density_contour(
         args=locals(),
         constructor=go.Histogram2dContour,
         trace_patch=dict(contours=dict(coloring="none")),
-        grouped_mappings=["col", "row", "line.color"],
-        layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
 
@@ -106,19 +92,7 @@ def line(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatter,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=[
-            "animation_frame",
-            "col",
-            "row",
-            "line.color",
-            "line.dash",
-            "split",
-        ],
-    )
+    return make_figure(args=locals(), constructor=go.Scatter)
 
 
 def bar(
@@ -151,7 +125,6 @@ def bar(
         args=locals(),
         constructor=go.Bar,
         trace_patch=dict(orientation=orientation, textposition="auto"),
-        grouped_mappings=["col", "row", "marker.color"],
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
 
@@ -180,7 +153,6 @@ def histogram(
         args=locals(),
         constructor=go.Histogram,
         trace_patch=dict(orientation=orientation, histnorm=normalization),
-        grouped_mappings=["col", "row", "marker.color"],
         layout_patch=dict(barmode=mode),
     )
 
@@ -208,7 +180,6 @@ def violin(
         args=locals(),
         constructor=go.Violin,
         trace_patch=dict(orientation=orientation),
-        grouped_mappings=["col", "row", "marker.color"],
         layout_patch=dict(violinmode=mode),
     )
 
@@ -236,7 +207,6 @@ def box(
         args=locals(),
         constructor=go.Box,
         trace_patch=dict(orientation=orientation),
-        grouped_mappings=["col", "row", "marker.color"],
         layout_patch=dict(boxmode=mode),
     )
 
@@ -269,12 +239,7 @@ def scatter_3d(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatter3d,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["marker.color", "marker.symbol"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatter3d)
 
 
 def line_3d(
@@ -303,12 +268,7 @@ def line_3d(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatter3d,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["line.color", "line.dash"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatter3d)
 
 
 def scatter_ternary(
@@ -330,12 +290,7 @@ def scatter_ternary(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatterternary,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["marker.color", "marker.symbol"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
 def line_ternary(
@@ -356,12 +311,7 @@ def line_ternary(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatterternary,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["line.color", "line.dash", "split"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
 def scatter_polar(
@@ -384,12 +334,7 @@ def scatter_polar(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatterpolar,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["marker.color", "marker.symbol"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
 def line_polar(
@@ -412,12 +357,7 @@ def line_polar(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scatterpolar,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["line.color", "line.dash", "split"],
-    )
+    return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
 def bar_polar(
@@ -439,7 +379,6 @@ def bar_polar(
     return make_figure(
         args=locals(),
         constructor=go.Barpolar,
-        grouped_mappings=["marker.color"],
         layout_patch=dict(barnorm=normalization, barmode=mode),
     )
 
@@ -458,9 +397,7 @@ def choropleth(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(), constructor=go.Choropleth, grouped_mappings=["animation_frame"]
-    )
+    return make_figure(args=locals(), constructor=go.Choropleth)
 
 
 def scatter_geo(
@@ -479,12 +416,7 @@ def scatter_geo(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scattergeo,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["marker.color"],
-    )
+    return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
 def line_geo(
@@ -505,12 +437,7 @@ def line_geo(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scattergeo,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["line.color", "line.dash", "split"],
-    )
+    return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
 def scatter_mapbox(
@@ -529,12 +456,7 @@ def scatter_mapbox(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scattermapbox,
-        trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["marker.color"],
-    )
+    return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
 def line_mapbox(
@@ -552,12 +474,7 @@ def line_mapbox(
     animation_frame=None,
     animation_key=None,
 ):
-    return make_figure(
-        args=locals(),
-        constructor=go.Scattermapbox,
-        trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["line.color", "split"],
-    )
+    return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
 def scatter_matrix(
@@ -574,10 +491,7 @@ def scatter_matrix(
     orders={},
 ):
     return make_figure(
-        args=locals(),
-        constructor=go.Splom,
-        grouped_mappings=["marker.color", "marker.symbol"],
-        layout_patch=dict(dragmode="select"),
+        args=locals(), constructor=go.Splom, layout_patch=dict(dragmode="select")
     )
 
 

@@ -189,7 +189,7 @@ def configure_axes(args, constructor, fig, axes, orders):
 
 def configure_cartesian_axes(args, fig, axes, orders):
     if "marginal_x" in args and (args["marginal_x"] or args["marginal_y"]):
-        layout = {}
+        layout = dict(barmode="overlay", violinmode="overlay")
         for letter in ["x", "y"]:
             otherletter = "x" if letter == "y" else "y"
             if args["marginal_" + letter]:
@@ -453,37 +453,50 @@ def one_group(x):
 
 
 available_vars = (
-    ["x", "y", "z", "a", "b", "c", "r", "theta", "color", "size"]
+    ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
     + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
     + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
     + ["lat", "lon", "locations", "animation_key"]
 )
 
+available_groupables = ["animation_frame", "row", "col", "split"]
 
-def make_figure(
-    args, constructor, vars=None, grouped_mappings=[], trace_patch={}, layout_patch={}
-):
-    if vars is None:
-        vars = [
-            k for k in available_vars if k in args and (args[k] or k == "dimensions")
-        ]
+
+def make_figure(args, constructor, trace_patch={}, layout_patch={}):
+    vars = [k for k in available_vars if k in args]
+    grouped_mappings = [k for k in available_groupables if k in args]
 
     sizeref = 0
     if "size" in args and args["size"]:
         sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
 
-    if "color" in args and args["color"]:
-        if "line.color" in grouped_mappings or constructor in [
-            go.Box,
-            go.Violin,
-            go.Histogram,
-        ]:
-            vars.remove("color")
-        elif "marker.color" in grouped_mappings:
-            if args["df"][args["color"]].dtype.kind in "bifc":
-                grouped_mappings.remove("marker.color")
+    if "color" in args:
+        if "color_map" not in args:
+            vars.append("color")
+        else:
+            if "split" in args or constructor == go.Histogram2dContour:
+                grouped_mappings.append("line.color")
+            elif constructor in [go.Box, go.Violin, go.Histogram]:
+                grouped_mappings.append("marker.color")
+            elif args["color"] and args["df"][args["color"]].dtype.kind in "bifc":
+                vars.append("color")
             else:
-                vars.remove("color")
+                grouped_mappings.append("marker.color")
+
+    if "dash" in args:
+        grouped_mappings.append("line.dash")
+
+    if "symbol" in args:
+        grouped_mappings.append("marker.symbol")
+
+    if "split" in args:
+        trace_patch = trace_patch.copy()
+        trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
+    elif constructor != go.Splom and (
+        "symbol" in args or constructor == go.Scattermapbox
+    ):
+        trace_patch = trace_patch.copy()
+        trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
 
     color_range = None
     if "color" in vars:
@@ -585,7 +598,7 @@ def make_figure(
     return fig
 
 
-# TODO infer grouped_mapping and trace_patch.mode
+# TODO rename grouped_mappings and vars
 # TODO codegen?
 # TODO parcoords, parcats orders
 # TODO animations: redraw setting
