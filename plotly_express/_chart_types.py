@@ -30,13 +30,17 @@ def scatter(
     error_y=None,
     error_y_minus=None,
     max_size=default_max_size,
+    frame=None,
+    animation_key=None,
     orders={},
+    x_range=None,
+    y_range=None,
 ):
     return make_figure(
         args=locals(),
         constructor=go.Scatter,
         trace_patch=dict(mode="markers" + ("+text" if text else "")),
-        grouped_mappings=["col", "row", "marker.color", "marker.symbol"],
+        grouped_mappings=["frame", "col", "row", "marker.color", "marker.symbol"],
         layout_patch=dict(barmode="overlay", violinmode="overlay"),  # for marginals
     )
 
@@ -87,12 +91,16 @@ def line(
     error_y=None,
     error_y_minus=None,
     orders={},
+    x_range=None,
+    y_range=None,
+    frame=None,
+    animation_key=None,
 ):
     return make_figure(
         args=locals(),
         constructor=go.Scatter,
         trace_patch=dict(mode="lines" + ("+markers+text" if text else "")),
-        grouped_mappings=["col", "row", "line.color", "line.dash", "split"],
+        grouped_mappings=["frame", "col", "row", "line.color", "line.dash", "split"],
     )
 
 
@@ -400,8 +408,12 @@ def choropleth(
     size=None,
     max_size=default_max_size,
     orders={},
+    frame=None,
+    animation_key=None,
 ):
-    return make_figure(args=locals(), constructor=go.Choropleth)
+    return make_figure(
+        args=locals(), constructor=go.Choropleth, grouped_mappings=["frame"]
+    )
 
 
 def scatter_geo(
@@ -510,6 +522,7 @@ def scatter_matrix(
         args=locals(),
         constructor=go.Splom,
         grouped_mappings=["marker.color", "marker.symbol"],
+        layout_patch=dict(dragmode="select"),
     )
 
 

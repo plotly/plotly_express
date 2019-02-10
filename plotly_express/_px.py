@@ -1,9 +1,10 @@
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 import plotly.io as pio
 from .colors.qualitative import Plotly as default_qualitative_seq
 from .colors.sequential import Plotly as default_sequential_seq
+import math
 
 
 MAPBOX_TOKEN = ""
@@ -41,13 +42,13 @@ TraceSpec = namedtuple("TraceSpec", ["constructor", "vars", "trace_patch"])
 
 
 def make_mapping(args, variable):
-    if variable == "split":
+    if variable == "split" or variable == "frame":
         return Mapping(
             show_in_trace_name=False,
-            grouper=args["split"],
+            grouper=args[variable],
             val_map={},
             sequence=[""],
-            variable="split",
+            variable=variable,
             updater=(lambda trace, v: v),
         )
     if variable == "row" or variable == "col":
@@ -142,6 +143,8 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container["colorbar"] = dict(title=v)
                     colorbar_container[color_letter + "min"] = color_range[0]
                     colorbar_container[color_letter + "max"] = color_range[1]
+            elif k == "animation_key":
+                result["ids"] = g[v]
             else:
                 result[k] = g[v]
                 mapping_labels.append(
@@ -206,6 +209,8 @@ def configure_cartesian_axes(args, fig, axes, orders):
                 }
                 if args["log_" + letter]:
                     layout[letter + "axis1"]["type"] = "log"
+                if args[letter + "_range"]:
+                    layout[letter + "axis1"]["range"] = args[letter + "_range"]
         return dict(layout=layout)
     gap = 0.1
     layout = {
@@ -237,6 +242,12 @@ def configure_cartesian_axes(args, fig, axes, orders):
                     )
                 if args["log_" + letter]:
                     layout[axis]["type"] = "log"
+                    if args[letter + "_range"]:
+                        layout[axis]["range"] = [
+                            math.log(x, 10) for x in args[letter + "_range"]
+                        ]
+                elif args[letter + "_range"]:
+                    layout[axis]["range"] = args[letter + "_range"]
 
     for letter, direction, row in (("x", "col", False), ("y", "row", True)):
         if args[direction]:
@@ -389,7 +400,7 @@ available_vars = (
     ["x", "y", "z", "a", "b", "c", "r", "theta", "color", "size"]
     + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
     + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
-    + ["lat", "lon", "locations"]
+    + ["lat", "lon", "locations", "animation_key"]
 )
 
 
@@ -453,18 +464,27 @@ def make_figure(
                 key=lambda g: orders[col].index(g[i]) if g[i] in orders[col] else -1,
             )
 
-    trace_names = set()
-    traces = []
+    trace_names_by_frame = {}
+    frame_variable = None
+    frames = OrderedDict()
+    first_frame = None
     trace_specs = make_trace_spec(args, constructor, vars, trace_patch)
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
+        frame_name = ""
         for col, val, m in zip(grouper, group_name, grouped_mappings):
             if col != one_group:
                 s = ("%s=%s" % (col, val), m.show_in_trace_name)
                 if s not in mapping_labels:
                     mapping_labels.append(s)
+                if m.variable == "frame":
+                    frame_name = str(val)
+                    frame_variable = col
         trace_name = ", ".join(s for s, t in mapping_labels if t)
+        if frame_name not in trace_names_by_frame:
+            trace_names_by_frame[frame_name] = set()
+        trace_names = trace_names_by_frame[frame_name]
 
         for trace_spec in trace_specs:
             trace = trace_spec.constructor(name=trace_name or " ")
@@ -473,7 +493,6 @@ def make_figure(
                     legendgroup=trace_name,
                     showlegend=(trace_name != "" and trace_name not in trace_names),
                 )
-            trace_names.add(trace_name)
             for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
                 if val not in m.val_map:
@@ -489,15 +508,98 @@ def make_figure(
                         raise
             trace.update(
                 make_trace_kwargs(
-                    args, trace_spec, group, mapping_labels, sizeref, color_range
+                    args,
+                    trace_spec,
+                    group,
+                    mapping_labels,
+                    sizeref,
+                    color_range=None if trace_name in trace_names else color_range,
                 )
             )
-            color_range = None
-            traces.append(trace)
-
-    fig = FigurePx(data=traces, layout=layout_patch)
+            trace_names.add(trace_name)
+            if frame_name not in frames:
+                frames[frame_name] = dict(data=[], name=frame_name)
+            if first_frame is None:
+                first_frame = frame_name
+            frames[frame_name]["data"].append(trace)
+    initial_frame = frames[first_frame]
+    del frames[first_frame]
+    fig = FigurePx(
+        data=initial_frame["data"],
+        layout=layout_patch,
+        frames=[f for _, f in frames.items()],
+    )
     axes = {m.variable: m.val_map for m in grouped_mappings}
     configure_axes(args, constructor, fig, axes, orders)
+    fig.layout.updatemenus = [
+        {
+            "buttons": [
+                {
+                    "args": [
+                        None,
+                        {
+                            "frame": {"duration": 500, "redraw": False},
+                            "fromcurrent": True,
+                            "transition": {
+                                "duration": 300,
+                                "easing": "quadratic-in-out",
+                            },
+                        },
+                    ],
+                    "label": "&#9654;",
+                    "method": "animate",
+                },
+                {
+                    "args": [
+                        [None],
+                        {
+                            "frame": {"duration": 0, "redraw": False},
+                            "mode": "immediate",
+                            "transition": {"duration": 0},
+                        },
+                    ],
+                    "label": "&#9724;",
+                    "method": "animate",
+                },
+            ],
+            "direction": "left",
+            "pad": {"r": 10, "t": 87},
+            "showactive": False,
+            "type": "buttons",
+            "x": 0.1,
+            "xanchor": "right",
+            "y": 0,
+            "yanchor": "top",
+        }
+    ]
+    fig.layout.sliders = [
+        {
+            "active": 0,
+            "yanchor": "top",
+            "xanchor": "left",
+            "currentvalue": {"prefix": frame_variable + "="},
+            "transition": {"duration": 300, "easing": "cubic-in-out"},
+            "pad": {"b": 10, "t": 80},
+            "len": 0.9,
+            "x": 0.1,
+            "y": 0,
+            "steps": [
+                {
+                    "args": [
+                        [frame_name],
+                        {
+                            "frame": {"duration": 300, "redraw": False},
+                            "mode": "immediate",
+                            "transition": {"duration": 300},
+                        },
+                    ],
+                    "label": frame_name,
+                    "method": "animate",
+                }
+                for frame_name in frames
+            ],
+        }
+    ]
     return fig
 
 
