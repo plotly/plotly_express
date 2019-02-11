@@ -38,10 +38,10 @@ Mapping = namedtuple(
     "Mapping",
     ["show_in_trace_name", "grouper", "val_map", "sequence", "updater", "variable"],
 )
-TraceSpec = namedtuple("TraceSpec", ["constructor", "vars", "trace_patch"])
+TraceSpec = namedtuple("TraceSpec", ["constructor", "attrs", "trace_patch"])
 
 
-def make_mapping(args, variable):
+def make_mapping(args, variable, parent=None):
     if variable == "split" or variable == "animation_frame":
         return Mapping(
             show_in_trace_name=False,
@@ -51,8 +51,8 @@ def make_mapping(args, variable):
             variable=variable,
             updater=(lambda trace, v: v),
         )
-    if variable == "row" or variable == "col":
-        letter = "x" if variable == "col" else "y"
+    if variable == "facet_row" or variable == "facet_col":
+        letter = "x" if variable == "facet_col" else "y"
         return Mapping(
             show_in_trace_name=False,
             variable=letter,
@@ -78,7 +78,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
         g = g.append(g.iloc[0])
     result = trace_spec.trace_patch or {}
     hover_header = ""
-    for k in trace_spec.vars:
+    for k in trace_spec.attrs:
         v = args[k]
         if k == "dimensions":
             result["dimensions"] = [
@@ -209,8 +209,8 @@ def configure_cartesian_axes(args, fig, axes, orders):
                 }
                 if args["log_" + letter]:
                     layout[letter + "axis1"]["type"] = "log"
-                if args[letter + "_range"]:
-                    layout[letter + "axis1"]["range"] = args[letter + "_range"]
+                if args["range_" + letter]:
+                    layout[letter + "axis1"]["range"] = args["range_" + letter]
         return dict(layout=layout)
     gap = 0.1
     layout = {
@@ -242,14 +242,14 @@ def configure_cartesian_axes(args, fig, axes, orders):
                     )
                 if args["log_" + letter]:
                     layout[axis]["type"] = "log"
-                    if args[letter + "_range"]:
+                    if args["range_" + letter]:
                         layout[axis]["range"] = [
-                            math.log(x, 10) for x in args[letter + "_range"]
+                            math.log(x, 10) for x in args["range_" + letter]
                         ]
-                elif args[letter + "_range"]:
-                    layout[axis]["range"] = args[letter + "_range"]
+                elif args["range_" + letter]:
+                    layout[axis]["range"] = args["range_" + letter]
 
-    for letter, direction, row in (("x", "col", False), ("y", "row", True)):
+    for letter, direction, row in (("x", "facet_col", False), ("y", "facet_row", True)):
         if args[direction]:
             step = 1.0 / (len(layout["grid"][letter + "axes"]) - gap)
             for key, value in axes[letter].items():
@@ -302,6 +302,14 @@ def configure_polar_axes(args, fig, axes, orders):
             patch["layout"]["polar"][axis]["categoryorder"] = "array"
             patch["layout"]["polar"][axis]["categoryarray"] = orders[args[var]]
 
+    radialaxis = patch["layout"]["polar"]["radialaxis"]
+    if args["log_r"]:
+        radialaxis["type"] = "log"
+        if args["range_r"]:
+            radialaxis["range"] = [math.log(x, 10) for x in args["range_r"]]
+    else:
+        if args["range_r"]:
+            radialaxis["range"] = args["range_r"]
     return patch
 
 
@@ -316,13 +324,17 @@ def configure_3d_axes(args, fig, axes, orders):
         )
     )
     for letter in ["x", "y", "z"]:
+        axis = patch["layout"]["scene"][letter + "axis"]
         if args["log_" + letter]:
-            patch["layout"]["scene"][letter + "axis"]["type"] = "log"
+            axis["type"] = "log"
+            if args["range_" + letter]:
+                axis["range"] = [math.log(x, 10) for x in args["range_" + letter]]
+        else:
+            if args["range_" + letter]:
+                axis["range"] = args["range_" + letter]
         if args[letter] in orders:
-            patch["layout"]["scene"][letter + "axis"]["categoryorder"] = "array"
-            patch["layout"]["scene"][letter + "axis"]["categoryarray"] = orders[
-                args[letter]
-            ]
+            axis["categoryorder"] = "array"
+            axis["categoryarray"] = orders[args[letter]]
     return patch
 
 
@@ -345,10 +357,10 @@ def configure_geo(args, fig, axes, orders):
     return dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
 
 
-def configure_animation_controls(args, fig):
+def configure_animation_controls(args, constructor, fig):
     def frame_args(duration):
         return {
-            "frame": {"duration": duration, "redraw": False},
+            "frame": {"duration": duration, "redraw": constructor != go.Scatter},
             "mode": "immediate",
             "fromcurrent": True,
             "transition": {"duration": duration, "easing": "linear"},
@@ -401,8 +413,8 @@ def configure_animation_controls(args, fig):
         ]
 
 
-def make_trace_spec(args, constructor, vars, trace_patch):
-    result = [TraceSpec(constructor, vars, trace_patch)]
+def make_trace_spec(args, constructor, attrs, trace_patch):
+    result = [TraceSpec(constructor, attrs, trace_patch)]
     for letter in ["x", "y"]:
         if "marginal_" + letter in args and args["marginal_" + letter]:
             trace_spec = None
@@ -413,37 +425,38 @@ def make_trace_spec(args, constructor, vars, trace_patch):
             if args["marginal_" + letter] == "histogram":
                 trace_spec = TraceSpec(
                     constructor=go.Histogram,
-                    vars=[letter],
+                    attrs=[letter],
                     trace_patch=dict(opacity=0.5, **axis_map),
                 )
             elif args["marginal_" + letter] == "violin":
                 trace_spec = TraceSpec(
-                    constructor=go.Violin, vars=[letter], trace_patch=axis_map
+                    constructor=go.Violin, attrs=[letter], trace_patch=axis_map
                 )
             elif args["marginal_" + letter] == "box":
                 trace_spec = TraceSpec(
                     constructor=go.Box,
-                    vars=[letter],
+                    attrs=[letter],
                     trace_patch=dict(notched=True, **axis_map),
                 )
             elif args["marginal_" + letter] == "rug":
+                symbols = {"x": "line-ns-open", "y": "line-ew-open"}
                 trace_spec = TraceSpec(
                     constructor=go.Box,
-                    vars=[letter],
+                    attrs=[letter],
                     trace_patch=dict(
                         fillcolor="rgba(255,255,255,0)",
                         line={"color": "rgba(255,255,255,0)"},
                         boxpoints="all",
                         jitter=0,
                         hoveron="points",
-                        marker={
-                            "symbol": "line-ew-open"
-                            if letter == "y"
-                            else "line-ns-open"
-                        },
+                        marker={"symbol": symbols[letter]},
                         **axis_map
                     ),
                 )
+            if "color" in attrs:
+                if "marker" not in trace_spec.trace_patch:
+                    trace_spec.trace_patch["marker"] = dict()
+                trace_spec.trace_patch["marker"]["color"] = default_qualitative_seq[0]
             result.append(trace_spec)
     return result
 
@@ -452,42 +465,42 @@ def one_group(x):
     return ""
 
 
-available_vars = (
+attrables = (
     ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
     + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
     + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
     + ["lat", "lon", "locations", "animation_key"]
 )
 
-available_groupables = ["animation_frame", "row", "col", "split"]
+groupables = ["animation_frame", "facet_row", "facet_col", "split"]
 
 
 def make_figure(args, constructor, trace_patch={}, layout_patch={}):
-    vars = [k for k in available_vars if k in args]
-    grouped_mappings = [k for k in available_groupables if k in args]
+    attrs = [k for k in attrables if k in args]
+    grouped_attrs = [k for k in groupables if k in args]
 
     sizeref = 0
     if "size" in args and args["size"]:
-        sizeref = args["df"][args["size"]].max() / (args["max_size"] * args["max_size"])
+        sizeref = args["df"][args["size"]].max() / (args["size_max"] * args["size_max"])
 
     if "color" in args:
         if "color_map" not in args:
-            vars.append("color")
+            attrs.append("color")
         else:
             if "split" in args or constructor == go.Histogram2dContour:
-                grouped_mappings.append("line.color")
+                grouped_attrs.append("line.color")
             elif constructor in [go.Box, go.Violin, go.Histogram]:
-                grouped_mappings.append("marker.color")
+                grouped_attrs.append("marker.color")
             elif args["color"] and args["df"][args["color"]].dtype.kind in "bifc":
-                vars.append("color")
+                attrs.append("color")
             else:
-                grouped_mappings.append("marker.color")
+                grouped_attrs.append("marker.color")
 
     if "dash" in args:
-        grouped_mappings.append("line.dash")
+        grouped_attrs.append("line.dash")
 
     if "symbol" in args:
-        grouped_mappings.append("marker.symbol")
+        grouped_attrs.append("marker.symbol")
 
     if "split" in args:
         trace_patch = trace_patch.copy()
@@ -499,7 +512,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
 
     color_range = None
-    if "color" in vars:
+    if "color" in attrs:
         if args["color"]:
             color_range = [
                 args["df"][args["color"]].min(),
@@ -511,7 +524,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         if "color_sequence" in args and not args["color_sequence"]:
             args["color_sequence"] = default_qualitative_seq
 
-    grouped_mappings = [make_mapping(args, g) for g in grouped_mappings]
+    grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     grouped = args["df"].groupby(grouper, sort=False)
     orders = {} if "orders" not in args else args["orders"].copy()
@@ -535,7 +548,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     trace_names_by_frame = {}
     frames = OrderedDict()
-    trace_specs = make_trace_spec(args, constructor, vars, trace_patch)
+    trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
@@ -594,30 +607,23 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     )
     axes = {m.variable: m.val_map for m in grouped_mappings}
     configure_axes(args, constructor, fig, axes, orders)
-    configure_animation_controls(args, fig)
+    configure_animation_controls(args, constructor, fig)
     return fig
 
 
-# TODO rename grouped_mappings and vars
+# TODO 3d and r range setting
+# TODO facet wrap
+# TODO non-cartesian faceting
 # TODO codegen?
 # TODO parcoords, parcats orders
-# TODO animations: redraw setting
 # TODO geo locationmode, projection, etc
 # TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO regression lines
 # TODO secondary Y axis
 # TODO check on dates
-# TODO facet wrap
-# TODO non-cartesian faceting
 # TODO testing of some kind (try Percy)
 # TODO gl vs not gl
 # TODO validate inputs
-# TODO opacity
-# TODO color splits in densities
-# TODO groupby ignores NaN ... ?
-# TODO suppress plotly.py errors... don't show our programming errors?
-# TODO optional widget mode
-# TODO missing values
+# TODO document missing values
 # TODO warnings
-# TODO maximum number of categories ... what does Seaborn do when too many colors?

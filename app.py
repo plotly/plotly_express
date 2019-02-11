@@ -1,4 +1,4 @@
-import px
+import plotly_express as px
 import pandas
 import dash
 import dash_html_components as html
@@ -33,7 +33,7 @@ app.layout = html.Div(
     ],
 )
 def cb(x, y, color, col, row):
-    return px.scatter(tips, x=x, y=y, color=color, col=col, row=row)
+    return px.scatter(tips, x=x, y=y, color=color, facet_col=col, facet_row=row)
 
 
 app.run_server(debug=True)
