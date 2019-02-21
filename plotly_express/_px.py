@@ -611,19 +611,18 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
-# TODO 3d and r range setting
+# TODO histogram weights and calcs
+# TODO gl vs not gl
+# TODO geo locationmode, projection, etc
+# TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
 # TODO codegen?
 # TODO parcoords, parcats orders
-# TODO geo locationmode, projection, etc
-# TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO regression lines
 # TODO secondary Y axis
-# TODO check on dates
 # TODO testing of some kind (try Percy)
-# TODO gl vs not gl
 # TODO validate inputs
 # TODO document missing values
 # TODO warnings

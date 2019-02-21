@@ -1,4 +1,5 @@
 from ._px import make_figure
+from ._doc import make_docstring
 import plotly.graph_objs as go
 
 default_max_size = 20
@@ -36,7 +37,13 @@ def scatter(
     range_x=None,
     range_y=None,
 ):
+    """
+    yo
+    """
     return make_figure(args=locals(), constructor=go.Scatter)
+
+
+scatter.__doc__ = make_docstring(scatter)
 
 
 def density_contour(
