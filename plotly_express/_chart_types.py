@@ -253,6 +253,7 @@ def line_3d(
     color=None,
     dash=None,
     text=None,
+    split=None,
     color_map={},
     dash_map={},
     hover=None,

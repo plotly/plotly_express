@@ -5,3 +5,4 @@ scratch.ipynb
 dist
 build
 plotly_express.egg-info
+.mypy_cache

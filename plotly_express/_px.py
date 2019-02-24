@@ -82,7 +82,9 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
         v = args[k]
         if k == "dimensions":
             result["dimensions"] = [
-                dict(label=name, values=column.values)
+                dict(label=name, values=column.values, axis=dict(matches=True))
+                if trace_spec.constructor == go.Splom
+                else dict(label=name, values=column.values)
                 for name, column in g.iteritems()
                 if ((not v) or (name in v))
                 and (
@@ -109,12 +111,8 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     result[error_xy] = {}
                 result[error_xy][arr] = g[v]
             elif k == "hover":
-                if trace_spec.constructor == go.Choropleth:
-                    result["text"] = g[v]
-                    hover_header = "<b>%{text}</b><br><br>"
-                else:
-                    result["hovertext"] = g[v]
-                    hover_header = "<b>%{hovertext}</b><br><br>"
+                result["hovertext"] = g[v]
+                hover_header = "<b>%{hovertext}</b><br><br>"
             elif k == "color":
                 colorbar_container = None
                 if trace_spec.constructor == go.Choropleth:
@@ -158,11 +156,11 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
         go.Scatterternary,
         go.Scattergeo,
         go.Scattermapbox,
+        go.Scatter3d,
         go.Choropleth,
     ]:
-        result["hovertemplate"] = hover_header + (
-            "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
-        )
+        hover_header += "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
+        result["hovertemplate"] = hover_header
     return result
 
 
@@ -229,25 +227,27 @@ def configure_cartesian_axes(args, fig, axes, orders):
             if letter_number not in layout["grid"][letter + "axes"]:
                 layout["grid"][letter + "axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter + "axis")
-                layout[axis] = {}
+                layout[axis] = dict(title=args[letter])
                 if len(letter_number) > 1:
-                    layout[axis]["scaleanchor"] = letter + "1"
-                layout[axis]["title"] = args[letter]
-                if args[letter] in orders:
-                    layout[axis]["categoryorder"] = "array"
-                    layout[axis]["categoryarray"] = (
-                        orders[args[letter]]
-                        if letter == "x"
-                        else list(reversed(orders[args[letter]]))
-                    )
-                if args["log_" + letter]:
-                    layout[axis]["type"] = "log"
-                    if args["range_" + letter]:
-                        layout[axis]["range"] = [
-                            math.log(x, 10) for x in args["range_" + letter]
-                        ]
-                elif args["range_" + letter]:
-                    layout[axis]["range"] = args["range_" + letter]
+                    layout[axis]["matches"] = letter
+                    if args["log_" + letter]:
+                        layout[axis]["type"] = "log"
+                else:
+                    if args[letter] in orders:
+                        layout[axis]["categoryorder"] = "array"
+                        layout[axis]["categoryarray"] = (
+                            orders[args[letter]]
+                            if letter == "x"
+                            else list(reversed(orders[args[letter]]))
+                        )
+                    if args["log_" + letter]:
+                        layout[axis]["type"] = "log"
+                        if args["range_" + letter]:
+                            layout[axis]["range"] = [
+                                math.log(x, 10) for x in args["range_" + letter]
+                            ]
+                    elif args["range_" + letter]:
+                        layout[axis]["range"] = args["range_" + letter]
 
     for letter, direction, row in (("x", "facet_col", False), ("y", "facet_row", True)):
         if args[direction]:
@@ -572,6 +572,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     legendgroup=trace_name,
                     showlegend=(trace_name != "" and trace_name not in trace_names),
                 )
+            if trace_spec.constructor in [go.Bar, go.Violin, go.Box, go.Histogram]:
+                trace.update(alignmentgroup=True, offsetgroup=trace_name)
             trace_names.add(trace_name)
             for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
