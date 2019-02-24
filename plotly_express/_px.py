@@ -61,14 +61,13 @@ def make_mapping(args, variable, parent=None):
             updater=lambda trace, v: trace.update({letter + "axis": v}),
         )
     (parent, variable) = variable.split(".")
+    vprefix = variable + ("_discrete" if variable == "color" else "")
     return Mapping(
         show_in_trace_name=True,
         variable=variable,
         grouper=args[variable],
-        val_map=args[variable + "_map"].copy(),
-        sequence=args["colorscale_qualitative"]
-        if variable == "color"
-        else args[variable + "_sequence"],
+        val_map=args[vprefix + "_map"].copy(),
+        sequence=args[vprefix + "_sequence"],
         updater=lambda trace, v: trace.update({parent: {variable: v}}),
     )
 
@@ -135,9 +134,9 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container["showscale"] = False
                 else:
                     colorbar_container["showscale"] = True
-                    d = len(args["colorscale_continuous"]) - 1
+                    d = len(args["color_continuous_scale"]) - 1
                     colorbar_container["colorscale"] = [
-                        [i / d, x] for i, x in enumerate(args["colorscale_continuous"])
+                        [i / d, x] for i, x in enumerate(args["color_continuous_scale"])
                     ]
                     colorbar_container["colorbar"] = dict(title=v)
                     colorbar_container[color_letter + "min"] = color_range[0]
@@ -486,8 +485,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     color_range = None
     if "color" in args and args["color"]:
-        if "colorscale_continuous" in args:
-            if "colorscale_qualitative" not in args:
+        if "color_continuous_scale" in args:
+            if "color_discrete_sequence" not in args:
                 attrs.append("color")
             else:
                 if args["df"][args["color"]].dtype.kind in "bifc":
@@ -500,10 +499,14 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             grouped_attrs.append("marker.color")
 
         if "color" in attrs:
-            color_range = [
-                args["df"][args["color"]].min(),
-                args["df"][args["color"]].max(),
-            ]
+            cmin = args["df"][args["color"]].min()
+            cmax = args["df"][args["color"]].max()
+            if args["color_continuous_midpoint"]:
+                cmid = args["color_continuous_midpoint"]
+                delta = max(cmax - cmid, cmid - cmin)
+                color_range = [cmid - delta, cmid + delta]
+            else:
+                color_range = [cmin, cmax]
 
     if "dash" in args:
         grouped_attrs.append("line.dash")
