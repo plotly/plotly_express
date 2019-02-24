@@ -1,5 +1,7 @@
 from ._px import make_figure
 import plotly.graph_objs as go
+from .colors.qualitative import Plotly as default_qualitative
+from .colors.sequential import Plotly as default_continuous
 
 default_max_size = 20
 default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
@@ -17,7 +19,8 @@ def scatter(
     text=None,
     color_map={},
     symbol_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     symbol_sequence=default_symbol_seq,
     facet_row=None,
     facet_col=None,
@@ -45,7 +48,7 @@ def density_contour(
     y=None,
     color=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     facet_row=None,
     facet_col=None,
     log_x=False,
@@ -76,7 +79,7 @@ def line(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     dash_sequence=default_dash_seq,
     facet_row=None,
     facet_col=None,
@@ -101,7 +104,7 @@ def bar(
     y=None,
     color=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     facet_row=None,
     facet_col=None,
     hover=None,
@@ -135,7 +138,7 @@ def histogram(
     y=None,
     color=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     facet_row=None,
     facet_col=None,
     orientation="v",
@@ -163,7 +166,7 @@ def violin(
     y=None,
     color=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     orientation="v",
     mode="group",
     facet_row=None,
@@ -190,7 +193,7 @@ def box(
     y=None,
     color=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     orientation="v",
     mode="group",
     facet_row=None,
@@ -223,7 +226,8 @@ def scatter_3d(
     color_map={},
     symbol_map={},
     hover=None,
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     symbol_sequence=default_symbol_seq,
     log_x=False,
     log_y=False,
@@ -257,7 +261,7 @@ def line_3d(
     color_map={},
     dash_map={},
     hover=None,
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     dash_sequence=default_dash_seq,
     log_x=False,
     log_y=False,
@@ -290,7 +294,8 @@ def scatter_ternary(
     color_map={},
     symbol_map={},
     hover=None,
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     symbol_sequence=default_symbol_seq,
     size_max=default_max_size,
     orders={},
@@ -312,7 +317,7 @@ def line_ternary(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     dash_sequence=default_dash_seq,
     orders={},
     animation_frame=None,
@@ -332,7 +337,8 @@ def scatter_polar(
     text=None,
     color_map={},
     symbol_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     symbol_sequence=default_symbol_seq,
     direction="clockwise",
     startangle=90,
@@ -357,7 +363,7 @@ def line_polar(
     text=None,
     color_map={},
     dash_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     dash_sequence=default_dash_seq,
     direction="clockwise",
     startangle=90,
@@ -378,7 +384,7 @@ def bar_polar(
     color=None,
     hover=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     normalization="",
     mode="relative",
     direction="clockwise",
@@ -402,7 +408,7 @@ def choropleth(
     lon=None,
     locations=None,
     color=None,
-    color_sequence=None,
+    colorscale_continuous=default_continuous,
     hover=None,
     size=None,
     size_max=default_max_size,
@@ -422,7 +428,8 @@ def scatter_geo(
     text=None,
     hover=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     size=None,
     size_max=default_max_size,
     orders={},
@@ -443,7 +450,7 @@ def line_geo(
     hover=None,
     split=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     dash_map={},
     dash_sequence=default_dash_seq,
     orders={},
@@ -461,7 +468,8 @@ def scatter_mapbox(
     text=None,
     hover=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     size=None,
     size_max=default_max_size,
     zoom=8,
@@ -481,7 +489,7 @@ def line_mapbox(
     hover=None,
     split=None,
     color_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
     zoom=8,
     orders={},
     animation_frame=None,
@@ -497,7 +505,8 @@ def scatter_matrix(
     symbol=None,
     color_map={},
     symbol_map={},
-    color_sequence=None,
+    colorscale_qualitative=default_qualitative,
+    colorscale_continuous=default_continuous,
     symbol_sequence=default_symbol_seq,
     size=None,
     size_max=default_max_size,
@@ -508,9 +517,13 @@ def scatter_matrix(
     )
 
 
-def parallel_coordinates(df, dimensions=None, color=None, color_sequence=None):
+def parallel_coordinates(
+    df, dimensions=None, color=None, colorscale_continuous=default_continuous
+):
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
-def parallel_categories(df, dimensions=None, color=None, color_sequence=None):
+def parallel_categories(
+    df, dimensions=None, color=None, colorscale_continuous=default_continuous
+):
     return make_figure(args=locals(), constructor=go.Parcats)

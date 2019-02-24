@@ -3,7 +3,6 @@ from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple, OrderedDict
 import plotly.io as pio
 from .colors.qualitative import Plotly as default_qualitative_seq
-from .colors.sequential import Plotly as default_sequential_seq
 import math
 
 
@@ -67,7 +66,9 @@ def make_mapping(args, variable, parent=None):
         variable=variable,
         grouper=args[variable],
         val_map=args[variable + "_map"].copy(),
-        sequence=args[variable + "_sequence"],
+        sequence=args["colorscale_qualitative"]
+        if variable == "color"
+        else args[variable + "_sequence"],
         updater=lambda trace, v: trace.update({parent: {variable: v}}),
     )
 
@@ -134,9 +135,9 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container["showscale"] = False
                 else:
                     colorbar_container["showscale"] = True
-                    d = len(args["color_sequence"]) - 1
+                    d = len(args["colorscale_continuous"]) - 1
                     colorbar_container["colorscale"] = [
-                        [i / d, x] for i, x in enumerate(args["color_sequence"])
+                        [i / d, x] for i, x in enumerate(args["colorscale_continuous"])
                     ]
                     colorbar_container["colorbar"] = dict(title=v)
                     colorbar_container[color_letter + "min"] = color_range[0]
@@ -483,18 +484,26 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     if "size" in args and args["size"]:
         sizeref = args["df"][args["size"]].max() / (args["size_max"] * args["size_max"])
 
-    if "color" in args:
-        if "color_map" not in args:
-            attrs.append("color")
-        else:
-            if "split" in args or constructor == go.Histogram2dContour:
-                grouped_attrs.append("line.color")
-            elif constructor in [go.Box, go.Violin, go.Histogram]:
-                grouped_attrs.append("marker.color")
-            elif args["color"] and args["df"][args["color"]].dtype.kind in "bifc":
+    color_range = None
+    if "color" in args and args["color"]:
+        if "colorscale_continuous" in args:
+            if "colorscale_qualitative" not in args:
                 attrs.append("color")
             else:
-                grouped_attrs.append("marker.color")
+                if args["df"][args["color"]].dtype.kind in "bifc":
+                    attrs.append("color")
+                else:
+                    grouped_attrs.append("marker.color")
+        elif "split" in args or constructor == go.Histogram2dContour:
+            grouped_attrs.append("line.color")
+        else:
+            grouped_attrs.append("marker.color")
+
+        if "color" in attrs:
+            color_range = [
+                args["df"][args["color"]].min(),
+                args["df"][args["color"]].max(),
+            ]
 
     if "dash" in args:
         grouped_attrs.append("line.dash")
@@ -510,19 +519,6 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     ):
         trace_patch = trace_patch.copy()
         trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
-
-    color_range = None
-    if "color" in attrs:
-        if args["color"]:
-            color_range = [
-                args["df"][args["color"]].min(),
-                args["df"][args["color"]].max(),
-            ]
-        if "color_sequence" in args and not args["color_sequence"]:
-            args["color_sequence"] = default_sequential_seq
-    else:
-        if "color_sequence" in args and not args["color_sequence"]:
-            args["color_sequence"] = default_qualitative_seq
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
