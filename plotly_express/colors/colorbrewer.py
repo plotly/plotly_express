@@ -1,3 +1,10 @@
+from ._swatches import _swatches
+
+
+def swatches():
+    return _swatches(__name__, globals())
+
+
 BrBG = [
     "rgb(84,48,5)",
     "rgb(140,81,10)",

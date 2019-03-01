@@ -1,3 +1,10 @@
+from ._swatches import _swatches
+
+
+def swatches():
+    return _swatches(__name__, globals())
+
+
 turbid = [
     "rgb(232, 245, 171)",
     "rgb(220, 219, 137)",

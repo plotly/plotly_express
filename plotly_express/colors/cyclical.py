@@ -1,3 +1,10 @@
+from ._swatches import _swatches
+
+
+def swatches():
+    return _swatches(__name__, globals())
+
+
 Twilight = [
     "#e2d9e2",
     "#9ebbc9",

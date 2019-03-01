@@ -1,3 +1,10 @@
+from ._swatches import _swatches
+
+
+def swatches():
+    return _swatches(__name__, globals())
+
+
 Plotly = [
     "#0508b8",
     "#1910d8",

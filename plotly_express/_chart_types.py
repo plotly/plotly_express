@@ -4,6 +4,9 @@ import plotly.graph_objs as go
 from .colors.qualitative import Plotly as default_qualitative
 from .colors.sequential import Plotly as default_continuous
 
+default_template = "plotly"
+default_width = None
+default_height = 600
 default_max_size = 20
 default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
 default_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
@@ -40,6 +43,10 @@ def scatter(
     orders={},
     range_x=None,
     range_y=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     """
     yo
@@ -68,6 +75,10 @@ def density_contour(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -102,6 +113,10 @@ def line(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatter)
 
@@ -131,6 +146,10 @@ def bar(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -159,6 +178,10 @@ def histogram(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -186,6 +209,10 @@ def violin(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -213,6 +240,10 @@ def box(
     range_y=None,
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -254,6 +285,10 @@ def scatter_3d(
     range_x=None,
     range_y=None,
     range_z=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatter3d)
 
@@ -287,6 +322,10 @@ def line_3d(
     range_x=None,
     range_y=None,
     range_z=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatter3d)
 
@@ -311,6 +350,10 @@ def scatter_ternary(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
@@ -332,6 +375,10 @@ def line_ternary(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
@@ -359,6 +406,10 @@ def scatter_polar(
     animation_key=None,
     range_r=None,
     log_r=False,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
@@ -384,6 +435,10 @@ def line_polar(
     animation_key=None,
     range_r=None,
     log_r=False,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
@@ -405,6 +460,10 @@ def bar_polar(
     animation_key=None,
     range_r=None,
     log_r=False,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(),
@@ -427,6 +486,10 @@ def choropleth(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Choropleth)
 
@@ -448,6 +511,10 @@ def scatter_geo(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
@@ -469,6 +536,10 @@ def line_geo(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
@@ -490,6 +561,10 @@ def scatter_mapbox(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
@@ -508,6 +583,10 @@ def line_mapbox(
     orders={},
     animation_frame=None,
     animation_key=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
@@ -526,6 +605,10 @@ def scatter_matrix(
     size=None,
     size_max=default_max_size,
     orders={},
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(
         args=locals(), constructor=go.Splom, layout_patch=dict(dragmode="select")
@@ -538,6 +621,10 @@ def parallel_coordinates(
     color=None,
     color_continuous_scale=default_continuous,
     color_continuous_midpoint=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Parcoords)
 
@@ -548,5 +635,9 @@ def parallel_categories(
     color=None,
     color_continuous_scale=default_continuous,
     color_continuous_midpoint=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Parcats)

@@ -1,4 +1,5 @@
 <%
+  show_source_code = False
   import pdoc
   from pdoc.html_helpers import extract_toc, glimpse, to_html as _to_html
 

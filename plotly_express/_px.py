@@ -1,7 +1,6 @@
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple, OrderedDict
-import plotly.io as pio
 from .colors.qualitative import Plotly as default_qualitative_seq
 import math
 
@@ -14,17 +13,11 @@ def set_mapbox_access_token(token):
     MAPBOX_TOKEN = token
 
 
-pio.templates["px"] = dict(
-    layout=dict(margin={"t": 60}, height=600, legend={"tracegroupgap": 0})
-)
-
-
 class FigurePx(go.Figure):
     offline_initialized = False
 
     def __init__(self, *args, **kwargs):
         super(FigurePx, self).__init__(*args, **kwargs)
-        self.update(layout={"template": "plotly+px"})
 
     def _ipython_display_(self):
         if not FigurePx.offline_initialized:
@@ -601,6 +594,13 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 frames[frame_name] = dict(data=[], name=frame_name)
             frames[frame_name]["data"].append(trace)
     frame_list = [f for _, f in frames.items()]
+    layout_patch = layout_patch.copy()
+    for v in ["title", "height", "width", "template"]:
+        if args[v]:
+            layout_patch[v] = args[v]
+    layout_patch["legend"] = {"tracegroupgap": 0}
+    if "title" not in layout_patch:
+        layout_patch["margin"] = {"t": 60}
     fig = FigurePx(
         data=frame_list[0]["data"] if len(frame_list) > 0 else [],
         layout=layout_patch,
@@ -612,14 +612,17 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO sort out blank charts
+# TODO python 2
+# TODO split to line_group, dash to line_dash, close_lines to line_close
+# TODO defaults: height, width, template, colors
+# TODO label_map
 # TODO histogram weights and calcs
 # TODO gl vs not gl
 # TODO geo locationmode, projection, etc
 # TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
-# TODO codegen?
-# TODO parcoords, parcats orders
 # TODO various box and violin options
 # TODO regression lines
 # TODO secondary Y axis
@@ -627,3 +630,4 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 # TODO validate inputs
 # TODO document missing values
 # TODO warnings
+# TODO DDK
