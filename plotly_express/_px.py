@@ -33,8 +33,8 @@ Mapping = namedtuple(
 TraceSpec = namedtuple("TraceSpec", ["constructor", "attrs", "trace_patch"])
 
 
-def make_mapping(args, variable, parent=None):
-    if variable == "split" or variable == "animation_frame":
+def make_mapping(args, variable):
+    if variable == "line_group" or variable == "animation_frame":
         return Mapping(
             show_in_trace_name=False,
             grouper=args[variable],
@@ -54,11 +54,17 @@ def make_mapping(args, variable, parent=None):
             updater=lambda trace, v: trace.update({letter + "axis": v}),
         )
     (parent, variable) = variable.split(".")
-    vprefix = variable + ("_discrete" if variable == "color" else "")
+    vprefix = variable
+    arg_name = variable
+    if variable == "color":
+        vprefix = "color_discrete"
+    if variable == "dash":
+        arg_name = "line_dash"
+        vprefix = "line_dash"
     return Mapping(
         show_in_trace_name=True,
         variable=variable,
-        grouper=args[variable],
+        grouper=args[arg_name],
         val_map=args[vprefix + "_map"].copy(),
         sequence=args[vprefix + "_sequence"],
         updater=lambda trace, v: trace.update({parent: {variable: v}}),
@@ -67,7 +73,7 @@ def make_mapping(args, variable, parent=None):
 
 def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range):
 
-    if "close_lines" in args and args["close_lines"]:
+    if "line_close" in args and args["line_close"]:
         g = g.append(g.iloc[0])
     result = trace_spec.trace_patch or {}
     hover_header = ""
@@ -465,7 +471,7 @@ attrables = (
     + ["lat", "lon", "locations", "animation_key"]
 )
 
-groupables = ["animation_frame", "facet_row", "facet_col", "split"]
+groupables = ["animation_frame", "facet_row", "facet_col", "line_group"]
 
 
 def make_figure(args, constructor, trace_patch={}, layout_patch={}):
@@ -477,21 +483,21 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         sizeref = args["df"][args["size"]].max() / (args["size_max"] * args["size_max"])
 
     color_range = None
-    if "color" in args and args["color"]:
+    if "color" in args:
         if "color_continuous_scale" in args:
             if "color_discrete_sequence" not in args:
                 attrs.append("color")
             else:
-                if args["df"][args["color"]].dtype.kind in "bifc":
+                if args["color"] and args["df"][args["color"]].dtype.kind in "bifc":
                     attrs.append("color")
                 else:
                     grouped_attrs.append("marker.color")
-        elif "split" in args or constructor == go.Histogram2dContour:
+        elif "line_group" in args or constructor == go.Histogram2dContour:
             grouped_attrs.append("line.color")
         else:
             grouped_attrs.append("marker.color")
 
-        if "color" in attrs:
+        if "color" in attrs and args["color"]:
             cmin = args["df"][args["color"]].min()
             cmax = args["df"][args["color"]].max()
             if args["color_continuous_midpoint"]:
@@ -501,13 +507,13 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             else:
                 color_range = [cmin, cmax]
 
-    if "dash" in args:
+    if "line_dash" in args:
         grouped_attrs.append("line.dash")
 
     if "symbol" in args:
         grouped_attrs.append("marker.symbol")
 
-    if "split" in args:
+    if "line_group" in args:
         trace_patch = trace_patch.copy()
         trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
     elif constructor != go.Splom and (
@@ -614,7 +620,6 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
 # TODO sort out blank charts
 # TODO python 2
-# TODO split to line_group, dash to line_dash, close_lines to line_close
 # TODO defaults: height, width, template, colors
 # TODO label_map
 # TODO histogram weights and calcs
