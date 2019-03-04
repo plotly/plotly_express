@@ -33,6 +33,13 @@ Mapping = namedtuple(
 TraceSpec = namedtuple("TraceSpec", ["constructor", "attrs", "trace_patch"])
 
 
+def get_label(args, column):
+    try:
+        return args["labels"][column]
+    except Exception:
+        return column
+
+
 def make_mapping(args, variable):
     if variable == "line_group" or variable == "animation_frame":
         return Mapping(
@@ -75,15 +82,20 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
 
     if "line_close" in args and args["line_close"]:
         g = g.append(g.iloc[0])
-    result = trace_spec.trace_patch or {}
+    result = trace_spec.trace_patch.copy() or {}
     hover_header = ""
     for k in trace_spec.attrs:
         v = args[k]
+        v_label = get_label(args, v)
         if k == "dimensions":
             result["dimensions"] = [
-                dict(label=name, values=column.values, axis=dict(matches=True))
+                dict(
+                    label=get_label(args, name),
+                    values=column.values,
+                    axis=dict(matches=True),
+                )
                 if trace_spec.constructor == go.Splom
-                else dict(label=name, values=column.values)
+                else dict(label=get_label(args, name), values=column.values)
                 for name, column in g.iteritems()
                 if ((not v) or (name in v))
                 and (
@@ -102,36 +114,41 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 result["marker"]["size"] = g[v]
                 result["marker"]["sizemode"] = "area"
                 result["marker"]["sizeref"] = sizeref
-                mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
+                mapping_labels.append(("%s=%%{%s}" % (v_label, "marker.size"), None))
 
-            elif (
-                k == "trendline" and v in ["ols", "lowess"] and args["x"] and args["y"]
-            ):
-                import statsmodels.api as sm
+            elif k == "trendline":
+                if v in ["ols", "lowess"] and args["x"] and args["y"] and len(g) > 1:
+                    import statsmodels.api as sm
 
-                if v == "lowess":
-                    trendline = sm.nonparametric.lowess(g[args["y"]], g[args["x"]])
-                    result["x"] = trendline[:, 0]
-                    result["y"] = trendline[:, 1]
-                    hover_header = "<b>LOWESS trendline</b><br><br>"
-                elif v == "ols":
-                    y = g[args["y"]]
-                    x = g[args["x"]]
-                    result["x"] = x
-                    fitted = sm.OLS(y, sm.add_constant(x)).fit()
-                    result["y"] = fitted.predict()
-                    hover_header = "<b>OLS trendline</b><br>"
-                    hover_header += "%s = %f * %s + %f<br>" % (
-                        args["y"],
-                        fitted.params[1],
-                        args["x"],
-                        fitted.params[0],
+                    if v == "lowess":
+                        trendline = sm.nonparametric.lowess(g[args["y"]], g[args["x"]])
+                        result["x"] = trendline[:, 0]
+                        result["y"] = trendline[:, 1]
+                        hover_header = "<b>LOWESS trendline</b><br><br>"
+                    elif v == "ols":
+                        y = g[args["y"]]
+                        x = g[args["x"]]
+                        result["x"] = x
+                        fitted = sm.OLS(y, sm.add_constant(x)).fit()
+                        result["y"] = fitted.predict()
+                        hover_header = "<b>OLS trendline</b><br>"
+                        hover_header += "%s = %f * %s + %f<br>" % (
+                            args["y"],
+                            fitted.params[1],
+                            args["x"],
+                            fitted.params[0],
+                        )
+                        hover_header += "R<sup>2</sup>=%f<br><br>" % fitted.rsquared
+                    mapping_labels.append(
+                        ("%s=%%{%s}" % (get_label(args, args["x"]), "x"), None)
                     )
-                    hover_header += "R<sup>2</sup>=%f<br><br>" % fitted.rsquared
-                mapping_labels.append(("%s=%%{%s}" % (args["x"], "x"), None))
-                mapping_labels.append(
-                    ("%s=%%{%s} <b>(trend)</b>" % (args["y"], "y"), None)
-                )
+                    mapping_labels.append(
+                        (
+                            "%s=%%{%s} <b>(trend)</b>"
+                            % (get_label(args, args["y"]), "y"),
+                            None,
+                        )
+                    )
 
             elif k.startswith("error"):
                 error_xy = k[:7]
@@ -149,7 +166,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     result["z"] = g[v]
                     colorbar_container = result
                     color_letter = "z"
-                    mapping_labels.append(("%s=%%{z}" % (v), None))
+                    mapping_labels.append(("%s=%%{z}" % (v_label), None))
                 else:
                     colorable = "marker"
                     if trace_spec.constructor in [go.Parcats, go.Parcoords]:
@@ -159,7 +176,9 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     result[colorable]["color"] = g[v]
                     colorbar_container = result[colorable]
                     color_letter = "c"
-                    mapping_labels.append(("%s=%%{%s.color}" % (v, colorable), None))
+                    mapping_labels.append(
+                        ("%s=%%{%s.color}" % (v_label, colorable), None)
+                    )
                 if color_range is None:
                     colorbar_container["showscale"] = False
                 else:
@@ -168,7 +187,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container["colorscale"] = [
                         [i / d, x] for i, x in enumerate(args["color_continuous_scale"])
                     ]
-                    colorbar_container["colorbar"] = dict(title=v)
+                    colorbar_container["colorbar"] = dict(title=v_label)
                     colorbar_container[color_letter + "min"] = color_range[0]
                     colorbar_container[color_letter + "max"] = color_range[1]
             elif k == "animation_key":
@@ -176,7 +195,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
             else:
                 result[k] = g[v]
                 mapping_labels.append(
-                    ("%s=%%{%s}" % (v, k.replace("locations", "location")), None)
+                    ("%s=%%{%s}" % (v_label, k.replace("locations", "location")), None)
                 )
     if trace_spec.constructor in [
         go.Scatter,
@@ -257,7 +276,7 @@ def configure_cartesian_axes(args, fig, axes, orders):
             if letter_number not in layout["grid"][letter + "axes"]:
                 layout["grid"][letter + "axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter + "axis")
-                layout[axis] = dict(title=args[letter])
+                layout[axis] = dict(title=get_label(args, args[letter]))
                 if len(letter_number) > 1:
                     layout[axis]["matches"] = letter
                     if args["log_" + letter]:
@@ -308,9 +327,9 @@ def configure_ternary_axes(args, fig, axes, orders):
     return dict(
         layout=dict(
             ternary=dict(
-                aaxis=dict(title=args["a"]),
-                baxis=dict(title=args["b"]),
-                caxis=dict(title=args["c"]),
+                aaxis=dict(title=get_label(args, args["a"])),
+                baxis=dict(title=get_label(args, args["b"])),
+                caxis=dict(title=get_label(args, args["c"])),
             )
         )
     )
@@ -347,9 +366,9 @@ def configure_3d_axes(args, fig, axes, orders):
     patch = dict(
         layout=dict(
             scene=dict(
-                xaxis=dict(title=args["x"]),
-                yaxis=dict(title=args["y"]),
-                zaxis=dict(title=args["z"]),
+                xaxis=dict(title=get_label(args, args["x"])),
+                yaxis=dict(title=get_label(args, args["y"])),
+                zaxis=dict(title=get_label(args, args["z"])),
             )
         )
     )
@@ -426,7 +445,9 @@ def configure_animation_controls(args, constructor, fig):
                 "active": 0,
                 "yanchor": "top",
                 "xanchor": "left",
-                "currentvalue": {"prefix": args["animation_frame"] + "="},
+                "currentvalue": {
+                    "prefix": get_label(args, args["animation_frame"]) + "="
+                },
                 "pad": {"b": 10, "t": 60},
                 "len": 0.9,
                 "x": 0.1,
@@ -565,7 +586,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     grouped = args["df"].groupby(grouper, sort=False)
-    orders = {} if "orders" not in args else args["orders"].copy()
+    orders = {} if "category_orders" not in args else args["category_orders"].copy()
     group_names = []
     for group_name in grouped.groups:
         if len(grouper) == 1:
@@ -593,7 +614,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         frame_name = ""
         for col, val, m in zip(grouper, group_name, grouped_mappings):
             if col != one_group:
-                s = ("%s=%s" % (col, val), m.show_in_trace_name)
+                s = ("%s=%s" % (get_label(args, col), val), m.show_in_trace_name)
                 if s not in mapping_labels:
                     mapping_labels.append(s)
                 if m.variable == "animation_frame":
@@ -658,11 +679,10 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
-# TODO regression lines - hover... make clear it's a FIT ... model equation plus R2
+# TODO no autoplay after plotly.py 3.7.0
 # TODO sort out blank charts
 # TODO python 2
 # TODO defaults: height, width, template, colors
-# TODO label_map
 # TODO histogram weights and calcs
 # TODO gl vs not gl
 # TODO geo locationmode, projection, etc
