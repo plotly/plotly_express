@@ -103,6 +103,36 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 result["marker"]["sizemode"] = "area"
                 result["marker"]["sizeref"] = sizeref
                 mapping_labels.append(("%s=%%{%s}" % (v, "marker.size"), None))
+
+            elif (
+                k == "trendline" and v in ["ols", "lowess"] and args["x"] and args["y"]
+            ):
+                import statsmodels.api as sm
+
+                if v == "lowess":
+                    trendline = sm.nonparametric.lowess(g[args["y"]], g[args["x"]])
+                    result["x"] = trendline[:, 0]
+                    result["y"] = trendline[:, 1]
+                    hover_header = "<b>LOWESS trendline</b><br><br>"
+                elif v == "ols":
+                    y = g[args["y"]]
+                    x = g[args["x"]]
+                    result["x"] = x
+                    fitted = sm.OLS(y, sm.add_constant(x)).fit()
+                    result["y"] = fitted.predict()
+                    hover_header = "<b>OLS trendline</b><br>"
+                    hover_header += "%s = %f * %s + %f<br>" % (
+                        args["y"],
+                        fitted.params[1],
+                        args["x"],
+                        fitted.params[0],
+                    )
+                    hover_header += "R<sup>2</sup>=%f<br><br>" % fitted.rsquared
+                mapping_labels.append(("%s=%%{%s}" % (args["x"], "x"), None))
+                mapping_labels.append(
+                    ("%s=%%{%s} <b>(trend)</b>" % (args["y"], "y"), None)
+                )
+
             elif k.startswith("error"):
                 error_xy = k[:7]
                 arr = "arrayminus" if k.endswith("minus") else "array"
@@ -111,7 +141,8 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 result[error_xy][arr] = g[v]
             elif k == "hover":
                 result["hovertext"] = g[v]
-                hover_header = "<b>%{hovertext}</b><br><br>"
+                if hover_header == "":
+                    hover_header = "<b>%{hovertext}</b><br><br>"
             elif k == "color":
                 colorbar_container = None
                 if trace_spec.constructor == go.Choropleth:
@@ -457,6 +488,15 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                     trace_spec.trace_patch["marker"] = dict()
                 trace_spec.trace_patch["marker"]["color"] = default_qualitative_seq[0]
             result.append(trace_spec)
+    if "trendline" in args and args["trendline"]:
+        trace_spec = TraceSpec(
+            constructor=go.Scatter, attrs=["trendline"], trace_patch=dict(mode="lines")
+        )
+        if args["trendline_color_override"]:
+            trace_spec.trace_patch["line"] = dict(
+                color=args["trendline_color_override"]
+            )
+        result.append(trace_spec)
     return result
 
 
@@ -591,7 +631,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     args,
                     trace_spec,
                     group,
-                    mapping_labels,
+                    mapping_labels.copy(),
                     sizeref,
                     color_range=color_range if frame_name not in frames else None,
                 )
@@ -618,6 +658,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO regression lines - hover... make clear it's a FIT ... model equation plus R2
 # TODO sort out blank charts
 # TODO python 2
 # TODO defaults: height, width, template, colors
@@ -629,7 +670,6 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 # TODO facet wrap
 # TODO non-cartesian faceting
 # TODO various box and violin options
-# TODO regression lines
 # TODO secondary Y axis
 # TODO testing of some kind (try Percy)
 # TODO validate inputs

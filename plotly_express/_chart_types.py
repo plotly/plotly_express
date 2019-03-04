@@ -47,6 +47,8 @@ def scatter(
     template=default_template,
     width=default_width,
     height=default_height,
+    trendline=None,
+    trendline_color_override=None,
 ):
     """
     yo

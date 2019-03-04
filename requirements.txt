@@ -1,2 +1,3 @@
 pandas>=0.20.0
 plotly>=3.6.0
+statsmodels>=0.9.0
