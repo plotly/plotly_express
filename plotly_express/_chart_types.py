@@ -50,6 +50,7 @@ def scatter(
     height=default_height,
     trendline=None,
     trendline_color_override=None,
+    gl=None,
 ):
     """
     yo
@@ -124,6 +125,7 @@ def line(
     labels={},
     width=default_width,
     height=default_height,
+    gl=None,
 ):
     return make_figure(args=locals(), constructor=go.Scatter)
 
@@ -426,6 +428,7 @@ def scatter_polar(
     labels={},
     width=default_width,
     height=default_height,
+    gl=None,
 ):
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
@@ -456,6 +459,7 @@ def line_polar(
     labels={},
     width=default_width,
     height=default_height,
+    gl=None,
 ):
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 

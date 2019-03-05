@@ -199,8 +199,10 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 )
     if trace_spec.constructor in [
         go.Scatter,
+        go.Scattergl,
         go.Bar,
         go.Scatterpolar,
+        go.scatterpolargl,
         go.Barpolar,
         go.Scatterternary,
         go.Scattergeo,
@@ -216,6 +218,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
 def configure_axes(args, constructor, fig, axes, orders):
     configurators = {
         go.Scatter: configure_cartesian_axes,
+        go.Scattergl: configure_cartesian_axes,
         go.Bar: configure_cartesian_axes,
         go.Box: configure_cartesian_axes,
         go.Violin: configure_cartesian_axes,
@@ -225,6 +228,7 @@ def configure_axes(args, constructor, fig, axes, orders):
         go.Scatter3d: configure_3d_axes,
         go.Scatterternary: configure_ternary_axes,
         go.Scatterpolar: configure_polar_axes,
+        go.Scatterpolargl: configure_polar_axes,
         go.Barpolar: configure_polar_axes,
         go.Scattermapbox: configure_mapbox,
         go.Scattergeo: configure_geo,
@@ -625,6 +629,16 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         trace_names = trace_names_by_frame[frame_name]
 
         for trace_spec in trace_specs:
+            constructor = trace_spec.constructor
+            if constructor in [go.Scatter, go.Scatterpolar]:
+                if args["gl"] or (
+                    args["gl"] is None
+                    and len(args["df"]) > 1000
+                    and args["animation_frame"] is None
+                ):
+                    constructor = (
+                        go.Scattergl if constructor == go.Scatter else go.Scatterpolargl
+                    )
             trace = trace_spec.constructor(name=trace_name or " ")
             if trace_spec.constructor != go.Parcats:
                 trace.update(
@@ -643,7 +657,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 except ValueError:
                     if (
                         len(trace_specs) == 1
-                        or trace_specs[0].constructor != go.Scatter
+                        or trace_specs[0].constructor not in [go.Scatter, go.Scattergl]
                         or m.variable != "symbol"
                     ):
                         raise
@@ -679,17 +693,17 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO NaN/missing values
 # TODO no autoplay after plotly.py 3.7.0
 # TODO sort out blank charts
 # TODO python 2
 # TODO defaults: height, width, template, colors
 # TODO histogram weights and calcs
-# TODO gl vs not gl
+# TODO various box and violin options
 # TODO geo locationmode, projection, etc
 # TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
-# TODO various box and violin options
 # TODO secondary Y axis
 # TODO testing of some kind (try Percy)
 # TODO validate inputs
