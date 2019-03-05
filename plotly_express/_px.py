@@ -23,7 +23,7 @@ class FigurePx(go.Figure):
         if not FigurePx.offline_initialized:
             init_notebook_mode()
             FigurePx.offline_initialized = True
-        iplot(self, show_link=False)
+        iplot(self, show_link=False, auto_play=False)
 
 
 Mapping = namedtuple(
@@ -631,8 +631,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         for trace_spec in trace_specs:
             constructor = trace_spec.constructor
             if constructor in [go.Scatter, go.Scatterpolar]:
-                if args["gl"] or (
-                    args["gl"] is None
+                if args["render_mode"] == "webgl" or (
+                    args["render_mode"] == "auto"
                     and len(args["df"]) > 1000
                     and args["animation_frame"] is None
                 ):
@@ -693,8 +693,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO regression on categorical or date values
 # TODO NaN/missing values
-# TODO no autoplay after plotly.py 3.7.0
 # TODO sort out blank charts
 # TODO python 2
 # TODO defaults: height, width, template, colors
