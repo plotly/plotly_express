@@ -179,14 +179,14 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     mapping_labels.append(
                         ("%s=%%{%s.color}" % (v_label, colorable), None)
                     )
+                d = len(args["color_continuous_scale"]) - 1
+                colorbar_container["colorscale"] = [
+                    [i / d, x] for i, x in enumerate(args["color_continuous_scale"])
+                ]
                 if color_range is None:
                     colorbar_container["showscale"] = False
                 else:
                     colorbar_container["showscale"] = True
-                    d = len(args["color_continuous_scale"]) - 1
-                    colorbar_container["colorscale"] = [
-                        [i / d, x] for i, x in enumerate(args["color_continuous_scale"])
-                    ]
                     colorbar_container["colorbar"] = dict(title=v_label)
                     colorbar_container[color_letter + "min"] = color_range[0]
                     colorbar_container[color_letter + "max"] = color_range[1]
