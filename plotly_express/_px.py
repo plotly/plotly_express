@@ -693,6 +693,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO default {} / args / pylint
 # TODO regression on categorical or date values
 # TODO NaN/missing values
 # TODO sort out blank charts
