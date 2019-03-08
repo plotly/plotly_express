@@ -197,18 +197,13 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 mapping_labels.append(
                     ("%s=%%{%s}" % (v_label, k.replace("locations", "location")), None)
                 )
-    if trace_spec.constructor in [
-        go.Scatter,
-        go.Scattergl,
-        go.Bar,
-        go.Scatterpolar,
-        go.scatterpolargl,
-        go.Barpolar,
-        go.Scatterternary,
-        go.Scattergeo,
-        go.Scattermapbox,
-        go.Scatter3d,
-        go.Choropleth,
+    if trace_spec.constructor not in [
+        go.Box,
+        go.Violin,
+        go.Histogram2dContour,
+        go.Splom,
+        go.Parcoords,
+        go.Parcats,
     ]:
         hover_header += "<br>".join(s for s, t in mapping_labels) + "<extra></extra>"
         result["hovertemplate"] = hover_header
@@ -693,6 +688,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO histogram axis & hover = FUNCTION(ARGUMENT)
 # TODO default {} / args / pylint
 # TODO regression on categorical or date values
 # TODO NaN/missing values

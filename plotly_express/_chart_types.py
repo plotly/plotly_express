@@ -142,8 +142,6 @@ def bar(
     hover=None,
     text=None,
     orientation="v",
-    normalization="",
-    mode="group",
     log_x=False,
     log_y=False,
     error_x=None,
@@ -165,7 +163,7 @@ def bar(
         args=locals(),
         constructor=go.Bar,
         trace_patch=dict(orientation=orientation, textposition="auto"),
-        layout_patch=dict(barnorm=normalization, barmode=mode),
+        layout_patch=dict(barmode="relative"),
     )
 
 
