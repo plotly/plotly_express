@@ -66,7 +66,7 @@
 </%def>
 
 <%def name="show_module_list(modules)">
-<h1>Python module list</h1>
+<h1>Plotly Express API Reference</h1>
 
 % if not modules:
   <p>No modules found.</p>
@@ -109,16 +109,6 @@
   </%def>
 
   <header>
-  % if 'http_server' in context.keys():
-    <nav class="http-server-breadcrumbs">
-      <a href="/">All packages</a>
-      <% parts = module.name.split('.')[:-1] %>
-      % for i, m in enumerate(parts):
-        <% parent = '.'.join(parts[:i+1]) %>
-        :: <a href="/${parent.replace('.', '/')}/">${parent}</a>
-      % endfor
-    </nav>
-  % endif
   <h1 class="title"><code>${module.name}</code> module</h1>
   </header>
 
@@ -267,7 +257,15 @@
 
     <%include file="logo.mako"/>
 
-    <h1>Index</h1>
+    <nav class="http-server-breadcrumbs">
+      <% parts = module.name.split('.') %>
+      % for i, m in enumerate(parts):
+        <a href="/${'/'.join(parts[:i+1])}/">${m}</a>
+        %if i != len(parts) - 1:
+          /
+        %endif
+      % endfor
+    </nav>
     ${extract_toc(module.docstring) if extract_module_toc_into_sidebar else ''}
     <ul id="index">
     % if supermodule:
@@ -353,8 +351,9 @@
   % if show_source_code:
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
   %endif
-
+  <link href="https://fonts.googleapis.com/css?family=Dosis:500|Inconsolata|Open+Sans" rel="stylesheet">
   <%namespace name="css" file="css.mako" />
+  <style>${css.all()}</style>
   <style>${css.mobile()}</style>
   <style media="screen and (min-width: 700px)">${css.desktop()}</style>
   <style media="print">${css.print()}</style>

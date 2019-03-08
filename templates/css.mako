@@ -2,6 +2,41 @@
     from pdoc.html_helpers import minify_css
 %>
 
+
+<%def name="all()" filter="minify_css">
+    * {
+      font-family: 'Open Sans';
+      color: #506784;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    nav, nav a,
+    h1 a,
+    h2 a,
+    h3 a,
+    h4 a,
+    h5 a,
+    h6 a {
+        font-family: 'Dosis' !important;
+        color: #2a3f5f;
+    }
+
+    code,
+    code span,
+    code a,
+    kbd,
+    samp {
+      font-family: Consolas, 'Inconsolata', monospace !important;
+      color: #2a3f5f;
+    }
+
+</%def>
+
 <%def name="mobile()" filter="minify_css">
   .flex {
     display: flex !important;
@@ -21,7 +56,7 @@
   }
 
   .http-server-breadcrumbs {
-    font-size: 130%;
+    font-size: 200%;
     margin: 0 0 15px 0;
   }
 
@@ -60,12 +95,12 @@
   }
 
   a {
-    color: #058;
+    color: #0D76BF;
     text-decoration: none;
     transition: color .3s ease-in-out;
   }
   a:hover {
-    color: #e82;
+    color: #119DFF;
   }
 
   .title code {
@@ -75,11 +110,11 @@
     margin-top: 2em;
   }
   .ident {
-    color: #900;
+    color: #ab63fa;
   }
 
   pre code {
-    background: #f8f8f8;
+    background: #f2f5fa;
     font-size: .8em;
     line-height: 1.4em;
   }
