@@ -1,3 +1,9 @@
+"""
+Diverging color scales are appropriate for continuous data that has a natural midpoint \
+other otherwise informative special value, such as 0 altitude, or the boiling point
+of a liquid.
+"""
+
 from .colorbrewer import (  # noqa: F401
     BrBG,
     PRGn,
@@ -18,3 +24,6 @@ from ._swatches import _swatches
 
 def swatches():
     return _swatches(__name__, globals())
+
+
+swatches.__doc__ = _swatches.__doc__

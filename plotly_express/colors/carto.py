@@ -1,8 +1,9 @@
 """
-Color maps from CARTO's CartoColors
+Color sequences and scales from CARTO's CartoColors
+
 Learn more at https://github.com/CartoDB/CartoColor
-CARTOColors are made available under a Creative Commons Attribution license:
-https://creativecommons.org/licenses/by/3.0/us/
+
+CARTOColors are made available under a Creative Commons Attribution license: https://creativecommons.org/licenses/by/3.0/us/
 """
 
 from ._swatches import _swatches
@@ -11,6 +12,8 @@ from ._swatches import _swatches
 def swatches():
     return _swatches(__name__, globals())
 
+
+swatches.__doc__ = _swatches.__doc__
 
 Burg = [
     "rgb(255, 198, 196)",

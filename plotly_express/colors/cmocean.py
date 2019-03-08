@@ -1,9 +1,19 @@
+"""
+Color scales from the cmocean project
+
+Learn more at https://matplotlib.org/cmocean/
+
+cmocean is made available under an MIT license: https://github.com/matplotlib/cmocean/blob/master/LICENSE.txt
+"""
+
 from ._swatches import _swatches
 
 
 def swatches():
     return _swatches(__name__, globals())
 
+
+swatches.__doc__ = _swatches.__doc__
 
 turbid = [
     "rgb(232, 245, 171)",

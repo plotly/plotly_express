@@ -31,7 +31,7 @@
     code a,
     kbd,
     samp {
-      font-family: Consolas, 'Inconsolata', monospace !important;
+      font-family: Menlo,Consolas,Roboto Mono,Ubuntu Monospace,Noto Mono,Oxygen Mono,Liberation Mono,monospace !important;
       color: #2a3f5f;
     }
 
@@ -119,14 +119,14 @@
     line-height: 1.4em;
   }
   code {
-    background: #f2f2f1;
+    background: #f2f5fa;
     padding: 1px 4px;
     overflow-wrap: break-word;
   }
   h1 code { background: transparent }
 
   pre {
-    background: #f8f8f8;
+    background: #f2f5fa;
     border: 0;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -193,16 +193,12 @@
       margin: 10px 0;
     }
     .name {
-      background: #eee;
       font-weight: bold;
       font-size: .85em;
       padding: 5px 10px;
       display: inline-block;
       min-width: 40%;
     }
-      .name:hover {
-        background: #e0e0e0;
-      }
       .name > span:first-child {
         white-space: nowrap;
       }
@@ -308,7 +304,7 @@
     #content {
       width: 70%;
       max-width: 100ch;
-      padding: 3em 4em;
+      padding: 0 4em;
       border-left: 1px solid #ddd;
     }
     pre code {

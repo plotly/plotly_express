@@ -1,9 +1,17 @@
+"""
+Cyclical color scales are appropriate for continuous data that has a natural cyclical \
+structure, such as temporal data (hour of day, day of week, day of year, seasons) or
+complex numbers or other phase data.
+"""
+
 from ._swatches import _swatches
 
 
 def swatches():
     return _swatches(__name__, globals())
 
+
+swatches.__doc__ = _swatches.__doc__
 
 Twilight = [
     "#e2d9e2",

@@ -109,7 +109,7 @@
   </%def>
 
   <header>
-  <h1 class="title"><code>${module.name}</code> module</h1>
+  <h1 class="title"><code>${module.name}</code></h1>
   </header>
 
   <section id="section-intro">

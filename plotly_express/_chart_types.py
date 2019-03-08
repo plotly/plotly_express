@@ -13,7 +13,7 @@ default_line_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdas
 
 
 def scatter(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -53,7 +53,7 @@ def scatter(
     render_mode="auto",
 ):
     """
-    yo
+    In a scatter plot, each row of `data_frame` is represented by a marker in 2d space.
     """
     return make_figure(args=locals(), constructor=go.Scatter)
 
@@ -62,7 +62,7 @@ scatter.__doc__ = make_docstring(scatter)
 
 
 def density_contour(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -87,6 +87,10 @@ def density_contour(
     trendline=None,
     trendline_color_override=None,
 ):
+    """
+    In a density contour plot, rows of `data_frame` are grouped together into contours to \
+    visualize the density of their distribution in 2d space.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Histogram2dContour,
@@ -94,8 +98,11 @@ def density_contour(
     )
 
 
+density_contour.__doc__ = make_docstring(density_contour)
+
+
 def line(
-    df,
+    data_frame,
     x=None,
     y=None,
     line_group=None,
@@ -127,11 +134,17 @@ def line(
     height=default_height,
     render_mode="auto",
 ):
+    """
+    In a line plot, each row of `data_frame` is represented as the end of a line segment.
+    """
     return make_figure(args=locals(), constructor=go.Scatter)
 
 
+line.__doc__ = make_docstring(line)
+
+
 def bar(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -159,6 +172,9 @@ def bar(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a bar plot, each row of `data_frame` is represented as a rectangle.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Bar,
@@ -167,8 +183,11 @@ def bar(
     )
 
 
+bar.__doc__ = make_docstring(bar)
+
+
 def histogram(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -192,6 +211,10 @@ def histogram(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a histogram, rows of `data_frame` are grouped together into a rectangle to \
+    visualize some aggregate quantity like count or sum.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Histogram,
@@ -200,8 +223,11 @@ def histogram(
     )
 
 
+histogram.__doc__ = make_docstring(histogram)
+
+
 def violin(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -224,6 +250,10 @@ def violin(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a violin plot, rows of `data_frame` are grouped together into a curved shape to \
+    visualize their distribution.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Violin,
@@ -232,8 +262,11 @@ def violin(
     )
 
 
+violin.__doc__ = make_docstring(violin)
+
+
 def box(
-    df,
+    data_frame,
     x=None,
     y=None,
     color=None,
@@ -256,6 +289,10 @@ def box(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a violin plot, rows of `data_frame` are grouped together into a box shape to \
+    visualize their distribution.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Box,
@@ -264,8 +301,11 @@ def box(
     )
 
 
+box.__doc__ = make_docstring(box)
+
+
 def scatter_3d(
-    df,
+    data_frame,
     x=None,
     y=None,
     z=None,
@@ -303,10 +343,13 @@ def scatter_3d(
     height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Scatter3d)
+
+
+scatter_3d.__doc__ = make_docstring(scatter_3d)
 
 
 def line_3d(
-    df,
+    data_frame,
     x=None,
     y=None,
     z=None,
@@ -343,8 +386,11 @@ def line_3d(
     return make_figure(args=locals(), constructor=go.Scatter3d)
 
 
+line_3d.__doc__ = make_docstring(line_3d)
+
+
 def scatter_ternary(
-    df,
+    data_frame,
     a=None,
     b=None,
     c=None,
@@ -372,8 +418,11 @@ def scatter_ternary(
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
+scatter_ternary.__doc__ = make_docstring(scatter_ternary)
+
+
 def line_ternary(
-    df,
+    data_frame,
     a=None,
     b=None,
     c=None,
@@ -398,8 +447,11 @@ def line_ternary(
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
+line_ternary.__doc__ = make_docstring(line_ternary)
+
+
 def scatter_polar(
-    df,
+    data_frame,
     r,
     theta,
     color=None,
@@ -431,8 +483,11 @@ def scatter_polar(
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
+scatter_polar.__doc__ = make_docstring(scatter_polar)
+
+
 def line_polar(
-    df,
+    data_frame,
     r,
     theta,
     color=None,
@@ -462,8 +517,11 @@ def line_polar(
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
+line_polar.__doc__ = make_docstring(line_polar)
+
+
 def bar_polar(
-    df,
+    data_frame,
     r=None,
     theta=None,
     color=None,
@@ -492,8 +550,11 @@ def bar_polar(
     )
 
 
+bar_polar.__doc__ = make_docstring(bar_polar)
+
+
 def choropleth(
-    df,
+    data_frame,
     lat=None,
     lon=None,
     locations=None,
@@ -515,8 +576,11 @@ def choropleth(
     return make_figure(args=locals(), constructor=go.Choropleth)
 
 
+choropleth.__doc__ = make_docstring(choropleth)
+
+
 def scatter_geo(
-    df,
+    data_frame,
     lat=None,
     lon=None,
     locations=None,
@@ -541,8 +605,11 @@ def scatter_geo(
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
+scatter_geo.__doc__ = make_docstring(scatter_geo)
+
+
 def line_geo(
-    df,
+    data_frame,
     lat=None,
     lon=None,
     locations=None,
@@ -567,8 +634,11 @@ def line_geo(
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
+line_geo.__doc__ = make_docstring(line_geo)
+
+
 def scatter_mapbox(
-    df,
+    data_frame,
     lat=None,
     lon=None,
     color=None,
@@ -593,8 +663,11 @@ def scatter_mapbox(
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
+scatter_mapbox.__doc__ = make_docstring(scatter_mapbox)
+
+
 def line_mapbox(
-    df,
+    data_frame,
     lat=None,
     lon=None,
     color=None,
@@ -616,8 +689,11 @@ def line_mapbox(
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
+line_mapbox.__doc__ = make_docstring(line_mapbox)
+
+
 def scatter_matrix(
-    df,
+    data_frame,
     dimensions=None,
     color=None,
     symbol=None,
@@ -641,8 +717,11 @@ def scatter_matrix(
     )
 
 
+scatter_matrix.__doc__ = make_docstring(scatter_matrix)
+
+
 def parallel_coordinates(
-    df,
+    data_frame,
     dimensions=None,
     color=None,
     color_continuous_scale=default_continuous,
@@ -656,8 +735,11 @@ def parallel_coordinates(
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
+parallel_coordinates.__doc__ = make_docstring(parallel_coordinates)
+
+
 def parallel_categories(
-    df,
+    data_frame,
     dimensions=None,
     color=None,
     color_continuous_scale=default_continuous,
@@ -669,3 +751,6 @@ def parallel_categories(
     height=default_height,
 ):
     return make_figure(args=locals(), constructor=go.Parcats)
+
+
+parallel_categories.__doc__ = make_docstring(parallel_categories)

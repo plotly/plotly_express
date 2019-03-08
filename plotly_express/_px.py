@@ -9,12 +9,24 @@ MAPBOX_TOKEN = ""
 
 
 def set_mapbox_access_token(token):
+    """
+    Arguments:
+        token: A Mapbox token to be used in `plotly_express.scatter_mapbox` and \
+        `plotly_express.line_mapbox` figures. See \
+        https://docs.mapbox.com/help/how-mapbox-works/access-tokens/ for more details
+    """
     global MAPBOX_TOKEN
     MAPBOX_TOKEN = token
 
 
 class FigurePx(go.Figure):
     offline_initialized = False
+    """
+    Boolean that starts out `False` and is set to `True` the first time the
+    `_ipython_display_()` method is called (by a Jupyter environment), to indicate that
+    subsequent calls to that method that `plotly.offline.init_notebook_mode()` has been
+    called once and should not be called again.
+    """
 
     def __init__(self, *args, **kwargs):
         super(FigurePx, self).__init__(*args, **kwargs)
@@ -100,11 +112,11 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 if ((not v) or (name in v))
                 and (
                     trace_spec.constructor != go.Parcoords
-                    or args["df"][name].dtype.kind in "bifc"
+                    or args["data_frame"][name].dtype.kind in "bifc"
                 )
                 and (
                     trace_spec.constructor != go.Parcats
-                    or len(args["df"][name].unique()) <= 20
+                    or len(args["data_frame"][name].unique()) <= 20
                 )
             ]
         elif v:
@@ -392,8 +404,8 @@ def configure_mapbox(args, fig, axes, orders):
             mapbox=dict(
                 accesstoken=MAPBOX_TOKEN,
                 center=dict(
-                    lat=args["df"][args["lat"]].mean(),
-                    lon=args["df"][args["lon"]].mean(),
+                    lat=args["data_frame"][args["lat"]].mean(),
+                    lon=args["data_frame"][args["lon"]].mean(),
                 ),
                 zoom=args["zoom"],
             )
@@ -540,7 +552,9 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     sizeref = 0
     if "size" in args and args["size"]:
-        sizeref = args["df"][args["size"]].max() / (args["size_max"] * args["size_max"])
+        sizeref = args["data_frame"][args["size"]].max() / (
+            args["size_max"] * args["size_max"]
+        )
 
     color_range = None
     if "color" in args:
@@ -548,7 +562,10 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             if "color_discrete_sequence" not in args:
                 attrs.append("color")
             else:
-                if args["color"] and args["df"][args["color"]].dtype.kind in "bifc":
+                if (
+                    args["color"]
+                    and args["data_frame"][args["color"]].dtype.kind in "bifc"
+                ):
                     attrs.append("color")
                 else:
                     grouped_attrs.append("marker.color")
@@ -558,8 +575,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             grouped_attrs.append("marker.color")
 
         if "color" in attrs and args["color"]:
-            cmin = args["df"][args["color"]].min()
-            cmax = args["df"][args["color"]].max()
+            cmin = args["data_frame"][args["color"]].min()
+            cmax = args["data_frame"][args["color"]].max()
             if args["color_continuous_midpoint"]:
                 cmid = args["color_continuous_midpoint"]
                 delta = max(cmax - cmid, cmid - cmin)
@@ -584,7 +601,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
-    grouped = args["df"].groupby(grouper, sort=False)
+    grouped = args["data_frame"].groupby(grouper, sort=False)
     orders = {} if "category_orders" not in args else args["category_orders"].copy()
     group_names = []
     for group_name in grouped.groups:
@@ -628,7 +645,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             if constructor in [go.Scatter, go.Scatterpolar]:
                 if args["render_mode"] == "webgl" or (
                     args["render_mode"] == "auto"
-                    and len(args["df"]) > 1000
+                    and len(args["data_frame"]) > 1000
                     and args["animation_frame"] is None
                 ):
                     constructor = (

@@ -1,9 +1,17 @@
+"""
+Sequential color scales are appropriate for most continuous data, but in some cases it \
+can be helpful to use a `plotly_express.colors.diverging` or \
+`plotly_express.colors.cyclical` scale instead.
+"""
+
 from ._swatches import _swatches
 
 
 def swatches():
     return _swatches(__name__, globals())
 
+
+swatches.__doc__ = _swatches.__doc__
 
 Plotly = [
     "#0508b8",

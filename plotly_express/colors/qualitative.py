@@ -1,9 +1,16 @@
+"""
+Qualitative color sequences are appropriate for data that has no natural ordering, such \
+as categories, colors, names, countries etc.
+"""
+
 from ._swatches import _swatches
 
 
 def swatches():
     return _swatches(__name__, globals())
 
+
+swatches.__doc__ = _swatches.__doc__
 
 Plotly = [
     "#636efa",
