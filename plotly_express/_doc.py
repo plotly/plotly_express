@@ -64,13 +64,15 @@ docs = dict(
     orientation="(documentation missing)",
     line_group="(documentation missing)",
     line_dash_map="(documentation missing)",
+    line_dash_sequence="(documentation missing)",
+    line_close="(documentation missing)",
 )
 
 
 def make_docstring(fn):
     result = (fn.__doc__ or "") + "\nArguments:\n"
     for arg in inspect.getargspec(fn)[0]:
-        d = str(docs[arg]) if arg in docs else "(documentation missing)"
+        d = str(docs[arg]) if arg in docs else "(documentation missing from map)"
         result += "    %s: %s\n" % (arg, d)
     result += "Returns:\n"
     result += "    A `plotly_express.FigurePx` object."
