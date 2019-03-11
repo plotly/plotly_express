@@ -45,15 +45,15 @@
 <span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, size_max=20, animation_frame=None, animation_key=None, category_orders={}, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a marker in 2d space.</p>
+<section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a marker in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>symbol</code></strong></dt>
@@ -132,16 +132,17 @@
 <span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], log_x=False, log_y=False, log_z=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a 3D scatter plot, each row of <code>data_frame</code> is represented by a marker in 3D space.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>z</code></strong></dt>
-<dd>Name of column to map onto z position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>symbol</code></strong></dt>
@@ -214,7 +215,9 @@
 <span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r, theta, color=None, symbol=None, size=None, hover=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], direction=&#39;clockwise&#39;, startangle=90, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a polar scatter plot, each row of <code>data_frame</code> is represented by a marker in
+polar coordinates.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -280,7 +283,8 @@
 <span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a ternary scatter plot, each row of <code>data_frame</code> is represented by a marker in ternary coordinates.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -338,7 +342,8 @@
 <span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a Mapbox scatter plot, each row of <code>data_frame</code> is represented by a marker on a Mapbox map.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -390,7 +395,8 @@
 <span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, text=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a geographic scatter plot, each row of <code>data_frame</code> is represented by a marker on a map.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -442,7 +448,10 @@
 <span>def <span class="ident">scatter_matrix</span></span>(<span>data_frame, dimensions=None, color=None, symbol=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size=None, size_max=20, category_orders={}, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a scatter plot matrix (or SPLOM), each row of <code>data_frame</code> is represented
+by a multiple markers, one in each cell of a grid of 2D scatter plots, which
+plot each pair of <code>dimensions</code> against each other.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -489,15 +498,15 @@
 </code></dt>
 <dd>
 <section class="desc"><p>In a density contour plot, rows of <code>data_frame</code> are grouped together into contours to
-visualize the density of their distribution in 2d space.</p>
+visualize the density of their distribution in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -548,15 +557,15 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>In a line plot, each row of <code>data_frame</code> is represented as the end of a line segment.</p>
+<section class="desc"><p>In a 2D line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>line_group</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
@@ -621,7 +630,8 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">line_polar</span></span>(<span>data_frame, r, theta, color=None, line_dash=None, hover=None, line_group=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], direction=&#39;clockwise&#39;, startangle=90, line_close=False, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a polar line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in polar coordinates.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -683,7 +693,8 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a ternary line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in ternary coordinates.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -735,7 +746,8 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a Mapbox line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a Mapbox map.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -781,7 +793,8 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, line_dash=None, text=None, hover=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a geographic line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a map.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -833,7 +846,10 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">parallel_coordinates</span></span>(<span>data_frame, dimensions=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a parallel coordinates plot, each row of <code>data_frame</code> is represented
+by a polyline which traverses a set of parallel axes, one for each of the
+<code>dimensions</code>.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -863,7 +879,10 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">parallel_categories</span></span>(<span>data_frame, dimensions=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a parallel categories (or parallel sets) plot, each row of <code>data_frame</code> is
+grouped with other rows that share the same values of <code>dimensions</code> and then plotted
+as a polyline through a set of parallel axes, one for each of the <code>dimensions</code>.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -899,9 +918,9 @@ visualize the density of their distribution in 2d space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -958,7 +977,8 @@ visualize the density of their distribution in 2d space.</p>
 <span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], normalization=&#39;&#39;, mode=&#39;relative&#39;, direction=&#39;clockwise&#39;, startangle=90, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a polar bar plot, each row of <code>data_frame</code> is represented as a sector in polar coordinates.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
@@ -1017,9 +1037,9 @@ visualize their distribution.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -1066,16 +1086,16 @@ visualize their distribution.</p>
 <span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, mode=&#39;group&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>In a violin plot, rows of <code>data_frame</code> are grouped together into a box shape to
+<section class="desc"><p>In a box plot, rows of <code>data_frame</code> are grouped together into a box-and-whisker shape to
 visualize their distribution.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -1129,9 +1149,9 @@ visualize some aggregate quantity like count or sum.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>Name of column to map onto x position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>Name of column to map onto y position</dd>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -1180,7 +1200,8 @@ visualize some aggregate quantity like count or sum.</p>
 <span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, hover=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="arguments">Arguments</h2>
+<section class="desc"><p>In a choropleth map, each row of <code>data_frame</code> is represented by a colored region on a map.</p>
+<h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
