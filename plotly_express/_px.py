@@ -204,11 +204,20 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container[color_letter + "max"] = color_range[1]
             elif k == "animation_key":
                 result["ids"] = g[v]
+            elif k == "value":
+                value_axis = "y" if args["orientation"] == "v" else "x"
+                result[value_axis] = g[v]
+                mapping_labels.append(("%s=%%{%s}" % (v_label, value_axis), None))
+            elif k == "category":
+                category_axis = "x" if args["orientation"] == "v" else "y"
+                result[category_axis] = g[v]
+                mapping_labels.append(("%s=%%{%s}" % (v_label, category_axis), None))
+            elif k == "locations":
+                result[k] = g[v]
+                mapping_labels.append(("%s=%%{%s}" % (v_label, "location"), None))
             else:
                 result[k] = g[v]
-                mapping_labels.append(
-                    ("%s=%%{%s}" % (v_label, k.replace("locations", "location")), None)
-                )
+                mapping_labels.append(("%s=%%{%s}" % (v_label, k), None))
     if trace_spec.constructor not in [
         go.Box,
         go.Violin,
@@ -245,8 +254,21 @@ def configure_axes(args, constructor, fig, axes, orders):
         fig.update(configurators[constructor](args, fig, axes, orders))
 
 
+def set_cartesian_axis_opts(args, layout, letter_arg, axis):
+    log_key = "log_" + letter_arg
+    range_key = "range_" + letter_arg
+    if log_key in args and args[log_key]:
+        layout[axis]["type"] = "log"
+        if range_key in args and args[range_key]:
+            layout[axis]["range"] = [math.log(r, 10) for r in args[range_key]]
+    elif range_key in args and args[range_key]:
+        layout[axis]["range"] = args[range_key]
+
+
 def configure_cartesian_axes(args, fig, axes, orders):
-    if "marginal_x" in args and (args["marginal_x"] or args["marginal_y"]):
+    if ("marginal_x" in args and args["marginal_x"]) or (
+        "marginal_y" in args and args["marginal_y"]
+    ):
         layout = dict(barmode="overlay", violinmode="overlay")
         for letter in ["x", "y"]:
             otherletter = "x" if letter == "y" else "y"
@@ -265,10 +287,7 @@ def configure_cartesian_axes(args, fig, axes, orders):
                     "domain": [main_size + 0.005, 1],
                     "showticklabels": False,
                 }
-                if args["log_" + letter]:
-                    layout[letter + "axis1"]["type"] = "log"
-                if args["range_" + letter]:
-                    layout[letter + "axis1"]["range"] = args["range_" + letter]
+                set_cartesian_axis_opts(args, layout, letter, letter + "axis1")
         return dict(layout=layout)
     gap = 0.1
     layout = {
@@ -282,34 +301,36 @@ def configure_cartesian_axes(args, fig, axes, orders):
             "yside": "left",
         },
     }
-    for letter in ["x", "y"]:
+
+    for letter, direction, row in (("x", "facet_col", False), ("y", "facet_row", True)):
         for letter_number in [t[letter + "axis"] for t in fig.data]:
             if letter_number not in layout["grid"][letter + "axes"]:
                 layout["grid"][letter + "axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter + "axis")
-                layout[axis] = dict(title=get_label(args, args[letter]))
+                if letter in args:
+                    letter_arg = letter
+                else:
+                    if args["orientation"] == "v":
+                        letter_arg = "category" if letter == "x" else "value"
+                    else:
+                        letter_arg = "value" if letter == "x" else "category"
+
+                layout[axis] = dict(title=get_label(args, args[letter_arg]))
                 if len(letter_number) > 1:
                     layout[axis]["matches"] = letter
-                    if args["log_" + letter]:
+                    log_key = "log_" + letter_arg
+                    if log_key in args and args[log_key]:
                         layout[axis]["type"] = "log"
                 else:
-                    if args[letter] in orders:
+                    if args[letter_arg] in orders:
                         layout[axis]["categoryorder"] = "array"
                         layout[axis]["categoryarray"] = (
-                            orders[args[letter]]
+                            orders[args[letter_arg]]
                             if letter == "x"
-                            else list(reversed(orders[args[letter]]))
+                            else list(reversed(orders[args[letter_arg]]))
                         )
-                    if args["log_" + letter]:
-                        layout[axis]["type"] = "log"
-                        if args["range_" + letter]:
-                            layout[axis]["range"] = [
-                                math.log(x, 10) for x in args["range_" + letter]
-                            ]
-                    elif args["range_" + letter]:
-                        layout[axis]["range"] = args["range_" + letter]
+                    set_cartesian_axis_opts(args, layout, letter_arg, axis)
 
-    for letter, direction, row in (("x", "facet_col", False), ("y", "facet_row", True)):
         if args[direction]:
             step = 1.0 / (len(layout["grid"][letter + "axes"]) - gap)
             for key, value in axes[letter].items():
@@ -537,7 +558,7 @@ def one_group(x):
 
 
 attrables = (
-    ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
+    ["x", "y", "z", "a", "b", "c", "r", "theta", "size", "value", "category"]
     + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
     + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
     + ["lat", "lon", "locations", "animation_key"]
@@ -706,21 +727,10 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
 
 # TODO bar to histogram
-# TODO line smoothiness
+# TODO line_shape, histfunc,
+# TODO box/violin: points, box, notch
+# TODO geo region, projection, center, locationmode
 # TODO histogram axis & hover = FUNCTION(ARGUMENT)
-# TODO regression on categorical or date values
 # TODO NaN/missing values
-# TODO sort out blank charts
 # TODO python 2: colors and animations
 # TODO defaults: height, width, template, colors
-# TODO histogram weights and calcs
-# TODO various box and violin options
-# TODO geo locationmode, projection, etc
-# TODO facet wrap
-# TODO non-cartesian faceting
-# TODO secondary Y axis
-# TODO testing of some kind (try Percy)
-# TODO validate inputs
-# TODO document missing values
-# TODO warnings
-# TODO DDK

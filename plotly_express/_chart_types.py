@@ -228,20 +228,17 @@ histogram.__doc__ = make_docstring(histogram)
 
 def violin(
     data_frame,
-    x=None,
-    y=None,
+    value=None,
+    category=None,
     color=None,
     color_discrete_map={},
     color_discrete_sequence=default_qualitative,
     orientation="v",
-    mode="group",
     facet_row=None,
     facet_col=None,
-    log_x=False,
-    log_y=False,
+    log_value=False,
     category_orders={},
-    range_x=None,
-    range_y=None,
+    range_value=None,
     animation_frame=None,
     animation_key=None,
     title=None,
@@ -258,7 +255,7 @@ def violin(
         args=locals(),
         constructor=go.Violin,
         trace_patch=dict(orientation=orientation),
-        layout_patch=dict(violinmode=mode),
+        layout_patch=dict(violinmode="group"),
     )
 
 
@@ -267,20 +264,17 @@ violin.__doc__ = make_docstring(violin)
 
 def box(
     data_frame,
-    x=None,
-    y=None,
+    value=None,
+    category=None,
     color=None,
     color_discrete_map={},
     color_discrete_sequence=default_qualitative,
     orientation="v",
-    mode="group",
     facet_row=None,
     facet_col=None,
-    log_x=False,
-    log_y=False,
+    log_value=False,
     category_orders={},
-    range_x=None,
-    range_y=None,
+    range_value=None,
     animation_frame=None,
     animation_key=None,
     title=None,
@@ -297,7 +291,7 @@ def box(
         args=locals(),
         constructor=go.Box,
         trace_patch=dict(orientation=orientation),
-        layout_patch=dict(boxmode=mode),
+        layout_patch=dict(boxmode="group"),
     )
 
 
