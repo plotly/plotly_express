@@ -1,10 +1,10 @@
 def _swatches(module_names, module_contents):
     """
     Returns:
-        A `plotly_express.FigurePx` object. This figure demonstrates the color scales and
+        A `plotly_express.ExpressFigure` object. This figure demonstrates the color scales and
         sequences in this module, as stacked bar charts.
     """
-    from .. import _px
+    from .. import _core
     import plotly.graph_objs as go
 
     sequences = [
@@ -13,7 +13,7 @@ def _swatches(module_names, module_contents):
         if not (k.startswith("_") or k == "swatches")
     ]
 
-    return _px.FigurePx(
+    return _core.ExpressFigure(
         data=[
             go.Bar(
                 orientation="h",

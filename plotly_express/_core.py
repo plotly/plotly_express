@@ -19,7 +19,7 @@ def set_mapbox_access_token(token):
     MAPBOX_TOKEN = token
 
 
-class FigurePx(go.Figure):
+class ExpressFigure(go.Figure):
     offline_initialized = False
     """
     Boolean that starts out `False` and is set to `True` the first time the
@@ -29,12 +29,12 @@ class FigurePx(go.Figure):
     """
 
     def __init__(self, *args, **kwargs):
-        super(FigurePx, self).__init__(*args, **kwargs)
+        super(ExpressFigure, self).__init__(*args, **kwargs)
 
     def _ipython_display_(self):
-        if not FigurePx.offline_initialized:
+        if not ExpressFigure.offline_initialized:
             init_notebook_mode()
-            FigurePx.offline_initialized = True
+            ExpressFigure.offline_initialized = True
         iplot(self, show_link=False, auto_play=False)
 
 
@@ -721,7 +721,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     layout_patch["legend"] = {"tracegroupgap": 0}
     if "title" not in layout_patch:
         layout_patch["margin"] = {"t": 60}
-    fig = FigurePx(
+    fig = ExpressFigure(
         data=frame_list[0]["data"] if len(frame_list) > 0 else [],
         layout=layout_patch,
         frames=frame_list if len(frames) > 1 else [],

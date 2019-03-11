@@ -28,7 +28,7 @@ from ._chart_types import (  # noqa: F401
     density_contour,
 )
 
-from ._px import FigurePx, set_mapbox_access_token  # noqa: F401
+from ._core import ExpressFigure, set_mapbox_access_token  # noqa: F401
 
 from . import data, colors  # noqa: F401
 
@@ -57,5 +57,5 @@ __all__ = [
     "data",
     "colors",
     "set_mapbox_access_token",
-    "FigurePx",
+    "ExpressFigure",
 ]

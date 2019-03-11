@@ -75,5 +75,5 @@ def make_docstring(fn):
         d = str(docs[arg]) if arg in docs else "(documentation missing from map)"
         result += "    %s: %s\n" % (arg, d)
     result += "Returns:\n"
-    result += "    A `plotly_express.FigurePx` object."
+    result += "    A `plotly_express.ExpressFigure` object."
     return result

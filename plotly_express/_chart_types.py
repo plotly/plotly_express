@@ -1,4 +1,4 @@
-from ._px import make_figure
+from ._core import make_figure
 from ._doc import make_docstring
 import plotly.graph_objs as go
 from .colors.qualitative import Plotly as default_qualitative
