@@ -2,17 +2,76 @@ import inspect
 
 docs = dict(
     data_frame="A `pandas.DataFrame`",
-    x="Name of column to map onto x position",
-    y="Name of column to map onto y position",
-    z="Name of column to map onto z position",
+    x="(documentation missing)",
+    y="(documentation missing)",
+    z="(documentation missing)",
+    a="(documentation missing)",
+    b="(documentation missing)",
+    c="(documentation missing)",
+    r="(documentation missing)",
+    theta="(documentation missing)",
+    lat="(documentation missing)",
+    lon="(documentation missing)",
+    locations="(documentation missing)",
+    dimensions="(documentation missing)",
+    color="(documentation missing)",
+    symbol="(documentation missing)",
+    size="(documentation missing)",
+    hover="(documentation missing)",
+    text="(documentation missing)",
+    color_discrete_map="(documentation missing)",
+    symbol_map="(documentation missing)",
+    color_discrete_sequence="(documentation missing)",
+    color_continuous_scale="(documentation missing)",
+    color_continuous_midpoint="(documentation missing)",
+    symbol_sequence="(documentation missing)",
+    facet_row="(documentation missing)",
+    facet_col="(documentation missing)",
+    log_x="(documentation missing)",
+    log_y="(documentation missing)",
+    log_z="(documentation missing)",
+    log_r="(documentation missing)",
+    marginal_x="(documentation missing)",
+    marginal_y="(documentation missing)",
+    error_x="(documentation missing)",
+    error_x_minus="(documentation missing)",
+    error_y="(documentation missing)",
+    error_y_minus="(documentation missing)",
+    error_z="(documentation missing)",
+    error_z_minus="(documentation missing)",
+    size_max="(documentation missing)",
+    animation_frame="(documentation missing)",
+    animation_key="(documentation missing)",
+    direction="(documentation missing)",
+    startangle="(documentation missing)",
+    category_orders="(documentation missing)",
+    range_x="(documentation missing)",
+    range_y="(documentation missing)",
+    range_z="(documentation missing)",
+    range_r="(documentation missing)",
+    title="(documentation missing)",
+    template="(documentation missing)",
+    labels="(documentation missing)",
+    width="(documentation missing)",
+    height="(documentation missing)",
+    trendline="(documentation missing)",
+    trendline_color_override="(documentation missing)",
+    render_mode="(documentation missing)",
+    line_dash="(documentation missing)",
+    normalization="(documentation missing)",
+    mode="(documentation missing)",
+    zoom="(documentation missing)",
+    orientation="(documentation missing)",
+    line_group="(documentation missing)",
+    line_dash_map="(documentation missing)",
 )
 
 
 def make_docstring(fn):
     result = (fn.__doc__ or "") + "\nArguments:\n"
     for arg in inspect.getargspec(fn)[0]:
-        d = docs[arg] if arg in docs else "(documentation missing)"
-        result += f"    {arg}: {d}" + "\n"
+        d = str(docs[arg]) if arg in docs else "(documentation missing)"
+        result += "    %s: %s\n" % (arg, d)
     result += "Returns:\n"
     result += "    A `plotly_express.FigurePx` object."
     return result

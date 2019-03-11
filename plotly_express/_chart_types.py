@@ -53,7 +53,7 @@ def scatter(
     render_mode="auto",
 ):
     """
-    In a scatter plot, each row of `data_frame` is represented by a marker in 2d space.
+    In a scatter plot, each row of `data_frame` is represented by a marker in 2D space.
     """
     return make_figure(args=locals(), constructor=go.Scatter)
 
@@ -89,7 +89,7 @@ def density_contour(
 ):
     """
     In a density contour plot, rows of `data_frame` are grouped together into contours to \
-    visualize the density of their distribution in 2d space.
+    visualize the density of their distribution in 2D space.
     """
     return make_figure(
         args=locals(),
@@ -135,7 +135,7 @@ def line(
     render_mode="auto",
 ):
     """
-    In a line plot, each row of `data_frame` is represented as the end of a line segment.
+    In a 2D line plot, each row of `data_frame` is represented as vertex of a polyline in 2D space.
     """
     return make_figure(args=locals(), constructor=go.Scatter)
 
@@ -290,7 +290,7 @@ def box(
     height=default_height,
 ):
     """
-    In a violin plot, rows of `data_frame` are grouped together into a box shape to \
+    In a box plot, rows of `data_frame` are grouped together into a box-and-whisker shape to \
     visualize their distribution.
     """
     return make_figure(
@@ -342,6 +342,9 @@ def scatter_3d(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a 3D scatter plot, each row of `data_frame` is represented by a marker in 3D space.
+    """
     return make_figure(args=locals(), constructor=go.Scatter3d)
 
 
@@ -383,6 +386,9 @@ def line_3d(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a 3D line plot, each row of `data_frame` is represented as vertex of a polyline in 3D space.
+    """
     return make_figure(args=locals(), constructor=go.Scatter3d)
 
 
@@ -415,6 +421,9 @@ def scatter_ternary(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a ternary scatter plot, each row of `data_frame` is represented by a marker in ternary coordinates.
+    """
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
@@ -444,6 +453,9 @@ def line_ternary(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a ternary line plot, each row of `data_frame` is represented as vertex of a polyline in ternary coordinates.
+    """
     return make_figure(args=locals(), constructor=go.Scatterternary)
 
 
@@ -480,6 +492,10 @@ def scatter_polar(
     height=default_height,
     render_mode="auto",
 ):
+    """
+    In a polar scatter plot, each row of `data_frame` is represented by a marker in
+    polar coordinates.
+    """
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
@@ -514,6 +530,9 @@ def line_polar(
     height=default_height,
     render_mode="auto",
 ):
+    """
+    In a polar line plot, each row of `data_frame` is represented as vertex of a polyline in polar coordinates.
+    """
     return make_figure(args=locals(), constructor=go.Scatterpolar)
 
 
@@ -543,6 +562,9 @@ def bar_polar(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a polar bar plot, each row of `data_frame` is represented as a sector in polar coordinates.
+    """
     return make_figure(
         args=locals(),
         constructor=go.Barpolar,
@@ -573,6 +595,9 @@ def choropleth(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a choropleth map, each row of `data_frame` is represented by a colored region on a map.
+    """
     return make_figure(args=locals(), constructor=go.Choropleth)
 
 
@@ -602,6 +627,9 @@ def scatter_geo(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a geographic scatter plot, each row of `data_frame` is represented by a marker on a map.
+    """
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
@@ -631,6 +659,9 @@ def line_geo(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a geographic line plot, each row of `data_frame` is represented as vertex of a polyline on a map.
+    """
     return make_figure(args=locals(), constructor=go.Scattergeo)
 
 
@@ -660,6 +691,9 @@ def scatter_mapbox(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a Mapbox scatter plot, each row of `data_frame` is represented by a marker on a Mapbox map.
+    """
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
@@ -686,6 +720,9 @@ def line_mapbox(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a Mapbox line plot, each row of `data_frame` is represented as vertex of a polyline on a Mapbox map.
+    """
     return make_figure(args=locals(), constructor=go.Scattermapbox)
 
 
@@ -712,6 +749,11 @@ def scatter_matrix(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a scatter plot matrix (or SPLOM), each row of `data_frame` is represented \
+    by a multiple markers, one in each cell of a grid of 2D scatter plots, which \
+    plot each pair of `dimensions` against each other.
+    """
     return make_figure(
         args=locals(), constructor=go.Splom, layout_patch=dict(dragmode="select")
     )
@@ -732,6 +774,11 @@ def parallel_coordinates(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a parallel coordinates plot, each row of `data_frame` is represented \
+    by a polyline which traverses a set of parallel axes, one for each of the \
+    `dimensions`.
+    """
     return make_figure(args=locals(), constructor=go.Parcoords)
 
 
@@ -750,6 +797,11 @@ def parallel_categories(
     width=default_width,
     height=default_height,
 ):
+    """
+    In a parallel categories (or parallel sets) plot, each row of `data_frame` is \
+    grouped with other rows that share the same values of `dimensions` and then plotted \
+    as a polyline through a set of parallel axes, one for each of the `dimensions`.
+    """
     return make_figure(args=locals(), constructor=go.Parcats)
 
 

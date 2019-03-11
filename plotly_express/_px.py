@@ -678,7 +678,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     args,
                     trace_spec,
                     group,
-                    mapping_labels.copy(),
+                    mapping_labels[:],
                     sizeref,
                     color_range=color_range if frame_name not in frames else None,
                 )
@@ -705,17 +705,17 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
+# TODO bar to histogram
+# TODO line smoothiness
 # TODO histogram axis & hover = FUNCTION(ARGUMENT)
-# TODO default {} / args / pylint
 # TODO regression on categorical or date values
 # TODO NaN/missing values
 # TODO sort out blank charts
-# TODO python 2
+# TODO python 2: colors and animations
 # TODO defaults: height, width, template, colors
 # TODO histogram weights and calcs
 # TODO various box and violin options
 # TODO geo locationmode, projection, etc
-# TODO check on dates
 # TODO facet wrap
 # TODO non-cartesian faceting
 # TODO secondary Y axis
