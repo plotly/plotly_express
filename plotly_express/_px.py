@@ -557,17 +557,16 @@ def one_group(x):
     return ""
 
 
-attrables = (
-    ["x", "y", "z", "a", "b", "c", "r", "theta", "size", "value", "category"]
-    + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
-    + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
-    + ["lat", "lon", "locations", "animation_key"]
-)
+def infer_config(args, constructor, trace_patch):
+    attrables = (
+        ["x", "y", "z", "a", "b", "c", "r", "theta", "size", "value", "category"]
+        + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
+        + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
+        + ["lat", "lon", "locations", "animation_key"]
+    )
 
-groupables = ["animation_frame", "facet_row", "facet_col", "line_group"]
+    groupables = ["animation_frame", "facet_row", "facet_col", "line_group"]
 
-
-def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     attrs = [k for k in attrables if k in args]
     grouped_attrs = [k for k in groupables if k in args]
 
@@ -621,6 +620,14 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
+    trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
+    return trace_specs, grouped_mappings, sizeref, color_range
+
+
+def make_figure(args, constructor, trace_patch={}, layout_patch={}):
+    trace_specs, grouped_mappings, sizeref, color_range = infer_config(
+        args, constructor, trace_patch
+    )
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     grouped = args["data_frame"].groupby(grouper, sort=False)
     orders = {} if "category_orders" not in args else args["category_orders"].copy()
@@ -644,7 +651,6 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     trace_names_by_frame = {}
     frames = OrderedDict()
-    trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
     for group_name in group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = []
