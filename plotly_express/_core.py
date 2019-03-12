@@ -193,7 +193,8 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     )
                 d = len(args["color_continuous_scale"]) - 1
                 colorbar_container["colorscale"] = [
-                    [i / d, x] for i, x in enumerate(args["color_continuous_scale"])
+                    [(1.0 * i) / (1.0 * d), x]
+                    for i, x in enumerate(args["color_continuous_scale"])
                 ]
                 if color_range is None:
                     colorbar_container["showscale"] = False
@@ -598,13 +599,12 @@ def infer_config(args, constructor, trace_patch):
     if "symbol" in args:
         grouped_attrs.append("marker.symbol")
 
+    trace_patch = trace_patch.copy()
     if "line_group" in args:
-        trace_patch = trace_patch.copy()
         trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
     elif constructor != go.Splom and (
         "symbol" in args or constructor == go.Scattermapbox
     ):
-        trace_patch = trace_patch.copy()
         trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
