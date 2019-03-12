@@ -254,7 +254,7 @@ def configure_axes(args, constructor, fig, axes, orders):
         fig.update(configurators[constructor](args, fig, axes, orders))
 
 
-def set_cartesian_axis_opts(args, layout, letter_arg, axis):
+def set_cartesian_axis_opts(args, layout, letter_arg, axis, orders):
     log_key = "log_" + letter_arg
     range_key = "range_" + letter_arg
     if log_key in args and args[log_key]:
@@ -264,31 +264,41 @@ def set_cartesian_axis_opts(args, layout, letter_arg, axis):
     elif range_key in args and args[range_key]:
         layout[axis]["range"] = args[range_key]
 
+    if args[letter_arg] in orders:
+        layout[axis]["categoryorder"] = "array"
+        layout[axis]["categoryarray"] = (
+            orders[args[letter_arg]]
+            if axis.startswith("x")
+            else list(reversed(orders[args[letter_arg]]))
+        )
+
+
+def configure_cartesian_marginal_axes(args, orders):
+    layout = dict(barmode="overlay", violinmode="overlay")
+    for letter in ["x", "y"]:
+        otherletter = "x" if letter == "y" else "y"
+        if args["marginal_" + letter]:
+            if args["marginal_" + letter] == "histogram" or (
+                "color" in args and args["color"]
+            ):
+                main_size = 0.74
+            else:
+                main_size = 0.84
+            layout[otherletter + "axis1"] = {"domain": [0, main_size], "showgrid": True}
+            layout[otherletter + "axis2"] = {
+                "domain": [main_size + 0.005, 1],
+                "showticklabels": False,
+            }
+            set_cartesian_axis_opts(args, layout, letter, letter + "axis1", orders)
+    return dict(layout=layout)
+
 
 def configure_cartesian_axes(args, fig, axes, orders):
     if ("marginal_x" in args and args["marginal_x"]) or (
         "marginal_y" in args and args["marginal_y"]
     ):
-        layout = dict(barmode="overlay", violinmode="overlay")
-        for letter in ["x", "y"]:
-            otherletter = "x" if letter == "y" else "y"
-            if args["marginal_" + letter]:
-                if args["marginal_" + letter] == "histogram" or (
-                    "color" in args and args["color"]
-                ):
-                    main_size = 0.74
-                else:
-                    main_size = 0.84
-                layout[otherletter + "axis1"] = {
-                    "domain": [0, main_size],
-                    "showgrid": True,
-                }
-                layout[otherletter + "axis2"] = {
-                    "domain": [main_size + 0.005, 1],
-                    "showticklabels": False,
-                }
-                set_cartesian_axis_opts(args, layout, letter, letter + "axis1")
-        return dict(layout=layout)
+        return configure_cartesian_marginal_axes(args, orders)
+
     gap = 0.1
     layout = {
         "annotations": [],
@@ -316,20 +326,13 @@ def configure_cartesian_axes(args, fig, axes, orders):
                         letter_arg = "value" if letter == "x" else "category"
 
                 layout[axis] = dict(title=get_label(args, args[letter_arg]))
-                if len(letter_number) > 1:
+                if len(letter_number) == 1:
+                    set_cartesian_axis_opts(args, layout, letter_arg, axis, orders)
+                else:
                     layout[axis]["matches"] = letter
                     log_key = "log_" + letter_arg
                     if log_key in args and args[log_key]:
                         layout[axis]["type"] = "log"
-                else:
-                    if args[letter_arg] in orders:
-                        layout[axis]["categoryorder"] = "array"
-                        layout[axis]["categoryarray"] = (
-                            orders[args[letter_arg]]
-                            if letter == "x"
-                            else list(reversed(orders[args[letter_arg]]))
-                        )
-                    set_cartesian_axis_opts(args, layout, letter_arg, axis)
 
         if args[direction]:
             step = 1.0 / (len(layout["grid"][letter + "axes"]) - gap)
