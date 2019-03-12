@@ -204,14 +204,6 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container[color_letter + "max"] = color_range[1]
             elif k == "animation_key":
                 result["ids"] = g[v]
-            elif k == "value":
-                value_axis = "y" if args["orientation"] == "v" else "x"
-                result[value_axis] = g[v]
-                mapping_labels.append(("%s=%%{%s}" % (v_label, value_axis), None))
-            elif k == "category":
-                category_axis = "x" if args["orientation"] == "v" else "y"
-                result[category_axis] = g[v]
-                mapping_labels.append(("%s=%%{%s}" % (v_label, category_axis), None))
             elif k == "locations":
                 result[k] = g[v]
                 mapping_labels.append(("%s=%%{%s}" % (v_label, "location"), None))
@@ -254,9 +246,9 @@ def configure_axes(args, constructor, fig, axes, orders):
         fig.update(configurators[constructor](args, fig, axes, orders))
 
 
-def set_cartesian_axis_opts(args, layout, letter_arg, axis, orders):
-    log_key = "log_" + letter_arg
-    range_key = "range_" + letter_arg
+def set_cartesian_axis_opts(args, layout, letter, axis, orders):
+    log_key = "log_" + letter
+    range_key = "range_" + letter
     if log_key in args and args[log_key]:
         layout[axis]["type"] = "log"
         if range_key in args and args[range_key]:
@@ -264,12 +256,12 @@ def set_cartesian_axis_opts(args, layout, letter_arg, axis, orders):
     elif range_key in args and args[range_key]:
         layout[axis]["range"] = args[range_key]
 
-    if args[letter_arg] in orders:
+    if args[letter] in orders:
         layout[axis]["categoryorder"] = "array"
         layout[axis]["categoryarray"] = (
-            orders[args[letter_arg]]
+            orders[args[letter]]
             if axis.startswith("x")
-            else list(reversed(orders[args[letter_arg]]))
+            else list(reversed(orders[args[letter]]))
         )
 
 
@@ -317,20 +309,13 @@ def configure_cartesian_axes(args, fig, axes, orders):
             if letter_number not in layout["grid"][letter + "axes"]:
                 layout["grid"][letter + "axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter + "axis")
-                if letter in args:
-                    letter_arg = letter
-                else:
-                    if args["orientation"] == "v":
-                        letter_arg = "category" if letter == "x" else "value"
-                    else:
-                        letter_arg = "value" if letter == "x" else "category"
 
-                layout[axis] = dict(title=get_label(args, args[letter_arg]))
+                layout[axis] = dict(title=get_label(args, args[letter]))
                 if len(letter_number) == 1:
-                    set_cartesian_axis_opts(args, layout, letter_arg, axis, orders)
+                    set_cartesian_axis_opts(args, layout, letter, axis, orders)
                 else:
                     layout[axis]["matches"] = letter
-                    log_key = "log_" + letter_arg
+                    log_key = "log_" + letter
                     if log_key in args and args[log_key]:
                         layout[axis]["type"] = "log"
 
@@ -562,7 +547,7 @@ def one_group(x):
 
 def infer_config(args, constructor, trace_patch):
     attrables = (
-        ["x", "y", "z", "a", "b", "c", "r", "theta", "size", "value", "category"]
+        ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
         + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
         + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
         + ["lat", "lon", "locations", "animation_key"]
