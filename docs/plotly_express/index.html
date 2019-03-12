@@ -1027,7 +1027,7 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.violin"><code class="name flex">
-<span>def <span class="ident">violin</span></span>(<span>data_frame, value=None, category=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_value=False, category_orders={}, range_value=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">violin</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a violin plot, rows of <code>data_frame</code> are grouped together into a curved shape to
@@ -1036,10 +1036,10 @@ visualize their distribution.</p>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
-<dt><strong><code>value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
-<dt><strong><code>category</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -1052,12 +1052,16 @@ visualize their distribution.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>facet_col</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>log_value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>log_x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>log_y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>range_value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>range_x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>range_y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>animation_key</code></strong></dt>
@@ -1077,7 +1081,7 @@ visualize their distribution.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.box"><code class="name flex">
-<span>def <span class="ident">box</span></span>(<span>data_frame, value=None, category=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_value=False, category_orders={}, range_value=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a box plot, rows of <code>data_frame</code> are grouped together into a box-and-whisker shape to
@@ -1086,10 +1090,10 @@ visualize their distribution.</p>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A <code>pandas.DataFrame</code></dd>
-<dt><strong><code>value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
-<dt><strong><code>category</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
@@ -1102,12 +1106,16 @@ visualize their distribution.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>facet_col</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>log_value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>log_x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>log_y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>range_value</code></strong></dt>
-<dd>(documentation missing from map)</dd>
+<dt><strong><code>range_x</code></strong></dt>
+<dd>(documentation missing)</dd>
+<dt><strong><code>range_y</code></strong></dt>
+<dd>(documentation missing)</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>animation_key</code></strong></dt>
