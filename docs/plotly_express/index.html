@@ -42,7 +42,7 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="plotly_express.scatter"><code class="name flex">
-<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, size_max=20, animation_frame=None, animation_key=None, category_orders={}, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, size_max=20, animation_frame=None, animation_key=None, category_orders={}, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a marker in 2D space.</p>
@@ -60,7 +60,7 @@
 <dd>(documentation missing)</dd>
 <dt><strong><code>size</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -129,7 +129,7 @@
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_3d"><code class="name flex">
-<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], log_x=False, log_y=False, log_z=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], log_x=False, log_y=False, log_z=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 3D scatter plot, each row of <code>data_frame</code> is represented by a marker in 3D space.</p>
@@ -155,7 +155,7 @@
 <dd>(documentation missing)</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -212,7 +212,7 @@
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_polar"><code class="name flex">
-<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r, theta, color=None, symbol=None, size=None, hover=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], direction=&#39;clockwise&#39;, startangle=90, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r, theta, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], direction=&#39;clockwise&#39;, startangle=90, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar scatter plot, each row of <code>data_frame</code> is represented by a marker in
@@ -231,7 +231,7 @@ polar coordinates.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>size</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -280,7 +280,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_ternary"><code class="name flex">
-<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary scatter plot, each row of <code>data_frame</code> is represented by a marker in ternary coordinates.</p>
@@ -306,7 +306,7 @@ polar coordinates.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -339,7 +339,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_mapbox"><code class="name flex">
-<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox scatter plot, each row of <code>data_frame</code> is represented by a marker on a Mapbox map.</p>
@@ -355,7 +355,7 @@ polar coordinates.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -392,7 +392,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_geo"><code class="name flex">
-<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, text=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic scatter plot, each row of <code>data_frame</code> is represented by a marker on a map.</p>
@@ -410,7 +410,7 @@ polar coordinates.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -554,7 +554,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line"><code class="name flex">
-<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 2D line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in 2D space.</p>
@@ -572,7 +572,7 @@ visualize the density of their distribution in 2D space.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_dash</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -627,7 +627,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_polar"><code class="name flex">
-<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r, theta, color=None, line_dash=None, hover=None, line_group=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], direction=&#39;clockwise&#39;, startangle=90, line_close=False, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r, theta, color=None, line_dash=None, hover_name=None, line_group=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], direction=&#39;clockwise&#39;, startangle=90, line_close=False, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in polar coordinates.</p>
@@ -643,7 +643,7 @@ visualize the density of their distribution in 2D space.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_dash</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_group</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -690,7 +690,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_ternary"><code class="name flex">
-<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in ternary coordinates.</p>
@@ -710,7 +710,7 @@ visualize the density of their distribution in 2D space.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_group</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -743,7 +743,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_mapbox"><code class="name flex">
-<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a Mapbox map.</p>
@@ -759,7 +759,7 @@ visualize the density of their distribution in 2D space.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_group</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -790,7 +790,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_geo"><code class="name flex">
-<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, line_dash=None, text=None, hover=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, line_dash=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a map.</p>
@@ -810,7 +810,7 @@ visualize the density of their distribution in 2D space.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>line_group</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -909,7 +909,7 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar"><code class="name flex">
-<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, hover=None, text=None, orientation=&#39;v&#39;, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, hover_name=None, text=None, orientation=&#39;v&#39;, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a bar plot, each row of <code>data_frame</code> is represented as a rectangle.</p>
@@ -931,7 +931,7 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <dd>(documentation missing)</dd>
 <dt><strong><code>facet_col</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>text</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -974,7 +974,7 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar_polar"><code class="name flex">
-<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], normalization=&#39;&#39;, mode=&#39;relative&#39;, direction=&#39;clockwise&#39;, startangle=90, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], normalization=&#39;&#39;, mode=&#39;relative&#39;, direction=&#39;clockwise&#39;, startangle=90, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar bar plot, each row of <code>data_frame</code> is represented as a sector in polar coordinates.</p>
@@ -988,7 +988,7 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <dd>(documentation missing)</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
 <dd>(documentation missing)</dd>
@@ -1193,7 +1193,7 @@ visualize some aggregate quantity like count or sum.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.choropleth"><code class="name flex">
-<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, hover=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, hover_name=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a choropleth map, each row of <code>data_frame</code> is represented by a colored region on a map.</p>
@@ -1213,7 +1213,7 @@ visualize some aggregate quantity like count or sum.</p>
 <dd>(documentation missing)</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
 <dd>(documentation missing)</dd>
-<dt><strong><code>hover</code></strong></dt>
+<dt><strong><code>hover_name</code></strong></dt>
 <dd>(documentation missing)</dd>
 <dt><strong><code>size</code></strong></dt>
 <dd>(documentation missing)</dd>

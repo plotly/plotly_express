@@ -168,7 +168,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 if error_xy not in result:
                     result[error_xy] = {}
                 result[error_xy][arr] = g[v]
-            elif k == "hover":
+            elif k == "hover_name":
                 result["hovertext"] = g[v]
                 if hover_header == "":
                     hover_header = "<b>%{hovertext}</b><br><br>"
@@ -277,7 +277,11 @@ def configure_cartesian_marginal_axes(args, orders):
                 main_size = 0.74
             else:
                 main_size = 0.84
-            layout[otherletter + "axis1"] = {"domain": [0, main_size], "showgrid": True}
+            layout[otherletter + "axis1"] = {
+                "domain": [0, main_size],
+                "showgrid": True,
+                "title": get_label(args, args[letter]),
+            }
             layout[otherletter + "axis2"] = {
                 "domain": [main_size + 0.005, 1],
                 "showticklabels": False,
@@ -549,7 +553,7 @@ def one_group(x):
 def infer_config(args, constructor, trace_patch):
     attrables = (
         ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
-        + ["dimensions", "hover", "text", "error_x", "error_x_minus"]
+        + ["dimensions", "hover_name", "text", "error_x", "error_x_minus"]
         + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
         + ["lat", "lon", "locations", "animation_key"]
     )
@@ -720,11 +724,10 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
-# TODO bar to histogram
-# TODO line_shape, histfunc,
+# TODO hover_extras
+# TODO line_shape, histfunc, histfunc labelling
 # TODO box/violin: points, box, notch
 # TODO geo region, projection, center, locationmode
-# TODO histogram axis & hover = FUNCTION(ARGUMENT)
 # TODO NaN/missing values
-# TODO python 2: colors and animations
+# TODO python 2: facets  https://github.com/plotly/plotly.py/issues/1462
 # TODO defaults: height, width, template, colors
