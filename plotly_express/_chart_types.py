@@ -1,9 +1,10 @@
 from ._core import make_figure
 from ._doc import make_docstring
 import plotly.graph_objs as go
-from .colors.qualitative import Plotly as default_qualitative
-from .colors.sequential import Plotly as default_continuous
+from .colors import qualitative, sequential
 
+default_qualitative = qualitative.Plotly
+default_continuous = sequential.Plotly
 default_template = "plotly"
 default_width = None
 default_height = 600
@@ -478,8 +479,8 @@ line_ternary.__doc__ = make_docstring(line_ternary)
 
 def scatter_polar(
     data_frame,
-    r,
-    theta,
+    r=None,
+    theta=None,
     color=None,
     symbol=None,
     size=None,

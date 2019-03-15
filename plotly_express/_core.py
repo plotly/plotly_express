@@ -244,7 +244,7 @@ def configure_axes(args, constructor, fig, axes, orders):
         go.Choropleth: configure_geo,
     }
     if constructor in configurators:
-        fig.update(configurators[constructor](args, fig, axes, orders))
+        fig.update(layout=configurators[constructor](args, fig, axes, orders))
 
 
 def set_cartesian_axis_opts(args, layout, letter, axis, orders):
@@ -287,7 +287,7 @@ def configure_cartesian_marginal_axes(args, orders):
                 "showticklabels": False,
             }
             set_cartesian_axis_opts(args, layout, letter, letter + "axis1", orders)
-    return dict(layout=layout)
+    return layout
 
 
 def configure_cartesian_axes(args, fig, axes, orders):
@@ -345,38 +345,33 @@ def configure_cartesian_axes(args, fig, axes, orders):
                         "textangle": 90 if row else 0,
                     }
                 )
-    return dict(layout=layout)
+    return layout
 
 
 def configure_ternary_axes(args, fig, axes, orders):
     return dict(
-        layout=dict(
-            ternary=dict(
-                aaxis=dict(title=get_label(args, args["a"])),
-                baxis=dict(title=get_label(args, args["b"])),
-                caxis=dict(title=get_label(args, args["c"])),
-            )
+        ternary=dict(
+            aaxis=dict(title=get_label(args, args["a"])),
+            baxis=dict(title=get_label(args, args["b"])),
+            caxis=dict(title=get_label(args, args["c"])),
         )
     )
 
 
 def configure_polar_axes(args, fig, axes, orders):
-    patch = dict(
-        layout=dict(
-            polar=dict(
-                angularaxis=dict(
-                    direction=args["direction"], rotation=args["startangle"]
-                ),
-                radialaxis=dict(),
-            )
+    layout = dict(
+        polar=dict(
+            angularaxis=dict(direction=args["direction"], rotation=args["startangle"]),
+            radialaxis=dict(),
         )
     )
+
     for var, axis in [("r", "radialaxis"), ("theta", "angularaxis")]:
         if args[var] in orders:
-            patch["layout"]["polar"][axis]["categoryorder"] = "array"
-            patch["layout"]["polar"][axis]["categoryarray"] = orders[args[var]]
+            layout["polar"][axis]["categoryorder"] = "array"
+            layout["polar"][axis]["categoryarray"] = orders[args[var]]
 
-    radialaxis = patch["layout"]["polar"]["radialaxis"]
+    radialaxis = layout["polar"]["radialaxis"]
     if args["log_r"]:
         radialaxis["type"] = "log"
         if args["range_r"]:
@@ -384,21 +379,20 @@ def configure_polar_axes(args, fig, axes, orders):
     else:
         if args["range_r"]:
             radialaxis["range"] = args["range_r"]
-    return patch
+    return layout
 
 
 def configure_3d_axes(args, fig, axes, orders):
-    patch = dict(
-        layout=dict(
-            scene=dict(
-                xaxis=dict(title=get_label(args, args["x"])),
-                yaxis=dict(title=get_label(args, args["y"])),
-                zaxis=dict(title=get_label(args, args["z"])),
-            )
+    layout = dict(
+        scene=dict(
+            xaxis=dict(title=get_label(args, args["x"])),
+            yaxis=dict(title=get_label(args, args["y"])),
+            zaxis=dict(title=get_label(args, args["z"])),
         )
     )
+
     for letter in ["x", "y", "z"]:
-        axis = patch["layout"]["scene"][letter + "axis"]
+        axis = layout["scene"][letter + "axis"]
         if args["log_" + letter]:
             axis["type"] = "log"
             if args["range_" + letter]:
@@ -409,33 +403,30 @@ def configure_3d_axes(args, fig, axes, orders):
         if args[letter] in orders:
             axis["categoryorder"] = "array"
             axis["categoryarray"] = orders[args[letter]]
-    return patch
+    return layout
 
 
 def configure_mapbox(args, fig, axes, orders):
     return dict(
-        layout=dict(
-            mapbox=dict(
-                accesstoken=MAPBOX_TOKEN,
-                center=dict(
-                    lat=args["data_frame"][args["lat"]].mean(),
-                    lon=args["data_frame"][args["lon"]].mean(),
-                ),
-                zoom=args["zoom"],
-            )
+        mapbox=dict(
+            accesstoken=MAPBOX_TOKEN,
+            center=dict(
+                lat=args["data_frame"][args["lat"]].mean(),
+                lon=args["data_frame"][args["lon"]].mean(),
+            ),
+            zoom=args["zoom"],
         )
     )
 
 
 def configure_geo(args, fig, axes, orders):
-    layout = dict(
+    return dict(
         geo=dict(
             center=args["center"],
             scope=args["scope"],
             projection=dict(type=args["projection"]),
         )
     )
-    return dict(layout=layout)
 
 
 def configure_animation_controls(args, constructor, fig):
