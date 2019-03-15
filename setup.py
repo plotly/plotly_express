@@ -14,20 +14,26 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 
 setup(
-    name="plotly_express",  # Required
-    version="0.1a8",  # Required
-    description="Plotly Express: a high level wrapper for Plotly.py",  # Optional
-    long_description=long_description,  # Optional
-    long_description_content_type="text/markdown",  # Optional (see note above)
-    url="https://github.com/plotly/plotly_express",  # Optional
-    author="Nicolas Kruchten",  # Optional
-    author_email="nicolas@plot.ly",  # Optional
-    classifiers=[  # Optional
+    name="plotly_express",
+    version="0.1a8",
+    description="Plotly Express: a high level wrapper for Plotly.py",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/plotly/plotly_express",
+    author="Nicolas Kruchten",
+    author_email="nicolas@plot.ly",
+    classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Scientific/Engineering :: Visualization",
         "License :: OSI Approved :: MIT License",
     ],
-    packages=find_packages(),  # Required
+    packages=find_packages(),
     package_data={"plotly_express": ["data/*.csv.gz"]},
-    install_requires=["pandas>=0.20.0", "plotly>=3.6.0"],  # Optional
+    install_requires=[
+        "pandas>=0.20.0",
+        "plotly>=3.6.0",
+        "plotly>=3.7.0",
+        "statsmodels>=0.9.0",
+        "scipy >= 0.14",
+    ],
 )
