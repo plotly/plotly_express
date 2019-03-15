@@ -133,6 +133,7 @@ def line(
     width=default_width,
     height=default_height,
     render_mode="auto",
+    line_shape=None,
 ):
     """
     In a 2D line plot, each row of `data_frame` is represented as vertex of a polyline in 2D space.
@@ -210,6 +211,9 @@ def histogram(
     labels={},
     width=default_width,
     height=default_height,
+    histfunc=None,
+    cumulative=None,
+    nbins=None,
 ):
     """
     In a histogram, rows of `data_frame` are grouped together into a rectangle to \
@@ -218,7 +222,14 @@ def histogram(
     return make_figure(
         args=locals(),
         constructor=go.Histogram,
-        trace_patch=dict(orientation=orientation, histnorm=normalization),
+        trace_patch=dict(
+            orientation=orientation,
+            histnorm=normalization,
+            histfunc="sum" if histfunc is None and x and y else histfunc,
+            nbinsx=nbins if orientation == "v" else None,
+            nbinsy=nbins if orientation == "h" else None,
+            cumulative=dict(enabled=cumulative),
+        ),
         layout_patch=dict(barmode=mode),
     )
 
@@ -248,6 +259,8 @@ def violin(
     labels={},
     width=default_width,
     height=default_height,
+    points=None,
+    box=False,
 ):
     """
     In a violin plot, rows of `data_frame` are grouped together into a curved shape to \
@@ -256,7 +269,7 @@ def violin(
     return make_figure(
         args=locals(),
         constructor=go.Violin,
-        trace_patch=dict(orientation=orientation),
+        trace_patch=dict(orientation=orientation, points=points, box=dict(visible=box)),
         layout_patch=dict(violinmode="group"),
     )
 
@@ -286,6 +299,8 @@ def box(
     labels={},
     width=default_width,
     height=default_height,
+    points=None,
+    notched=False,
 ):
     """
     In a box plot, rows of `data_frame` are grouped together into a box-and-whisker shape to \
@@ -294,7 +309,7 @@ def box(
     return make_figure(
         args=locals(),
         constructor=go.Box,
-        trace_patch=dict(orientation=orientation),
+        trace_patch=dict(orientation=orientation, boxpoints=points, notched=notched),
         layout_patch=dict(boxmode="group"),
     )
 
@@ -450,6 +465,7 @@ def line_ternary(
     labels={},
     width=default_width,
     height=default_height,
+    line_shape=None,
 ):
     """
     In a ternary line plot, each row of `data_frame` is represented as vertex of a polyline in ternary coordinates.
@@ -502,8 +518,8 @@ scatter_polar.__doc__ = make_docstring(scatter_polar)
 
 def line_polar(
     data_frame,
-    r,
-    theta,
+    r=None,
+    theta=None,
     color=None,
     line_dash=None,
     hover_name=None,
@@ -527,6 +543,7 @@ def line_polar(
     width=default_width,
     height=default_height,
     render_mode="auto",
+    line_shape=None,
 ):
     """
     In a polar line plot, each row of `data_frame` is represented as vertex of a polyline in polar coordinates.
@@ -592,6 +609,9 @@ def choropleth(
     labels={},
     width=default_width,
     height=default_height,
+    projection=None,
+    scope=None,
+    center=None,
 ):
     """
     In a choropleth map, each row of `data_frame` is represented by a colored region on a map.
@@ -624,6 +644,9 @@ def scatter_geo(
     labels={},
     width=default_width,
     height=default_height,
+    projection=None,
+    scope=None,
+    center=None,
 ):
     """
     In a geographic scatter plot, each row of `data_frame` is represented by a marker on a map.
@@ -656,6 +679,9 @@ def line_geo(
     labels={},
     width=default_width,
     height=default_height,
+    projection=None,
+    scope=None,
+    center=None,
 ):
     """
     In a geographic line plot, each row of `data_frame` is represented as vertex of a polyline on a map.

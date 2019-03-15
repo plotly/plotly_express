@@ -428,7 +428,14 @@ def configure_mapbox(args, fig, axes, orders):
 
 
 def configure_geo(args, fig, axes, orders):
-    return dict(layout=dict(geo=dict(projection=dict(type="robinson"))))
+    layout = dict(
+        geo=dict(
+            center=args["center"],
+            scope=args["scope"],
+            projection=dict(type=args["projection"]),
+        )
+    )
+    return dict(layout=layout)
 
 
 def configure_animation_controls(args, constructor, fig):
@@ -611,6 +618,9 @@ def infer_config(args, constructor, trace_patch):
     ):
         trace_patch["mode"] = "markers" + ("+text" if args["text"] else "")
 
+    if "line_shape" in args:
+        trace_patch["line"] = dict(shape=args["line_shape"])
+
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
     return trace_specs, grouped_mappings, sizeref, color_range
@@ -724,10 +734,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     return fig
 
 
-# TODO hover_extras
-# TODO line_shape, histfunc, histfunc labelling
-# TODO box/violin: points, box, notch
-# TODO geo region, projection, center, locationmode
+# TODO enforce order of kwargs somehow
+# TODO histfunc labelling
 # TODO NaN/missing values
 # TODO python 2: facets  https://github.com/plotly/plotly.py/issues/1462
 # TODO defaults: height, width, template, colors
