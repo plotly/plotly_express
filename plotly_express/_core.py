@@ -741,6 +741,3 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     configure_animation_controls(args, constructor, fig)
     return fig
 
-
-# TODO enforce order of kwargs somehow
-# TODO NaN/missing values
