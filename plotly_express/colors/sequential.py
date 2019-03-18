@@ -1,7 +1,8 @@
 """
 Sequential color scales are appropriate for most continuous data, but in some cases it \
 can be helpful to use a `plotly_express.colors.diverging` or \
-`plotly_express.colors.cyclical` scale instead.
+`plotly_express.colors.cyclical` scale instead. The color scales in this module are \
+mostly meant to be passed in as the `color_continuous_scale` argument to various functions.
 """
 
 from ._swatches import _swatches

@@ -42,177 +42,178 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="plotly_express.scatter"><code class="name flex">
-<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, size_max=20, animation_frame=None, animation_key=None, category_orders={}, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, size_max=20, animation_frame=None, animation_constancy_group=None, category_orders={}, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a marker in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to markers.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js symbols, default {}) Used to override <code>symbol_sequence</code> to assign a specific symbols to markers corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>symbol_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>marginal_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'rug'</code>, <code>'box'</code>, <code>'violin'</code>, <code>'histogram'</code>) If set, a horizontal subplot is drawn above the main plot, visulizing the x-distribution.</dd>
 <dt><strong><code>marginal_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'rug'</code>, <code>'box'</code>, <code>'violin'</code>, <code>'histogram'</code>) If set, a vertical subplot is drawn to the right of the main plot, visulizing the y-distribution.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 <dt><strong><code>trendline</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'ols'</code> or <code>'lowess'</code>, default <code>None</code>) If <code>'ols'</code>, an Ordinary Least Squares regression line will be drawn for each group. If <code>'lowess</code>', a Locally Weighted Scatterplot Smoothing line will be drawn for each group.</dd>
 <dt><strong><code>trendline_color_override</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, valid CSS color) If provided, and if <code>trendline</code> is set, all trendlines will be drawn in this color.</dd>
 <dt><strong><code>render_mode</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'auto'</code>, <code>'svg'</code> or <code>'webgl'</code>, default <code>'auto'</code>) Controls the browser API used to draw markers. <code>'svg</code>' is appropriate for figures of less than 1000 data points, and will allow for fully-vectorized output. <code>'webgl'</code> is likely necessary for acceptable performance above 1000 points but rasterizes part of the output.
+<code>'auto'</code> uses heuristics to choose the mode.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_3d"><code class="name flex">
-<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], log_x=False, log_y=False, log_z=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], log_x=False, log_y=False, log_z=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, size_max=20, category_orders={}, animation_frame=None, animation_constancy_group=None, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 3D scatter plot, each row of <code>data_frame</code> is represented by a marker in 3D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>z</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the z axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to markers.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js symbols, default {}) Used to override <code>symbol_sequence</code> to assign a specific symbols to markers corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>symbol_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_z</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the z-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>error_z</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars. If <code>error_z_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_z</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_z_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars in the negative direction. Ignored if <code>error_z</code> is <code>None</code>.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_z</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the z-axis in cartesian coordinates.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_polar"><code class="name flex">
-<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r, theta, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], direction=&#39;clockwise&#39;, startangle=90, size_max=20, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, symbol=None, size=None, hover_name=None, text=None, color_discrete_map={}, symbol_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], direction=&#39;clockwise&#39;, start_angle=90, size_max=20, category_orders={}, animation_frame=None, animation_constancy_group=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar scatter plot, each row of <code>data_frame</code> is represented by a marker in
@@ -220,226 +221,235 @@ polar coordinates.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to markers.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js symbols, default {}) Used to override <code>symbol_sequence</code> to assign a specific symbols to markers corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>symbol_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>direction</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>startangle</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of '<code>counterclockwise'</code>, <code>'clockwise'</code>. Default is <code>'clockwise'</code>) Sets the direction in which increasing values of the angular axis are drawn.</dd>
+<dt><strong><code>start_angle</code></strong></dt>
+<dd>(integer, default is 90) Sets start angle for the angular axis, with 0 being due east and 90 being due north.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>range_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the radial axis in polar coordinates.</dd>
 <dt><strong><code>log_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the radial axis is log-scaled in polar coordinates.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 <dt><strong><code>render_mode</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'auto'</code>, <code>'svg'</code> or <code>'webgl'</code>, default <code>'auto'</code>) Controls the browser API used to draw markers. <code>'svg</code>' is appropriate for figures of less than 1000 data points, and will allow for fully-vectorized output. <code>'webgl'</code> is likely necessary for acceptable performance above 1000 points but rasterizes part of the output.
+<code>'auto'</code> uses heuristics to choose the mode.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_ternary"><code class="name flex">
-<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, color_discrete_map={}, symbol_map={}, hover_name=None, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], size_max=20, category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary scatter plot, each row of <code>data_frame</code> is represented by a marker in ternary coordinates.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>a</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
 <dt><strong><code>b</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
 <dt><strong><code>c</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to markers.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js symbols, default {}) Used to override <code>symbol_sequence</code> to assign a specific symbols to markers corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>symbol_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_mapbox"><code class="name flex">
-<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, zoom=8, category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox scatter plot, each row of <code>data_frame</code> is represented by a marker on a Mapbox map.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>zoom</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer between 0 and 20, default is 8) Sets map zoom level.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_geo"><code class="name flex">
-<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, text=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, projection=None, scope=None, center=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic scatter plot, each row of <code>data_frame</code> is represented by a marker on a map.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dt><strong><code>locationmode</code></strong></dt>
+<dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>projection</code></strong></dt>
+<dd>(string, one of <code>'equirectangular'</code>, <code>'mercator'</code>, <code>'orthographic'</code>, <code>'natural earth'</code>, <code>'kavrayskiy7'</code>, <code>'miller'</code>, <code>'robinson'</code>, <code>'eckert4'</code>, <code>'azimuthal equal area'</code>, <code>'azimuthal equidistant'</code>, <code>'conic equal area'</code>, <code>'conic conformal'</code>, <code>'conic equidistant'</code>, <code>'gnomonic'</code>, <code>'stereographic'</code>, <code>'mollweide'</code>, <code>'hammer'</code>, <code>'transverse mercator'</code>, <code>'albers usa'</code>, <code>'winkel tripel'</code>, <code>'aitoff'</code>, <code>'sinusoidal'</code>)Default depends on <code>scope</code>.</dd>
+<dt><strong><code>scope</code></strong></dt>
+<dd>(string, one of <code>'world'</code>, <code>'usa'</code>, <code>'europe'</code>, <code>'asia'</code>, <code>'africa'</code>, <code>'north america'</code>, <code>'south america'</code>)Default is <code>'world'</code> unless <code>projection</code> is set to <code>'albers usa'</code>, which forces <code>'usa'</code>.</dd>
+<dt><strong><code>center</code></strong></dt>
+<dd>(dict with <code>lat</code> and <code>lon</code> keys) Sets the center point of the map.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
@@ -454,47 +464,47 @@ plot each pair of <code>dimensions</code> against each other.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>dimensions</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to markers.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js symbols, default {}) Used to override <code>symbol_sequence</code> to assign a specific symbols to markers corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>symbol_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.density_contour"><code class="name flex">
-<span>def <span class="ident">density_contour</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None)</span>
+<span>def <span class="ident">density_contour</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, marginal_x=None, marginal_y=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, trendline=None, trendline_color_override=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a density contour plot, rows of <code>data_frame</code> are grouped together into contours to
@@ -502,342 +512,358 @@ visualize the density of their distribution in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>marginal_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'rug'</code>, <code>'box'</code>, <code>'violin'</code>, <code>'histogram'</code>) If set, a horizontal subplot is drawn above the main plot, visulizing the x-distribution.</dd>
 <dt><strong><code>marginal_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'rug'</code>, <code>'box'</code>, <code>'violin'</code>, <code>'histogram'</code>) If set, a vertical subplot is drawn to the right of the main plot, visulizing the y-distribution.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 <dt><strong><code>trendline</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'ols'</code> or <code>'lowess'</code>, default <code>None</code>) If <code>'ols'</code>, an Ordinary Least Squares regression line will be drawn for each group. If <code>'lowess</code>', a Locally Weighted Scatterplot Smoothing line will be drawn for each group.</dd>
 <dt><strong><code>trendline_color_override</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, valid CSS color) If provided, and if <code>trendline</code> is set, all trendlines will be drawn in this color.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line"><code class="name flex">
-<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], facet_row=None, facet_col=None, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;, line_shape=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 2D line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in 2D space.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>line_dash_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js dash-patterns, default {})Used to override <code>line_dash_sequences</code> to assign a specific dash-patterns to lines corresponding with specific values. Keys in <code>line_dash_map</code> should be values in the column denoted by <code>line_dash</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>line_dash_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js dash-patterns) When <code>line_dash</code> is set, values in that column are assigned dash-patterns by cycling through <code>line_dash_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>line_dash</code> is a key in <code>line_dash_map</code>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 <dt><strong><code>render_mode</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'auto'</code>, <code>'svg'</code> or <code>'webgl'</code>, default <code>'auto'</code>) Controls the browser API used to draw markers. <code>'svg</code>' is appropriate for figures of less than 1000 data points, and will allow for fully-vectorized output. <code>'webgl'</code> is likely necessary for acceptable performance above 1000 points but rasterizes part of the output.
+<code>'auto'</code> uses heuristics to choose the mode.</dd>
+<dt><strong><code>line_shape</code></strong></dt>
+<dd>(string, one of <code>'linear'</code> or <code>'spline'</code>) Default is <code>'linear'</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_polar"><code class="name flex">
-<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r, theta, color=None, line_dash=None, hover_name=None, line_group=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], direction=&#39;clockwise&#39;, startangle=90, line_close=False, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;)</span>
+<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, line_dash=None, hover_name=None, line_group=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], direction=&#39;clockwise&#39;, start_angle=90, line_close=False, category_orders={}, animation_frame=None, animation_constancy_group=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, render_mode=&#39;auto&#39;, line_shape=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in polar coordinates.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>line_dash_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js dash-patterns, default {})Used to override <code>line_dash_sequences</code> to assign a specific dash-patterns to lines corresponding with specific values. Keys in <code>line_dash_map</code> should be values in the column denoted by <code>line_dash</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>line_dash_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js dash-patterns) When <code>line_dash</code> is set, values in that column are assigned dash-patterns by cycling through <code>line_dash_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>line_dash</code> is a key in <code>line_dash_map</code>.</dd>
 <dt><strong><code>direction</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>startangle</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of '<code>counterclockwise'</code>, <code>'clockwise'</code>. Default is <code>'clockwise'</code>) Sets the direction in which increasing values of the angular axis are drawn.</dd>
+<dt><strong><code>start_angle</code></strong></dt>
+<dd>(integer, default is 90) Sets start angle for the angular axis, with 0 being due east and 90 being due north.</dd>
 <dt><strong><code>line_close</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, an extra line segment is drawn between the first and last point.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>range_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the radial axis in polar coordinates.</dd>
 <dt><strong><code>log_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the radial axis is log-scaled in polar coordinates.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 <dt><strong><code>render_mode</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'auto'</code>, <code>'svg'</code> or <code>'webgl'</code>, default <code>'auto'</code>) Controls the browser API used to draw markers. <code>'svg</code>' is appropriate for figures of less than 1000 data points, and will allow for fully-vectorized output. <code>'webgl'</code> is likely necessary for acceptable performance above 1000 points but rasterizes part of the output.
+<code>'auto'</code> uses heuristics to choose the mode.</dd>
+<dt><strong><code>line_shape</code></strong></dt>
+<dd>(string, one of <code>'linear'</code> or <code>'spline'</code>) Default is <code>'linear'</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_ternary"><code class="name flex">
-<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover_name=None, text=None, color_discrete_map={}, line_dash_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, line_shape=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary line plot, each row of <code>data_frame</code> is represented as vertex of a polyline in ternary coordinates.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>a</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
 <dt><strong><code>b</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
 <dt><strong><code>c</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>line_dash_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js dash-patterns, default {})Used to override <code>line_dash_sequences</code> to assign a specific dash-patterns to lines corresponding with specific values. Keys in <code>line_dash_map</code> should be values in the column denoted by <code>line_dash</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>line_dash_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js dash-patterns) When <code>line_dash</code> is set, values in that column are assigned dash-patterns by cycling through <code>line_dash_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>line_dash</code> is a key in <code>line_dash_map</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>line_shape</code></strong></dt>
+<dd>(string, one of <code>'linear'</code> or <code>'spline'</code>) Default is <code>'linear'</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_mapbox"><code class="name flex">
-<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], zoom=8, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], zoom=8, category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a Mapbox map.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>zoom</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer between 0 and 20, default is 8) Sets map zoom level.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_geo"><code class="name flex">
-<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, line_dash=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, line_dash=None, text=None, hover_name=None, line_group=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], line_dash_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, projection=None, scope=None, center=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic line plot, each row of <code>data_frame</code> is represented as vertex of a polyline on a map.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dt><strong><code>locationmode</code></strong></dt>
+<dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>line_dash_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are strings defining plotly.js dash-patterns, default {})Used to override <code>line_dash_sequences</code> to assign a specific dash-patterns to lines corresponding with specific values. Keys in <code>line_dash_map</code> should be values in the column denoted by <code>line_dash</code>.</dd>
 <dt><strong><code>line_dash_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings defining plotly.js dash-patterns) When <code>line_dash</code> is set, values in that column are assigned dash-patterns by cycling through <code>line_dash_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>line_dash</code> is a key in <code>line_dash_map</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>projection</code></strong></dt>
+<dd>(string, one of <code>'equirectangular'</code>, <code>'mercator'</code>, <code>'orthographic'</code>, <code>'natural earth'</code>, <code>'kavrayskiy7'</code>, <code>'miller'</code>, <code>'robinson'</code>, <code>'eckert4'</code>, <code>'azimuthal equal area'</code>, <code>'azimuthal equidistant'</code>, <code>'conic equal area'</code>, <code>'conic conformal'</code>, <code>'conic equidistant'</code>, <code>'gnomonic'</code>, <code>'stereographic'</code>, <code>'mollweide'</code>, <code>'hammer'</code>, <code>'transverse mercator'</code>, <code>'albers usa'</code>, <code>'winkel tripel'</code>, <code>'aitoff'</code>, <code>'sinusoidal'</code>)Default depends on <code>scope</code>.</dd>
+<dt><strong><code>scope</code></strong></dt>
+<dd>(string, one of <code>'world'</code>, <code>'usa'</code>, <code>'europe'</code>, <code>'asia'</code>, <code>'africa'</code>, <code>'north america'</code>, <code>'south america'</code>)Default is <code>'world'</code> unless <code>projection</code> is set to <code>'albers usa'</code>, which forces <code>'usa'</code>.</dd>
+<dt><strong><code>center</code></strong></dt>
+<dd>(dict with <code>lat</code> and <code>lon</code> keys) Sets the center point of the map.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
@@ -852,25 +878,25 @@ by a polyline which traverses a set of parallel axes, one for each of the
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>dimensions</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
@@ -885,149 +911,149 @@ as a polyline through a set of parallel axes, one for each of the <code>dimensio
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>dimensions</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar"><code class="name flex">
-<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, hover_name=None, text=None, orientation=&#39;v&#39;, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, hover_name=None, text=None, orientation=&#39;v&#39;, log_x=False, log_y=False, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a bar plot, each row of <code>data_frame</code> is represented as a rectangle.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>orientation</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar_polar"><code class="name flex">
-<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], normalization=&#39;&#39;, mode=&#39;relative&#39;, direction=&#39;clockwise&#39;, startangle=90, category_orders={}, animation_frame=None, animation_key=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover_name=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], barnorm=&#39;&#39;, barmode=&#39;relative&#39;, direction=&#39;clockwise&#39;, start_angle=90, category_orders={}, animation_frame=None, animation_constancy_group=None, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar bar plot, each row of <code>data_frame</code> is represented as a sector in polar coordinates.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>normalization</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>mode</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
+<dt><strong><code>barnorm</code></strong></dt>
+<dd>(string, one of <code>'fraction'</code> or <code>'percent'</code>, default is <code>None</code>) If set to <code>'fraction'</code>, the value of each bar is divided by the sum of all values at that location coordinate. <code>'percent'</code> is the same but multiplied by 100 to show percentages.</dd>
+<dt><strong><code>barmode</code></strong></dt>
+<dd>(string, one of <code>'group'</code> or <code>'relative'</code>. Default is <code>'relative'</code>) In <code>'relative'</code> mode, bars are stacked above zero for positive values and below zero for negative values. In <code>'group'</code> mode, bars are placed beside each other.</dd>
 <dt><strong><code>direction</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>startangle</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of '<code>counterclockwise'</code>, <code>'clockwise'</code>. Default is <code>'clockwise'</code>) Sets the direction in which increasing values of the angular axis are drawn.</dd>
+<dt><strong><code>start_angle</code></strong></dt>
+<dd>(integer, default is 90) Sets start angle for the angular axis, with 0 being due east and 90 being due north.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>range_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the radial axis in polar coordinates.</dd>
 <dt><strong><code>log_r</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the radial axis is log-scaled in polar coordinates.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.violin"><code class="name flex">
-<span>def <span class="ident">violin</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">violin</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, points=None, box=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a violin plot, rows of <code>data_frame</code> are grouped together into a curved shape to
@@ -1035,53 +1061,57 @@ visualize their distribution.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>orientation</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>points</code></strong></dt>
+<dd>(string or boolean, one of <code>'all'</code>, <code>'outliers'</code>, or <code>False</code>. Default is <code>'outliers'</code>) If <code>'outliers'</code>, only the sample points lying outside the whiskers are shown. If <code>'all'</code>, all sample points are shown. If <code>False</code>, no sample points are shown</dd>
+<dt><strong><a title="plotly_express.box" href="#plotly_express.box"><code>box()</code></a></strong></dt>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, boxes are drawn inside the violins.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.box"><code class="name flex">
-<span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], orientation=&#39;v&#39;, facet_row=None, facet_col=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, points=None, notched=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a box plot, rows of <code>data_frame</code> are grouped together into a box-and-whisker shape to
@@ -1089,53 +1119,57 @@ visualize their distribution.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>orientation</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>points</code></strong></dt>
+<dd>(string or boolean, one of <code>'all'</code>, <code>'outliers'</code>, or <code>False</code>. Default is <code>'outliers'</code>) If <code>'outliers'</code>, only the sample points lying outside the whiskers are shown. If <code>'all'</code>, all sample points are shown. If <code>False</code>, no sample points are shown</dd>
+<dt><strong><code>notched</code></strong></dt>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, boxes are drawn with notches.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.histogram"><code class="name flex">
-<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, orientation=&#39;v&#39;, mode=&#39;stack&#39;, normalization=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, color_discrete_map={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], facet_row=None, facet_col=None, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, barnorm=None, histnorm=None, log_x=False, log_y=False, category_orders={}, range_x=None, range_y=None, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, histfunc=None, cumulative=None, nbins=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a histogram, rows of <code>data_frame</code> are grouped together into a rectangle to
@@ -1143,98 +1177,114 @@ visualize some aggregate quantity like count or sum.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and values that are valid CSS-color strings, default {}) Used to override <code>color_discrete_sequence</code> to assign a specific colors to markers corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>color_discrete_sequence</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>orientation</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>mode</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>normalization</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
+<dt><strong><code>barmode</code></strong></dt>
+<dd>(string, one of <code>'group'</code> or <code>'relative'</code>. Default is <code>'relative'</code>) In <code>'relative'</code> mode, bars are stacked above zero for positive values and below zero for negative values. In <code>'group'</code> mode, bars are placed beside each other.</dd>
+<dt><strong><code>barnorm</code></strong></dt>
+<dd>(string, one of <code>'fraction'</code> or <code>'percent'</code>, default is <code>None</code>) If set to <code>'fraction'</code>, the value of each bar is divided by the sum of all values at that location coordinate. <code>'percent'</code> is the same but multiplied by 100 to show percentages.</dd>
+<dt><strong><code>histnorm</code></strong></dt>
+<dd>(string, one of <code>'percent'</code>, <code>'probability'</code>, <code>'density'</code>, <code>'probability density'</code>, default <code>None</code>) If <code>None</code>, the span of each bar corresponds to the number of occurrences (i.e. the number of data points lying inside the bins). If <code>'percent'</code> or <code>'probability'</code>, the span of each bar corresponds to the percentage / fraction of occurrences with respect to the total number of sample points (here, the sum of all bin HEIGHTS equals 100% / 1). If <code>'density'</code>, the span of each bar corresponds to the number of occurrences in a bin divided by the size of the bin interval (here, the sum of all bin AREAS equals the total number of sample points). If <code>'probability density'</code>, the area of each bar corresponds to the probability that an event will fall into the corresponding bin (here, the sum of all bin AREAS equals 1).</dd>
 <dt><strong><code>log_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, the y-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>range_x</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the x-axis in cartesian coordinates.</dd>
 <dt><strong><code>range_y</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(2-element list of numbers) If provided, overrides auto-scaling on the y-axis in cartesian coordinates.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>histfunc</code></strong></dt>
+<dd>(string, one of <code>'count'</code>, <code>'sum'</code>, <code>'avg'</code>, <code>'min'</code>, <code>'max'</code>. Default is <code>'count'</code>)Function used to compute histogram bar lengths. The arguments to this function are the values of <code>y</code> if <code>orientation</code> is <code>'v'</code>, otherwise the arguements are the values of <code>x</code>.</dd>
+<dt><strong><code>cumulative</code></strong></dt>
+<dd>(boolean, default <code>False</code>) If <code>True</code>, histogram values are cumulative.</dd>
+<dt><strong><code>nbins</code></strong></dt>
+<dd>(positive integer) Sets the number of bins.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.choropleth"><code class="name flex">
-<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, hover_name=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_key=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600)</span>
+<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, hover_name=None, size=None, size_max=20, category_orders={}, animation_frame=None, animation_constancy_group=None, title=None, template=&#39;plotly&#39;, labels={}, width=None, height=600, projection=None, scope=None, center=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a choropleth map, each row of <code>data_frame</code> is represented by a colored region on a map.</p>
 <h2 id="arguments">Arguments</h2>
 <dl>
 <dt><strong><code>data_frame</code></strong></dt>
-<dd>A <code>pandas.DataFrame</code></dd>
+<dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dt><strong><code>locationmode</code></strong></dt>
+<dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(list of valid CSS-color strings) This list is used to build a continuous color scale when the column denoted by <code>color</code> contains numeric data. Various useful color scales are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.sequential" href="colors/sequential.html"><code>plotly_express.colors.sequential</code></a>, <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> and <a title="plotly_express.colors.cyclical" href="colors/cyclical.html"><code>plotly_express.colors.cyclical</code></a>.</dd>
 <dt><strong><code>color_continuous_midpoint</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(number, defaults to <code>None</code>) If set, computes the bounds of the continuous color scale to have the desired midpoint. Setting this value is recommended when using <a title="plotly_express.colors.diverging" href="colors/diverging.html"><code>plotly_express.colors.diverging</code></a> color scales as the inputs to <code>color_continuous_scale</code>.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marker sizes.</dd>
 <dt><strong><code>size_max</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default 20) Set the maximum marker size when using <code>size</code>.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and list-of-string values, default {}) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this <code>dict</code> should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(documentation missing)</dd>
-<dt><strong><code>animation_key</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dt><strong><code>animation_constancy_group</code></strong></dt>
+<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_constancy_groups</code> will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>title</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string) The figure title.</dd>
 <dt><strong><code>template</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(string or Plotly.py template object) The figure template name or definition.</dd>
 <dt><strong><code>labels</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(dict with string keys and string values, default {}) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this <code>dict</code> should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>None</code>) The figure width in pixels.</dd>
 <dt><strong><code>height</code></strong></dt>
-<dd>(documentation missing)</dd>
+<dd>(integer, default <code>600</code>) The figure height in pixels.</dd>
+<dt><strong><code>projection</code></strong></dt>
+<dd>(string, one of <code>'equirectangular'</code>, <code>'mercator'</code>, <code>'orthographic'</code>, <code>'natural earth'</code>, <code>'kavrayskiy7'</code>, <code>'miller'</code>, <code>'robinson'</code>, <code>'eckert4'</code>, <code>'azimuthal equal area'</code>, <code>'azimuthal equidistant'</code>, <code>'conic equal area'</code>, <code>'conic conformal'</code>, <code>'conic equidistant'</code>, <code>'gnomonic'</code>, <code>'stereographic'</code>, <code>'mollweide'</code>, <code>'hammer'</code>, <code>'transverse mercator'</code>, <code>'albers usa'</code>, <code>'winkel tripel'</code>, <code>'aitoff'</code>, <code>'sinusoidal'</code>)Default depends on <code>scope</code>.</dd>
+<dt><strong><code>scope</code></strong></dt>
+<dd>(string, one of <code>'world'</code>, <code>'usa'</code>, <code>'europe'</code>, <code>'asia'</code>, <code>'africa'</code>, <code>'north america'</code>, <code>'south america'</code>)Default is <code>'world'</code> unless <code>projection</code> is set to <code>'albers usa'</code>, which forces <code>'usa'</code>.</dd>
+<dt><strong><code>center</code></strong></dt>
+<dd>(dict with <code>lat</code> and <code>lon</code> keys) Sets the center point of the map.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>

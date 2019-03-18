@@ -1,6 +1,7 @@
 """
 Qualitative color sequences are appropriate for data that has no natural ordering, such \
-as categories, colors, names, countries etc.
+as categories, colors, names, countries etc. The color sequences in this module are \
+mostly meant to be passed in as the `color_discrete_sequence` argument to various functions.
 """
 
 from ._swatches import _swatches

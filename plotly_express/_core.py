@@ -217,7 +217,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     colorbar_container["colorbar"] = dict(title=v_label)
                     colorbar_container[color_letter + "min"] = color_range[0]
                     colorbar_container[color_letter + "max"] = color_range[1]
-            elif k == "animation_key":
+            elif k == "animation_constancy_group":
                 result["ids"] = g[v]
             elif k == "locations":
                 result[k] = g[v]
@@ -378,7 +378,7 @@ def configure_ternary_axes(args, fig, axes, orders):
 def configure_polar_axes(args, fig, axes, orders):
     layout = dict(
         polar=dict(
-            angularaxis=dict(direction=args["direction"], rotation=args["startangle"]),
+            angularaxis=dict(direction=args["direction"], rotation=args["start_angle"]),
             radialaxis=dict(),
         )
     )
@@ -570,7 +570,7 @@ def infer_config(args, constructor, trace_patch):
         ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
         + ["dimensions", "hover_name", "text", "error_x", "error_x_minus"]
         + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
-        + ["lat", "lon", "locations", "animation_key"]
+        + ["lat", "lon", "locations", "animation_constancy_group"]
     )
 
     groupables = ["animation_frame", "facet_row", "facet_col", "line_group"]
@@ -743,7 +743,4 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
 
 # TODO enforce order of kwargs somehow
-# TODO histfunc labelling
 # TODO NaN/missing values
-# TODO python 2: facets  https://github.com/plotly/plotly.py/issues/1462
-# TODO defaults: height, width, template, colors

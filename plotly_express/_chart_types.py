@@ -40,7 +40,7 @@ def scatter(
     error_y_minus=None,
     size_max=default_max_size,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     category_orders={},
     range_x=None,
     range_y=None,
@@ -79,7 +79,7 @@ def density_contour(
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -127,7 +127,7 @@ def line(
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -167,7 +167,7 @@ def bar(
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -198,15 +198,16 @@ def histogram(
     facet_row=None,
     facet_col=None,
     orientation="v",
-    mode="stack",
-    normalization=None,
+    barmode="relative",
+    barnorm=None,
+    histnorm=None,
     log_x=False,
     log_y=False,
     category_orders={},
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -225,13 +226,13 @@ def histogram(
         constructor=go.Histogram,
         trace_patch=dict(
             orientation=orientation,
-            histnorm=normalization,
+            histnorm=histnorm,
             histfunc=histfunc,
             nbinsx=nbins if orientation == "v" else None,
             nbinsy=nbins if orientation == "h" else None,
             cumulative=dict(enabled=cumulative),
         ),
-        layout_patch=dict(barmode=mode),
+        layout_patch=dict(barmode=barmode, barnorm=barnorm),
     )
 
 
@@ -254,7 +255,7 @@ def violin(
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -294,7 +295,7 @@ def box(
     range_x=None,
     range_y=None,
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -346,7 +347,7 @@ def scatter_3d(
     size_max=default_max_size,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     range_x=None,
     range_y=None,
     range_z=None,
@@ -390,7 +391,7 @@ def line_3d(
     error_z_minus=None,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     range_x=None,
     range_y=None,
     range_z=None,
@@ -428,7 +429,7 @@ def scatter_ternary(
     size_max=default_max_size,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -460,7 +461,7 @@ def line_ternary(
     line_dash_sequence=default_line_dash_seq,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -493,11 +494,11 @@ def scatter_polar(
     color_continuous_midpoint=None,
     symbol_sequence=default_symbol_seq,
     direction="clockwise",
-    startangle=90,
+    start_angle=90,
     size_max=default_max_size,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     range_r=None,
     log_r=False,
     title=None,
@@ -531,11 +532,11 @@ def line_polar(
     color_discrete_sequence=default_qualitative,
     line_dash_sequence=default_line_dash_seq,
     direction="clockwise",
-    startangle=90,
+    start_angle=90,
     line_close=False,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     range_r=None,
     log_r=False,
     title=None,
@@ -563,13 +564,13 @@ def bar_polar(
     hover_name=None,
     color_discrete_map={},
     color_discrete_sequence=default_qualitative,
-    normalization="",
-    mode="relative",
+    barnorm="",
+    barmode="relative",
     direction="clockwise",
-    startangle=90,
+    start_angle=90,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     range_r=None,
     log_r=False,
     title=None,
@@ -584,7 +585,7 @@ def bar_polar(
     return make_figure(
         args=locals(),
         constructor=go.Barpolar,
-        layout_patch=dict(barnorm=normalization, barmode=mode),
+        layout_patch=dict(barnorm=barnorm, barmode=barmode),
     )
 
 
@@ -596,6 +597,7 @@ def choropleth(
     lat=None,
     lon=None,
     locations=None,
+    locationmode=None,
     color=None,
     color_continuous_scale=default_continuous,
     color_continuous_midpoint=None,
@@ -604,7 +606,7 @@ def choropleth(
     size_max=default_max_size,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -617,7 +619,11 @@ def choropleth(
     """
     In a choropleth map, each row of `data_frame` is represented by a colored region on a map.
     """
-    return make_figure(args=locals(), constructor=go.Choropleth)
+    return make_figure(
+        args=locals(),
+        constructor=go.Choropleth,
+        trace_patch=dict(locationmode=locationmode),
+    )
 
 
 choropleth.__doc__ = make_docstring(choropleth)
@@ -628,6 +634,7 @@ def scatter_geo(
     lat=None,
     lon=None,
     locations=None,
+    locationmode=None,
     color=None,
     text=None,
     hover_name=None,
@@ -639,7 +646,7 @@ def scatter_geo(
     size_max=default_max_size,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -652,7 +659,11 @@ def scatter_geo(
     """
     In a geographic scatter plot, each row of `data_frame` is represented by a marker on a map.
     """
-    return make_figure(args=locals(), constructor=go.Scattergeo)
+    return make_figure(
+        args=locals(),
+        constructor=go.Scattergeo,
+        trace_patch=dict(locationmode=locationmode),
+    )
 
 
 scatter_geo.__doc__ = make_docstring(scatter_geo)
@@ -663,6 +674,7 @@ def line_geo(
     lat=None,
     lon=None,
     locations=None,
+    locationmode=None,
     color=None,
     line_dash=None,
     text=None,
@@ -674,7 +686,7 @@ def line_geo(
     line_dash_sequence=default_line_dash_seq,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -687,7 +699,11 @@ def line_geo(
     """
     In a geographic line plot, each row of `data_frame` is represented as vertex of a polyline on a map.
     """
-    return make_figure(args=locals(), constructor=go.Scattergeo)
+    return make_figure(
+        args=locals(),
+        constructor=go.Scattergeo,
+        trace_patch=dict(locationmode=locationmode),
+    )
 
 
 line_geo.__doc__ = make_docstring(line_geo)
@@ -709,7 +725,7 @@ def scatter_mapbox(
     zoom=8,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
@@ -738,7 +754,7 @@ def line_mapbox(
     zoom=8,
     category_orders={},
     animation_frame=None,
-    animation_key=None,
+    animation_constancy_group=None,
     title=None,
     template=default_template,
     labels={},
