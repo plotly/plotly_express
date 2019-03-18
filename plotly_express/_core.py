@@ -52,6 +52,20 @@ def get_label(args, column):
         return column
 
 
+def get_decorated_label(args, column, role):
+    label = get_label(args, column)
+    if "histfunc" in args and (
+        (role == "x" and args["orientation"] == "h")
+        or (role == "y" and args["orientation"] == "v")
+    ):
+        if label:
+            return "%s of %s" % (args["histfunc"] or "count", label)
+        else:
+            return "count"
+    else:
+        return label
+
+
 def make_mapping(args, variable):
     if variable == "line_group" or variable == "animation_frame":
         return Mapping(
@@ -98,7 +112,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
     hover_header = ""
     for k in trace_spec.attrs:
         v = args[k]
-        v_label = get_label(args, v)
+        v_label = get_decorated_label(args, v, k)
         if k == "dimensions":
             result["dimensions"] = [
                 dict(
@@ -119,7 +133,7 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     or len(args["data_frame"][name].unique()) <= 20
                 )
             ]
-        elif v:
+        elif v or (trace_spec.constructor == go.Histogram and k in ["x", "y"]):
             if k == "size":
                 if "marker" not in result:
                     result["marker"] = dict()
@@ -209,7 +223,8 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 result[k] = g[v]
                 mapping_labels.append(("%s=%%{%s}" % (v_label, "location"), None))
             else:
-                result[k] = g[v]
+                if v:
+                    result[k] = g[v]
                 mapping_labels.append(("%s=%%{%s}" % (v_label, k), None))
     if trace_spec.constructor not in [
         go.Box,
@@ -315,7 +330,9 @@ def configure_cartesian_axes(args, fig, axes, orders):
                 layout["grid"][letter + "axes"].append(letter_number)
                 axis = letter_number.replace(letter, letter + "axis")
 
-                layout[axis] = dict(title=get_label(args, args[letter]))
+                layout[axis] = dict(
+                    title=get_decorated_label(args, args[letter], letter)
+                )
                 if len(letter_number) == 1:
                     set_cartesian_axis_opts(args, layout, letter, axis, orders)
                 else:

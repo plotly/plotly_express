@@ -226,7 +226,7 @@ def histogram(
         trace_patch=dict(
             orientation=orientation,
             histnorm=normalization,
-            histfunc="sum" if histfunc is None and x and y else histfunc,
+            histfunc=histfunc,
             nbinsx=nbins if orientation == "v" else None,
             nbinsy=nbins if orientation == "h" else None,
             cumulative=dict(enabled=cumulative),
