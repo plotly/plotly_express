@@ -152,8 +152,10 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                         result["y"] = trendline[:, 1]
                         hover_header = "<b>LOWESS trendline</b><br><br>"
                     elif v == "ols":
-                        y = g[args["y"]]
-                        x = g[args["x"]]
+                        # sorting is bad but trace_specs with "trendline" have no other attrs
+                        g2 = g.sort_values(by=args["x"])
+                        y = g2[args["y"]]
+                        x = g2[args["x"]]
                         result["x"] = x
                         fitted = sm.OLS(y, sm.add_constant(x)).fit()
                         result["y"] = fitted.predict()
