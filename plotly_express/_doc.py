@@ -99,8 +99,8 @@ docs = dict(
         colref,
         "Values from this column are used to group rows of `data_frame` into lines.",
     ],
-    symbol=[colref, "Values from this column are used to assign symbols to markers."],
-    size=[colref, "Values from this column are used to assign marker sizes."],
+    symbol=[colref, "Values from this column are used to assign symbols to marks."],
+    size=[colref, "Values from this column are used to assign mark sizes."],
     hover_name=[colref, "Values from this column appear in bold in the hover tooltip."],
     text=[colref, "Values from this column appear in the figure as text labels."],
     locationmode=[
@@ -119,21 +119,21 @@ docs = dict(
         colref,
         "Values from this column are used to assign marks to animation frames.",
     ],
-    animation_constancy_group=[
+    animation_group=[
         colref,
-        "Values from this column are used to provide object-constancy across animation frames: rows with matching `animation_constancy_groups` will be treated as if they describe the same object in each frame.",
+        "Values from this column are used to provide object-constancy across animation frames: rows with matching `animation_group`s will be treated as if they describe the same object in each frame.",
     ],
     symbol_sequence=[
         "(list of strings defining plotly.js symbols)",
         "When `symbol` is set, values in that column are assigned symbols by cycling through `symbol_sequence` in the order described in `category_orders`, unless the value of `symbol` is a key in `symbol_map`.",
     ],
     symbol_map=[
-        "(dict with string keys and values that are strings defining plotly.js symbols, default {})",
-        "Used to override `symbol_sequence` to assign a specific symbols to markers corresponding with specific values.",
+        "(dict with string keys and values that are strings defining plotly.js symbols, default `{}`)",
+        "Used to override `symbol_sequence` to assign a specific symbols to marks corresponding with specific values.",
         "Keys in `symbol_map` should be values in the column denoted by `symbol`.",
     ],
     line_dash_map=[
-        "(dict with string keys and values that are strings defining plotly.js dash-patterns, default {})"
+        "(dict with string keys and values that are strings defining plotly.js dash-patterns, default `{}`)"
         "Used to override `line_dash_sequences` to assign a specific dash-patterns to lines corresponding with specific values.",
         "Keys in `line_dash_map` should be values in the column denoted by `line_dash`.",
     ],
@@ -147,8 +147,8 @@ docs = dict(
         "Various useful color sequences are available in the `plotly_express.colors` submodules, specifically `plotly_express.colors.qualitative`.",
     ],
     color_discrete_map=[
-        "(dict with string keys and values that are valid CSS-color strings, default {})",
-        "Used to override `color_discrete_sequence` to assign a specific colors to markers corresponding with specific values.",
+        "(dict with string keys and values that are valid CSS-color strings, default `{}`)",
+        "Used to override `color_discrete_sequence` to assign a specific colors to marks corresponding with specific values.",
         "Keys in `color_discrete_map` should be values in the column denoted by `color`.",
     ],
     color_continuous_scale=[
@@ -161,10 +161,7 @@ docs = dict(
         "If set, computes the bounds of the continuous color scale to have the desired midpoint.",
         "Setting this value is recommended when using `plotly_express.colors.diverging` color scales as the inputs to `color_continuous_scale`.",
     ],
-    size_max=[
-        "(integer, default 20)",
-        "Set the maximum marker size when using `size`.",
-    ],
+    size_max=["(integer, default 20)", "Set the maximum mark size when using `size`."],
     log_x=[
         "(boolean, default `False`)",
         "If `True`, the x-axis is log-scaled in cartesian coordinates.",
@@ -205,16 +202,16 @@ docs = dict(
     width=["(integer, default `None`)", "The figure width in pixels."],
     height=["(integer, default `600`)", "The figure height in pixels."],
     labels=[
-        "(dict with string keys and string values, default {})",
+        "(dict with string keys and string values, default `{}`)",
         "By default, column names are used in the figure for axis titles, legend entries and hovers.",
         "This parameter allows this to be overridden.",
-        "The keys of this `dict` should correspond to column names, and the values should correspond to the desired label to be displayed.",
+        "The keys of this dict should correspond to column names, and the values should correspond to the desired label to be displayed.",
     ],
     category_orders=[
-        "(dict with string keys and list-of-string values, default {})",
+        "(dict with string keys and list-of-string values, default `{}`)",
         "By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in `data_frame` (and no order is guaranteed by default in Python below 3.6).",
         "This parameter is used to force a specific ordering of values per column.",
-        "The keys of this `dict` should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.",
+        "The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.",
     ],
     marginal_x=[
         "(string, one of `'rug'`, `'box'`, `'violin'`, `'histogram'`)",
@@ -226,8 +223,8 @@ docs = dict(
     ],
     trendline=[
         "(string, one of `'ols'` or `'lowess'`, default `None`)",
-        "If `'ols'`, an Ordinary Least Squares regression line will be drawn for each group.",
-        "If `'lowess`', a Locally Weighted Scatterplot Smoothing line will be drawn for each group.",
+        "If `'ols'`, an Ordinary Least Squares regression line will be drawn for each discrete-color/symbol group.",
+        "If `'lowess`', a Locally Weighted Scatterplot Smoothing line will be drawn for each discrete-color/symbol group.",
     ],
     trendline_color_override=[
         "(string, valid CSS color)",
@@ -235,7 +232,7 @@ docs = dict(
     ],
     render_mode=[
         "(string, one of `'auto'`, `'svg'` or `'webgl'`, default `'auto'`)",
-        "Controls the browser API used to draw markers.",
+        "Controls the browser API used to draw marks.",
         "`'svg`' is appropriate for figures of less than 1000 data points, and will allow for fully-vectorized output.",
         "`'webgl'` is likely necessary for acceptable performance above 1000 points but rasterizes part of the output. ",
         "`'auto'` uses heuristics to choose the mode.",
