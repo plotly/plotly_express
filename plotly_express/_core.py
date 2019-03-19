@@ -284,6 +284,9 @@ def set_cartesian_axis_opts(args, layout, letter, axis, orders):
 def configure_cartesian_marginal_axes(args, orders):
     layout = dict(barmode="overlay", violinmode="overlay")
     for letter in ["x", "y"]:
+        layout[letter + "axis1"] = dict(title=get_label(args, args[letter]))
+        set_cartesian_axis_opts(args, layout, letter, letter + "axis1", orders)
+    for letter in ["x", "y"]:
         otherletter = "x" if letter == "y" else "y"
         if args["marginal_" + letter]:
             if args["marginal_" + letter] == "histogram" or (
@@ -292,16 +295,12 @@ def configure_cartesian_marginal_axes(args, orders):
                 main_size = 0.74
             else:
                 main_size = 0.84
-            layout[otherletter + "axis1"] = {
-                "domain": [0, main_size],
-                "showgrid": True,
-                "title": get_label(args, args[letter]),
-            }
+            layout[otherletter + "axis1"]["domain"] = [0, main_size]
+            layout[otherletter + "axis1"]["showgrid"] = True
             layout[otherletter + "axis2"] = {
                 "domain": [main_size + 0.005, 1],
                 "showticklabels": False,
             }
-            set_cartesian_axis_opts(args, layout, letter, letter + "axis1", orders)
     return layout
 
 
