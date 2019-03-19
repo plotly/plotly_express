@@ -334,6 +334,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
   <meta name="generator" content="pdoc ${pdoc.__version__}" />
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39373211-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-39373211-1');
+  </script>
+
+
 <%
     module_list = 'modules' in context.keys()  # Whether we're showing module list in server mode
 %>
