@@ -60,6 +60,12 @@
 {% endfor %}
 
 <style type="text/css">
+
+@import url(https://fonts.googleapis.com/css?family=family=Dosis:500|Inconsolata:400,700|Open+Sans);
+code, kbd, pre, samp {
+    font-family: Inconsolata;
+    font-size: 16px;
+}
 /* Overrides of notebook CSS for static HTML export */
 body {
   overflow: visible;
