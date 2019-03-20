@@ -681,10 +681,13 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         for trace_spec in trace_specs:
             constructor = trace_spec.constructor
             if constructor in [go.Scatter, go.Scatterpolar]:
-                if args["render_mode"] == "webgl" or (
-                    args["render_mode"] == "auto"
-                    and len(args["data_frame"]) > 1000
-                    and args["animation_frame"] is None
+                if "render_mode" in args and (
+                    args["render_mode"] == "webgl"
+                    or (
+                        args["render_mode"] == "auto"
+                        and len(args["data_frame"]) > 1000
+                        and args["animation_frame"] is None
+                    )
                 ):
                     constructor = (
                         go.Scattergl if constructor == go.Scatter else go.Scatterpolargl

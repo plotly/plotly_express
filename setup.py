@@ -15,7 +15,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="plotly_express",
-    version="0.1a8",
+    version="0.1",
     description="Plotly Express: a high level wrapper for Plotly.py",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -32,7 +32,7 @@ setup(
     install_requires=[
         "pandas>=0.20.0",
         "plotly>=3.6.0",
-        "plotly>=3.7.0",
+        "plotly>=3.7.1",
         "statsmodels>=0.9.0",
         "scipy >= 0.14",
     ],
