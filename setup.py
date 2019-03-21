@@ -15,7 +15,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="plotly_express",
-    version="0.1",
+    version="0.1.1",
     description="Plotly Express: a high level wrapper for Plotly.py",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -23,7 +23,7 @@ setup(
     author="Nicolas Kruchten",
     author_email="nicolas@plot.ly",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Topic :: Scientific/Engineering :: Visualization",
         "License :: OSI Approved :: MIT License",
     ],
