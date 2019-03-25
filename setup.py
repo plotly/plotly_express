@@ -21,7 +21,7 @@ setup(
     url="https://github.com/plotly/plotly_express",
     author="Nicolas Kruchten",
     author_email="nicolas@plot.ly",
-    license='MIT',
+    license="MIT",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Scientific/Engineering :: Visualization",
@@ -33,6 +33,7 @@ setup(
         "pandas>=0.20.0",
         "plotly>=3.7.1",
         "statsmodels>=0.9.0",
-        "scipy>=0.14",
+        "scipy>=0.18",
+        "patsy>=0.5",
     ],
 )
