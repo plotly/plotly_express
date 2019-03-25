@@ -91,6 +91,9 @@ docs = dict(
         "Ignored if `error_z` is `None`.",
     ],
     color=[colref, "Values from this column are used to assign color to marks."],
+    opacity=[
+        "(number, between 0 and 1) Sets the opacity for markers."
+    ],
     line_dash=[
         colref,
         "Values from this column are used to assign dash-patterns to lines.",

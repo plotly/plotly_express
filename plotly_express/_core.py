@@ -141,7 +141,6 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                 result["marker"]["sizemode"] = "area"
                 result["marker"]["sizeref"] = sizeref
                 mapping_labels.append(("%s=%%{%s}" % (v_label, "marker.size"), None))
-
             elif k == "trendline":
                 if v in ["ols", "lowess"] and args["x"] and args["y"] and len(g) > 1:
                     import statsmodels.api as sm
@@ -620,6 +619,8 @@ def infer_config(args, constructor, trace_patch):
         grouped_attrs.append("marker.symbol")
 
     trace_patch = trace_patch.copy()
+    if "opacity" in args:
+        trace_patch["marker"] = dict(opacity=args["opacity"])
     if "line_group" in args:
         trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
     elif constructor != go.Splom and (
