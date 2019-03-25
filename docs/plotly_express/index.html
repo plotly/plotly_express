@@ -50,7 +50,7 @@ gtag('config', 'UA-39373211-1');
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="plotly_express.scatter"><code class="name flex">
-<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover_name=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, opacity=None, symbol=None, size=None, hover_name=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in 2D space.</p>
@@ -64,6 +64,8 @@ gtag('config', 'UA-39373211-1');
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>symbol</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
@@ -138,7 +140,7 @@ gtag('config', 'UA-39373211-1');
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_3d"><code class="name flex">
-<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, hover_name=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, size_max=20, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, log_x=False, log_y=False, log_z=False, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, opacity=None, symbol=None, size=None, text=None, hover_name=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, size_max=20, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, log_x=False, log_y=False, log_z=False, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 3D scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in 3D space.</p>
@@ -154,6 +156,8 @@ gtag('config', 'UA-39373211-1');
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the z axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>symbol</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
@@ -221,7 +225,7 @@ gtag('config', 'UA-39373211-1');
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_polar"><code class="name flex">
-<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, symbol=None, size=None, hover_name=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, direction=&#39;clockwise&#39;, start_angle=90, size_max=20, range_r=None, log_r=False, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, opacity=None, symbol=None, size=None, hover_name=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, direction=&#39;clockwise&#39;, start_angle=90, size_max=20, range_r=None, log_r=False, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in
@@ -236,6 +240,8 @@ polar coordinates.</p>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>symbol</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
@@ -290,7 +296,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_ternary"><code class="name flex">
-<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, hover_name=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, opacity=None, symbol=None, size=None, text=None, hover_name=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in ternary coordinates.</p>
@@ -306,6 +312,8 @@ polar coordinates.</p>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>symbol</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
@@ -463,7 +471,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_matrix"><code class="name flex">
-<span>def <span class="ident">scatter_matrix</span></span>(<span>data_frame, dimensions=None, color=None, symbol=None, size=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_matrix</span></span>(<span>data_frame, dimensions=None, color=None, opacity=None, symbol=None, size=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot matrix (or SPLOM), each row of <code>data_frame</code> is represented
@@ -477,6 +485,8 @@ plot each pair of <code>dimensions</code> against each other.</p>
 <dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>symbol</code></strong></dt>
 <dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
