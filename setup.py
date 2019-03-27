@@ -35,5 +35,6 @@ setup(
         "statsmodels>=0.9.0",
         "scipy>=0.18",
         "patsy>=0.5",
+        "numpy>=1.11",
     ],
 )
