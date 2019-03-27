@@ -521,7 +521,9 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                 )
             elif args["marginal_" + letter] == "violin":
                 trace_spec = TraceSpec(
-                    constructor=go.Violin, attrs=[letter], trace_patch=axis_map
+                    constructor=go.Violin,
+                    attrs=[letter],
+                    trace_patch=dict(scalegroup=letter, **axis_map),
                 )
             elif args["marginal_" + letter] == "box":
                 trace_spec = TraceSpec(
@@ -693,7 +695,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     constructor = (
                         go.Scattergl if constructor == go.Scatter else go.Scatterpolargl
                     )
-            trace = trace_spec.constructor(name=trace_name or " ")
+            trace = trace_spec.constructor(name=trace_name)
             if trace_spec.constructor != go.Parcats:
                 trace.update(
                     legendgroup=trace_name,

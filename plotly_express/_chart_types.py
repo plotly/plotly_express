@@ -272,7 +272,12 @@ def violin(
     return make_figure(
         args=locals(),
         constructor=go.Violin,
-        trace_patch=dict(orientation=orientation, points=points, box=dict(visible=box)),
+        trace_patch=dict(
+            orientation=orientation,
+            points=points,
+            box=dict(visible=box),
+            scalegroup=True,
+        ),
         layout_patch=dict(violinmode="group"),
     )
 
