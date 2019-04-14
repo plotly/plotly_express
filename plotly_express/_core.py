@@ -696,7 +696,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                         go.Scattergl if constructor == go.Scatter else go.Scatterpolargl
                     )
             trace = trace_spec.constructor(name=trace_name)
-            if trace_spec.constructor != go.Parcats:
+            if trace_spec.constructor not in [go.Parcats, go.Parcoords, go.Choropleth]:
                 trace.update(
                     legendgroup=trace_name,
                     showlegend=(trace_name != "" and trace_name not in trace_names),
