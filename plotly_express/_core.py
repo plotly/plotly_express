@@ -228,8 +228,6 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     result[k] = g[v]
                 mapping_labels.append(("%s=%%{%s}" % (v_label, k), None))
     if trace_spec.constructor not in [
-        go.Box,
-        go.Violin,
         go.Histogram2dContour,
         go.Splom,
         go.Parcoords,

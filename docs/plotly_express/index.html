@@ -953,7 +953,7 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar"><code class="name flex">
-<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, text=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, text=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a bar plot, each row of <code>data_frame</code> is represented as a rectangular mark.</p>
@@ -997,6 +997,8 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <dd>(dict with string keys and values that are valid CSS-color strings, default <code>{}</code>) Used to override <code>color_discrete_sequence</code> to assign a specific colors to marks corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
 <dt><strong><code>orientation</code></strong></dt>
 <dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
+<dt><strong><code>barmode</code></strong></dt>
+<dd>(string, one of <code>'group'</code> or <code>'relative'</code>. Default is <code>'relative'</code>) In <code>'relative'</code> mode, bars are stacked above zero for positive values and below zero for negative values. In <code>'group'</code> mode, bars are placed beside each other.</dd>
 <dt><strong><code>log_x</code></strong></dt>
 <dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
@@ -1187,7 +1189,7 @@ visualize their distribution.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.histogram"><code class="name flex">
-<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, barmode=&#39;stack&#39;, barnorm=None, histnorm=None, log_x=False, log_y=False, range_x=None, range_y=None, histfunc=None, cumulative=None, nbins=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, barnorm=None, histnorm=None, log_x=False, log_y=False, range_x=None, range_y=None, histfunc=None, cumulative=None, nbins=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a histogram, rows of <code>data_frame</code> are grouped together into a rectangular mark to
@@ -1366,7 +1368,8 @@ One of: ['area', 'bar', 'barpolar', 'box',
 'scatter3d', 'scattercarpet', 'scattergeo',
 'scattergl', 'scattermapbox', 'scatterpolar',
 'scatterpolargl', 'scatterternary', 'splom',
-'streamtube', 'surface', 'table', 'violin']<pre><code>- All remaining properties are passed to the constructor of
+'streamtube', 'sunburst', 'surface', 'table',
+'violin', 'volume', 'waterfall']<pre><code>- All remaining properties are passed to the constructor of
   the specified trace type
 
 (e.g. [{'type': 'scatter', ...}, {'type': 'bar, ...}])
@@ -1497,6 +1500,17 @@ to the Layout constructor<pre><code>Supported dict properties:
         will be extended to three times its original
         length by first repeating every color 20%
         lighter then each color 20% darker. This is
+        intended to reduce the likelihood of reusing
+        the same color when you have many slices, but
+        you can set `false` to disable. Colors provided
+        in the trace, using `marker.colors`, are never
+        extended.
+    extendsunburstcolors
+        If `true`, the sunburst slice colors (whether
+        given by `sunburstcolorway` or inherited from
+        `colorway`) will be extended to three times its
+        original length by first repeating every color
+        20% lighter then each color 20% darker. This is
         intended to reduce the likelihood of reusing
         the same color when you have many slices, but
         you can set `false` to disable. Colors provided
@@ -1653,6 +1667,12 @@ to the Layout constructor<pre><code>Supported dict properties:
         like objects. In addition, some objects can be
         hovered on but will not generate spikelines,
         such as scatter fills.
+    sunburstcolorway
+        Sets the default sunburst slice colors.
+        Defaults to the main `colorway` used for trace
+        colors. If you specify a new list here it can
+        still be extended with lighter and darker
+        colors, see `extendsunburstcolors`.
     template
         Default attributes to be applied to the plot.
         This should be a dict with format: `{'layout':
@@ -1742,6 +1762,20 @@ to the Layout constructor<pre><code>Supported dict properties:
         another, you might need to set "opacity" to see
         them multiple violins. Has no effect on traces
         that have "width" set.
+    waterfallgap
+        Sets the gap (in plot fraction) between bars of
+        adjacent location coordinates.
+    waterfallgroupgap
+        Sets the gap (in plot fraction) between bars of
+        the same location coordinate.
+    waterfallmode
+        Determines how bars at the same location
+        coordinate are displayed on the graph. With
+        "group", the bars are plotted next to one
+        another centered around the shared location.
+        With "overlay", the bars are plotted over one
+        another, you might need to an "opacity" to see
+        multiple bars.
     width
         Sets the plot's width (in px).
     xaxis

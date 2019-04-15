@@ -204,7 +204,7 @@ def histogram(
     color_discrete_sequence=default_qualitative,
     color_discrete_map={},
     orientation="v",
-    barmode="stack",
+    barmode="relative",
     barnorm=None,
     histnorm=None,
     log_x=False,
