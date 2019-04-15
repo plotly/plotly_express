@@ -166,6 +166,7 @@ def bar(
     color_discrete_sequence=default_qualitative,
     color_discrete_map={},
     orientation="v",
+    barmode="relative",
     log_x=False,
     log_y=False,
     range_x=None,
@@ -182,7 +183,7 @@ def bar(
         args=locals(),
         constructor=go.Bar,
         trace_patch=dict(orientation=orientation, textposition="auto"),
-        layout_patch=dict(barmode="relative"),
+        layout_patch=dict(barmode=barmode),
     )
 
 
