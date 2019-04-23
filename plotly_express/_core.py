@@ -605,7 +605,7 @@ def infer_config(args, constructor, trace_patch):
         if "color" in attrs and args["color"]:
             cmin = args["data_frame"][args["color"]].min()
             cmax = args["data_frame"][args["color"]].max()
-            if args["color_continuous_midpoint"]:
+            if args["color_continuous_midpoint"] is not None:
                 cmid = args["color_continuous_midpoint"]
                 delta = max(cmax - cmid, cmid - cmin)
                 color_range = [cmid - delta, cmid + delta]
