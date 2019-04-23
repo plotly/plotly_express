@@ -1,6 +1,7 @@
 import inspect
 
-colref = "(string, name of column in `data_frame`)"
+colref = "(string: name of column in `data_frame`)"
+colref_list = "(list of string: names of columns in `data_frame`)"
 
 # TODO contents of columns
 # TODO explain categorical
@@ -103,6 +104,10 @@ docs = dict(
     symbol=[colref, "Values from this column are used to assign symbols to marks."],
     size=[colref, "Values from this column are used to assign mark sizes."],
     hover_name=[colref, "Values from this column appear in bold in the hover tooltip."],
+    hover_data=[
+        colref_list,
+        "Values from these columns appear as extra data in the hover tooltip.",
+    ],
     text=[colref, "Values from this column appear in the figure as text labels."],
     locationmode=[
         "(string, one of 'ISO-3', 'USA-states', 'country names')",
@@ -213,6 +218,10 @@ docs = dict(
         "By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in `data_frame` (and no order is guaranteed by default in Python below 3.6).",
         "This parameter is used to force a specific ordering of values per column.",
         "The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.",
+    ],
+    marginal=[
+        "(string, one of `'rug'`, `'box'`, `'violin'`, `'histogram'`)",
+        "If set, a subplot is drawn alongside the main plot, visulizing the distribution.",
     ],
     marginal_x=[
         "(string, one of `'rug'`, `'box'`, `'violin'`, `'histogram'`)",
