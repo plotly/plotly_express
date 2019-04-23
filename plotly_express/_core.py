@@ -732,14 +732,21 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     m.updater(trace, m.val_map[val])
                 except ValueError:
                     if (
-                        len(trace_specs) == 1
-                        or trace_specs[0].constructor not in [go.Scatter, go.Scattergl]
-                        or m.variable != "symbol"
+                        trace_spec != trace_specs[0]
+                        and trace_spec.constructor in [go.Violin, go.Box, go.Histogram]
+                        and m.variable == "symbol"
                     ):
+                        pass
+                    elif (
+                        trace_spec != trace_specs[0]
+                        and trace_spec.constructor in [go.Histogram]
+                        and m.variable == "color"
+                    ):
+                        trace.update(marker=dict(color=m.val_map[val]))
+                    else:
                         raise
             if (
-                len(trace_specs) != 1
-                and trace_specs[0].constructor == go.Histogram2dContour
+                trace_specs[0].constructor == go.Histogram2dContour
                 and trace_spec.constructor == go.Box
                 and trace.line.color
             ):
