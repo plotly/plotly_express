@@ -736,6 +736,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     layout_patch["legend"] = {"tracegroupgap": 0}
     if "title" not in layout_patch:
         layout_patch["margin"] = {"t": 60}
+    if "size" in args and args["size"]:
+        layout_patch["legend"]["itemsizing"] = "constant"
     fig = ExpressFigure(
         data=frame_list[0]["data"] if len(frame_list) > 0 else [],
         layout=layout_patch,
