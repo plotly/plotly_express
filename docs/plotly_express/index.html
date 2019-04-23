@@ -50,7 +50,7 @@ gtag('config', 'UA-39373211-1');
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="plotly_express.scatter"><code class="name flex">
-<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, opacity=None, symbol=None, size=None, hover_name=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter</span></span>(<span>data_frame, x=None, y=None, color=None, symbol=None, size=None, hover_name=None, hover_data=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, opacity=None, size_max=20, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in 2D space.</p>
@@ -59,37 +59,37 @@ gtag('config', 'UA-39373211-1');
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
-<dt><strong><code>opacity</code></strong></dt>
-<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -106,6 +106,8 @@ gtag('config', 'UA-39373211-1');
 <dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(dict with string keys and values that are strings defining plotly.js symbols, default <code>{}</code>) Used to override <code>symbol_sequence</code> to assign a specific symbols to marks corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>size_max</code></strong></dt>
 <dd>(integer, default 20) Set the maximum mark size when using <code>size</code>.</dd>
 <dt><strong><code>marginal_x</code></strong></dt>
@@ -140,7 +142,7 @@ gtag('config', 'UA-39373211-1');
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_3d"><code class="name flex">
-<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, opacity=None, symbol=None, size=None, text=None, hover_name=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, size_max=20, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, log_x=False, log_y=False, log_z=False, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_3d</span></span>(<span>data_frame, x=None, y=None, z=None, color=None, symbol=None, size=None, text=None, hover_name=None, hover_data=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, error_z=None, error_z_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, size_max=20, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, opacity=None, log_x=False, log_y=False, log_z=False, range_x=None, range_y=None, range_z=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 3D scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in 3D space.</p>
@@ -149,39 +151,39 @@ gtag('config', 'UA-39373211-1');
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>z</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the z axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the z axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
-<dt><strong><code>opacity</code></strong></dt>
-<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>error_z</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars. If <code>error_z_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_z</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars. If <code>error_z_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_z</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_z_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars in the negative direction. Ignored if <code>error_z</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size z-axis error bars in the negative direction. Ignored if <code>error_z</code> is <code>None</code>.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -200,6 +202,8 @@ gtag('config', 'UA-39373211-1');
 <dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(dict with string keys and values that are strings defining plotly.js symbols, default <code>{}</code>) Used to override <code>symbol_sequence</code> to assign a specific symbols to marks corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>log_x</code></strong></dt>
 <dd>(boolean, default <code>False</code>) If <code>True</code>, the x-axis is log-scaled in cartesian coordinates.</dd>
 <dt><strong><code>log_y</code></strong></dt>
@@ -225,7 +229,7 @@ gtag('config', 'UA-39373211-1');
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_polar"><code class="name flex">
-<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, opacity=None, symbol=None, size=None, hover_name=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, direction=&#39;clockwise&#39;, start_angle=90, size_max=20, range_r=None, log_r=False, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, symbol=None, size=None, hover_name=None, hover_data=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, opacity=None, direction=&#39;clockwise&#39;, start_angle=90, size_max=20, range_r=None, log_r=False, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in
@@ -235,25 +239,25 @@ polar coordinates.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
-<dt><strong><code>opacity</code></strong></dt>
-<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -270,6 +274,8 @@ polar coordinates.</p>
 <dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(dict with string keys and values that are strings defining plotly.js symbols, default <code>{}</code>) Used to override <code>symbol_sequence</code> to assign a specific symbols to marks corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>direction</code></strong></dt>
 <dd>(string, one of '<code>counterclockwise'</code>, <code>'clockwise'</code>. Default is <code>'clockwise'</code>) Sets the direction in which increasing values of the angular axis are drawn.</dd>
 <dt><strong><code>start_angle</code></strong></dt>
@@ -296,7 +302,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_ternary"><code class="name flex">
-<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, opacity=None, symbol=None, size=None, text=None, hover_name=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, symbol=None, size=None, text=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, opacity=None, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary scatter plot, each row of <code>data_frame</code> is represented by a symbol mark in ternary coordinates.</p>
@@ -305,27 +311,27 @@ polar coordinates.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>a</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
 <dt><strong><code>b</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
 <dt><strong><code>c</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
-<dt><strong><code>opacity</code></strong></dt>
-<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -342,6 +348,8 @@ polar coordinates.</p>
 <dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(dict with string keys and values that are strings defining plotly.js symbols, default <code>{}</code>) Used to override <code>symbol_sequence</code> to assign a specific symbols to marks corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>size_max</code></strong></dt>
 <dd>(integer, default 20) Set the maximum mark size when using <code>size</code>.</dd>
 <dt><strong><code>title</code></strong></dt>
@@ -357,7 +365,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_mapbox"><code class="name flex">
-<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, zoom=8, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, hover_data=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, zoom=8, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox scatter plot, each row of <code>data_frame</code> is represented by a symbol mark on a Mapbox map.</p>
@@ -366,21 +374,23 @@ polar coordinates.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -410,7 +420,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_geo"><code class="name flex">
-<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, text=None, hover_name=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, text=None, hover_name=None, hover_data=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic scatter plot, each row of <code>data_frame</code> is represented by a symbol mark on a map.</p>
@@ -419,25 +429,27 @@ polar coordinates.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
 <dt><strong><code>locationmode</code></strong></dt>
 <dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -471,7 +483,7 @@ polar coordinates.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.scatter_matrix"><code class="name flex">
-<span>def <span class="ident">scatter_matrix</span></span>(<span>data_frame, dimensions=None, color=None, opacity=None, symbol=None, size=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">scatter_matrix</span></span>(<span>data_frame, dimensions=None, color=None, symbol=None, size=None, hover_name=None, hover_data=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, symbol_sequence=[&#39;circle&#39;, &#39;diamond&#39;, &#39;square&#39;, &#39;x&#39;, &#39;cross&#39;], symbol_map={}, opacity=None, size_max=20, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a scatter plot matrix (or SPLOM), each row of <code>data_frame</code> is represented
@@ -484,13 +496,15 @@ plot each pair of <code>dimensions</code> against each other.</p>
 <dt><strong><code>dimensions</code></strong></dt>
 <dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
-<dt><strong><code>opacity</code></strong></dt>
-<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>symbol</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign symbols to marks.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dt><strong><code>hover_name</code></strong></dt>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -507,6 +521,8 @@ plot each pair of <code>dimensions</code> against each other.</p>
 <dd>(list of strings defining plotly.js symbols) When <code>symbol</code> is set, values in that column are assigned symbols by cycling through <code>symbol_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>symbol</code> is a key in <code>symbol_map</code>.</dd>
 <dt><strong><code>symbol_map</code></strong></dt>
 <dd>(dict with string keys and values that are strings defining plotly.js symbols, default <code>{}</code>) Used to override <code>symbol_sequence</code> to assign a specific symbols to marks corresponding with specific values. Keys in <code>symbol_map</code> should be values in the column denoted by <code>symbol</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>size_max</code></strong></dt>
 <dd>(integer, default 20) Set the maximum mark size when using <code>size</code>.</dd>
 <dt><strong><code>title</code></strong></dt>
@@ -522,7 +538,7 @@ plot each pair of <code>dimensions</code> against each other.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.density_contour"><code class="name flex">
-<span>def <span class="ident">density_contour</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">density_contour</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, marginal_x=None, marginal_y=None, trendline=None, trendline_color_override=None, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a density contour plot, rows of <code>data_frame</code> are grouped together into contour marks to
@@ -532,19 +548,23 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dt><strong><code>hover_name</code></strong></dt>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -582,7 +602,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line"><code class="name flex">
-<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover_name=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, log_x=False, log_y=False, range_x=None, range_y=None, line_shape=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">line</span></span>(<span>data_frame, x=None, y=None, line_group=None, color=None, line_dash=None, hover_name=None, hover_data=None, text=None, facet_row=None, facet_col=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, log_x=False, log_y=False, range_x=None, range_y=None, line_shape=None, render_mode=&#39;auto&#39;, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a 2D line plot, each row of <code>data_frame</code> is represented as vertex of a polyline mark in 2D space.</p>
@@ -591,35 +611,37 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -658,7 +680,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_polar"><code class="name flex">
-<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, line_dash=None, hover_name=None, line_group=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, direction=&#39;clockwise&#39;, start_angle=90, line_close=False, line_shape=None, render_mode=&#39;auto&#39;, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">line_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, line_dash=None, hover_name=None, hover_data=None, line_group=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, direction=&#39;clockwise&#39;, start_angle=90, line_close=False, line_shape=None, render_mode=&#39;auto&#39;, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar line plot, each row of <code>data_frame</code> is represented as vertex of a polyline mark in polar coordinates.</p>
@@ -667,23 +689,25 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -724,7 +748,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_ternary"><code class="name flex">
-<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover_name=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, line_shape=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">line_ternary</span></span>(<span>data_frame, a=None, b=None, c=None, color=None, line_dash=None, line_group=None, hover_name=None, hover_data=None, text=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, line_shape=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a ternary line plot, each row of <code>data_frame</code> is represented as vertex of a polyline mark in ternary coordinates.</p>
@@ -733,25 +757,27 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>a</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the a axis in ternary coordinates.</dd>
 <dt><strong><code>b</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the b axis in ternary coordinates.</dd>
 <dt><strong><code>c</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the c axis in ternary coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -779,7 +805,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_mapbox"><code class="name flex">
-<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, line_group=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, zoom=8, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">line_mapbox</span></span>(<span>data_frame, lat=None, lon=None, color=None, text=None, hover_name=None, hover_data=None, line_group=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, zoom=8, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a Mapbox line plot, each row of <code>data_frame</code> is represented as vertex of a polyline mark on a Mapbox map.</p>
@@ -788,21 +814,23 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -826,7 +854,7 @@ visualize the density of their distribution in 2D space.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.line_geo"><code class="name flex">
-<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, line_dash=None, text=None, hover_name=None, line_group=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">line_geo</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, line_dash=None, text=None, hover_name=None, hover_data=None, line_group=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, line_dash_sequence=[&#39;solid&#39;, &#39;dot&#39;, &#39;dash&#39;, &#39;longdash&#39;, &#39;dashdot&#39;, &#39;longdashdot&#39;], line_dash_map={}, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a geographic line plot, each row of <code>data_frame</code> is represented as vertex of a polyline mark on a map.</p>
@@ -835,27 +863,29 @@ visualize the density of their distribution in 2D space.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
 <dt><strong><code>locationmode</code></strong></dt>
 <dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>line_dash</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign dash-patterns to lines.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>line_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to group rows of <code>data_frame</code> into lines.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -900,7 +930,7 @@ by a polyline mark which traverses a set of parallel axes, one for each of the
 <dt><strong><code>dimensions</code></strong></dt>
 <dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>labels</code></strong></dt>
 <dd>(dict with string keys and string values, default <code>{}</code>) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this dict should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
@@ -933,7 +963,7 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <dt><strong><code>dimensions</code></strong></dt>
 <dd>(list of strings, names of columns in <code>data_frame</code>) Columns to be used in multidimensional visualization.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>labels</code></strong></dt>
 <dd>(dict with string keys and string values, default <code>{}</code>) By default, column names are used in the figure for axis titles, legend entries and hovers. This parameter allows this to be overridden. The keys of this dict should correspond to column names, and the values should correspond to the desired label to be displayed.</dd>
 <dt><strong><code>color_continuous_scale</code></strong></dt>
@@ -953,7 +983,7 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar"><code class="name flex">
-<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, text=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">bar</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, hover_data=None, text=None, error_x=None, error_x_minus=None, error_y=None, error_y_minus=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, opacity=None, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, log_x=False, log_y=False, range_x=None, range_y=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a bar plot, each row of <code>data_frame</code> is represented as a rectangular mark.</p>
@@ -962,31 +992,33 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>text</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in the figure as text labels.</dd>
 <dt><strong><code>error_x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars. If <code>error_x_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_x</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_x_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size x-axis error bars in the negative direction. Ignored if <code>error_x</code> is <code>None</code>.</dd>
 <dt><strong><code>error_y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars. If <code>error_y_minus</code> is <code>None</code>, error bars will be symmetrical, otherwise <code>error_y</code> is used for the positive direction only.</dd>
 <dt><strong><code>error_y_minus</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to size y-axis error bars in the negative direction. Ignored if <code>error_y</code> is <code>None</code>.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -995,6 +1027,8 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
 <dd>(dict with string keys and values that are valid CSS-color strings, default <code>{}</code>) Used to override <code>color_discrete_sequence</code> to assign a specific colors to marks corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>orientation</code></strong></dt>
 <dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
 <dt><strong><code>barmode</code></strong></dt>
@@ -1020,7 +1054,7 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.bar_polar"><code class="name flex">
-<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover_name=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, barnorm=&#39;&#39;, barmode=&#39;relative&#39;, direction=&#39;clockwise&#39;, start_angle=90, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">bar_polar</span></span>(<span>data_frame, r=None, theta=None, color=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, barnorm=&#39;&#39;, barmode=&#39;relative&#39;, direction=&#39;clockwise&#39;, start_angle=90, range_r=None, log_r=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a polar bar plot, each row of <code>data_frame</code> is represented as a wedge mark in polar coordinates.</p>
@@ -1029,17 +1063,19 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>r</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the radial axis in polar coordinates.</dd>
 <dt><strong><code>theta</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the angular axis in polar coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -1073,7 +1109,7 @@ as a polyline mark through a set of parallel axes, one for each of the <code>dim
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.violin"><code class="name flex">
-<span>def <span class="ident">violin</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, log_x=False, log_y=False, range_x=None, range_y=None, points=None, box=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">violin</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, log_x=False, log_y=False, range_x=None, range_y=None, points=None, box=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a violin plot, rows of <code>data_frame</code> are grouped together into a curved mark to
@@ -1083,19 +1119,23 @@ visualize their distribution.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dt><strong><code>hover_name</code></strong></dt>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -1131,7 +1171,7 @@ visualize their distribution.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.box"><code class="name flex">
-<span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, log_x=False, log_y=False, range_x=None, range_y=None, points=None, notched=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">box</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, log_x=False, log_y=False, range_x=None, range_y=None, points=None, notched=False, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a box plot, rows of <code>data_frame</code> are grouped together into a box-and-whisker mark to
@@ -1141,19 +1181,23 @@ visualize their distribution.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dt><strong><code>hover_name</code></strong></dt>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -1189,7 +1233,7 @@ visualize their distribution.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.histogram"><code class="name flex">
-<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, barnorm=None, histnorm=None, log_x=False, log_y=False, range_x=None, range_y=None, histfunc=None, cumulative=None, nbins=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">histogram</span></span>(<span>data_frame, x=None, y=None, color=None, facet_row=None, facet_col=None, hover_name=None, hover_data=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_discrete_sequence=[&#39;#636efa&#39;, &#39;#EF553B&#39;, &#39;#00cc96&#39;, &#39;#ab63fa&#39;, &#39;#19d3f3&#39;, &#39;#e763fa&#39;, &#39;#fecb52&#39;, &#39;#ffa15a&#39;, &#39;#ff6692&#39;, &#39;#b6e880&#39;], color_discrete_map={}, marginal=None, opacity=None, orientation=&#39;v&#39;, barmode=&#39;relative&#39;, barnorm=None, histnorm=None, log_x=False, log_y=False, range_x=None, range_y=None, histfunc=None, cumulative=None, nbins=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a histogram, rows of <code>data_frame</code> are grouped together into a rectangular mark to
@@ -1199,19 +1243,23 @@ visualize some aggregate quantity like count or sum.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>x</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the x axis in cartesian coordinates.</dd>
 <dt><strong><code>y</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks along the y axis in cartesian coordinates.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>facet_row</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the vertical direction.</dd>
 <dt><strong><code>facet_col</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to facetted subplots in the horizontal direction.</dd>
+<dt><strong><code>hover_name</code></strong></dt>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
@@ -1220,6 +1268,10 @@ visualize some aggregate quantity like count or sum.</p>
 <dd>(list of valid CSS-color strings) When <code>color</code> is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through <code>color_discrete_sequence</code> in the order described in <code>category_orders</code>, unless the value of <code>color</code> is a key in <code>color_discrete_map</code>. Various useful color sequences are available in the <a title="plotly_express.colors" href="colors/index.html"><code>plotly_express.colors</code></a> submodules, specifically <a title="plotly_express.colors.qualitative" href="colors/qualitative.html"><code>plotly_express.colors.qualitative</code></a>.</dd>
 <dt><strong><code>color_discrete_map</code></strong></dt>
 <dd>(dict with string keys and values that are valid CSS-color strings, default <code>{}</code>) Used to override <code>color_discrete_sequence</code> to assign a specific colors to marks corresponding with specific values. Keys in <code>color_discrete_map</code> should be values in the column denoted by <code>color</code>.</dd>
+<dt><strong><code>marginal</code></strong></dt>
+<dd>(string, one of <code>'rug'</code>, <code>'box'</code>, <code>'violin'</code>, <code>'histogram'</code>) If set, a subplot is drawn alongside the main plot, visulizing the distribution.</dd>
+<dt><strong><code>opacity</code></strong></dt>
+<dd>(number, between 0 and 1) Sets the opacity for markers.</dd>
 <dt><strong><code>orientation</code></strong></dt>
 <dd>(string, one of <code>'h'</code> or <code>'v'</code>) Default is <code>'v'</code>.</dd>
 <dt><strong><code>barmode</code></strong></dt>
@@ -1255,7 +1307,7 @@ visualize some aggregate quantity like count or sum.</p>
 <p>A <a title="plotly_express.ExpressFigure" href="#plotly_express.ExpressFigure"><code>ExpressFigure</code></a> object.</p></section>
 </dd>
 <dt id="plotly_express.choropleth"><code class="name flex">
-<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, hover_name=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
+<span>def <span class="ident">choropleth</span></span>(<span>data_frame, lat=None, lon=None, locations=None, locationmode=None, color=None, hover_name=None, hover_data=None, size=None, animation_frame=None, animation_group=None, category_orders={}, labels={}, color_continuous_scale=[&#39;#0508b8&#39;, &#39;#1910d8&#39;, &#39;#3c19f0&#39;, &#39;#6b1cfb&#39;, &#39;#981cfd&#39;, &#39;#bf1cfd&#39;, &#39;#dd2bfd&#39;, &#39;#f246fe&#39;, &#39;#fc67fd&#39;, &#39;#fe88fc&#39;, &#39;#fea5fd&#39;, &#39;#febefe&#39;, &#39;#fec3fe&#39;], color_continuous_midpoint=None, size_max=20, projection=None, scope=None, center=None, title=None, template=&#39;plotly&#39;, width=None, height=600)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>In a choropleth map, each row of <code>data_frame</code> is represented by a colored region mark on a map.</p>
@@ -1264,23 +1316,25 @@ visualize some aggregate quantity like count or sum.</p>
 <dt><strong><code>data_frame</code></strong></dt>
 <dd>A 'tidy' <code>pandas.DataFrame</code></dd>
 <dt><strong><code>lat</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to latitude on a map.</dd>
 <dt><strong><code>lon</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to position marks according to longitude on a map.</dd>
 <dt><strong><code>locations</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are be interpreted according to <code>locationmode</code> and mapped to longitude/latitude.</dd>
 <dt><strong><code>locationmode</code></strong></dt>
 <dd>(string, one of 'ISO-3', 'USA-states', 'country names') Determines the set of locations used to match entries in <code>locations</code> to regions on the map.</dd>
 <dt><strong><code>color</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign color to marks.</dd>
 <dt><strong><code>hover_name</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column appear in bold in the hover tooltip.</dd>
+<dt><strong><code>hover_data</code></strong></dt>
+<dd>(list of string: names of columns in <code>data_frame</code>) Values from these columns appear as extra data in the hover tooltip.</dd>
 <dt><strong><code>size</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign mark sizes.</dd>
 <dt><strong><code>animation_frame</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to assign marks to animation frames.</dd>
 <dt><strong><code>animation_group</code></strong></dt>
-<dd>(string, name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
+<dd>(string: name of column in <code>data_frame</code>) Values from this column are used to provide object-constancy across animation frames: rows with matching <code>animation_group</code>s will be treated as if they describe the same object in each frame.</dd>
 <dt><strong><code>category_orders</code></strong></dt>
 <dd>(dict with string keys and list-of-string values, default <code>{}</code>) By default, in Python 3.6+, the order of categorical values in axes, legends and facets depends on the order in which these values are first encountered in <code>data_frame</code> (and no order is guaranteed by default in Python below 3.6). This parameter is used to force a specific ordering of values per column. The keys of this dict should correspond to column names, and the values should be lists of strings corresponding to the specific display order desired.</dd>
 <dt><strong><code>labels</code></strong></dt>
