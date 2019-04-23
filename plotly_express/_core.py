@@ -144,18 +144,22 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
             elif k == "trendline":
                 if v in ["ols", "lowess"] and args["x"] and args["y"] and len(g) > 1:
                     import statsmodels.api as sm
+                    import numpy as np
+
+                    # sorting is bad but trace_specs with "trendline" have no other attrs
+                    g2 = g.sort_values(by=args["x"])
+                    y = g2[args["y"]]
+                    x = g2[args["x"]]
+                    result["x"] = x
+
+                    if x.dtype.type == np.datetime64:
+                        x = x.astype(int) / 10 ** 9  # convert to unix epoch seconds
 
                     if v == "lowess":
-                        trendline = sm.nonparametric.lowess(g[args["y"]], g[args["x"]])
-                        result["x"] = trendline[:, 0]
+                        trendline = sm.nonparametric.lowess(y, x)
                         result["y"] = trendline[:, 1]
                         hover_header = "<b>LOWESS trendline</b><br><br>"
                     elif v == "ols":
-                        # sorting is bad but trace_specs with "trendline" have no other attrs
-                        g2 = g.sort_values(by=args["x"])
-                        y = g2[args["y"]]
-                        x = g2[args["x"]]
-                        result["x"] = x
                         fitted = sm.OLS(y, sm.add_constant(x)).fit()
                         result["y"] = fitted.predict()
                         hover_header = "<b>OLS trendline</b><br>"
