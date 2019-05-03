@@ -1,7 +1,43 @@
 #!/bin/bash
 
+# stop on errors
 set -e
+
+# install everything including local version
 pip install -r requirements.txt
-jupyter nbconvert gallery.ipynb --execute --output-dir=docs --output=index --template=docs/nb.tpl
-jupyter nbconvert walkthrough.ipynb --execute --output-dir=docs --template=docs/nb.tpl
-pdoc plotly_express --html --html-dir=docs --overwrite --template-dir=docs/templates
+
+# reset doc build dir
+rm -rf doc_build
+mkdir doc_build
+
+# generate HTML reference docs
+pdoc plotly_express --html --html-dir=doc_build --overwrite --template-dir=docs/templates
+
+for NB in walkthrough gallery
+do
+  # make unexecuted IPYNB files from MD files (overwrites)
+  jupytext --to notebook $NB.md
+
+  # create executed IPYNB files in the build dir
+  jupyter nbconvert --execute --to notebook $NB.ipynb --output doc_build/$NB.ipynb
+
+  # convert executed doc_build/IPYNB files to doc_build/HTML using template
+  jupyter nbconvert doc_build/$NB.ipynb --template=docs/nb.tpl
+done
+
+
+cd doc_build
+echo www.plotly.express >> CNAME
+echo plotly_express >> requirements.txt
+mv gallery.html index.html
+
+# push to gh-pages
+git init
+git add .
+git commit -m doc_build
+git push --force git@github.com:plotly/plotly_express.git master:gh-pages
+
+# clean up
+cd ..
+rm -rf doc_build
+
