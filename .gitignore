@@ -1,6 +1,5 @@
 .vscode
-scratch.ipynb
-make_reel.ipynb
+*.ipynb
 .ipynb_checkpoints
 .mapbox_token
 
