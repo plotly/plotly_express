@@ -268,9 +268,20 @@ docs = dict(
         "`'percent'` is the same but multiplied by 100 to show percentages.",
     ],
     barmode=[
-        "(string, one of `'group'` or `'relative'`. Default is `'relative'`)",
+        "(string, one of `'group'`, `'overlay'` or `'relative'`. Default is `'relative'`)",
         "In `'relative'` mode, bars are stacked above zero for positive values and below zero for negative values.",
+        "In `'overlay'` mode, bars are on drawn top of one another.",
         "In `'group'` mode, bars are placed beside each other.",
+    ],
+    boxmode=[
+        "(string, one of `'group'` or `'overlay'`. Default is `'group'`)",
+        "In `'overlay'` mode, boxes are on drawn top of one another.",
+        "In `'group'` mode, baxes are placed beside each other.",
+    ],
+    violinmode=[
+        "(string, one of `'group'` or `'overlay'`. Default is `'group'`)",
+        "In `'overlay'` mode, violins are on drawn top of one another.",
+        "In `'group'` mode, violins are placed beside each other.",
     ],
     zoom=["(integer between 0 and 20, default is 8)", "Sets map zoom level."],
     orientation=["(string, one of `'h'` or `'v'`)", "Default is `'v'`."],

@@ -286,8 +286,6 @@ def configure_cartesian_marginal_axes(args, orders):
     layout = dict()
     if "histogram" in [args["marginal_x"], args["marginal_y"]]:
         layout["barmode"] = "overlay"
-    if "violin" in [args["marginal_x"], args["marginal_y"]]:
-        layout["violinmode"] = "overlay"
     for letter in ["x", "y"]:
         layout[letter + "axis1"] = dict(
             title=get_decorated_label(args, args[letter], letter)
@@ -628,7 +626,11 @@ def infer_config(args, constructor, trace_patch):
 
     trace_patch = trace_patch.copy()
     if "opacity" in args:
-        trace_patch["marker"] = dict(opacity=args["opacity"])
+        if args["opacity"] is None:
+            if "barmode" in args and args["barmode"] == "overlay":
+                trace_patch["marker"] = dict(opacity=0.5)
+        else:
+            trace_patch["marker"] = dict(opacity=args["opacity"])
     if "line_group" in args:
         trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
     elif constructor != go.Splom and (

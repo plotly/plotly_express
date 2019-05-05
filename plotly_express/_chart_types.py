@@ -267,6 +267,7 @@ def violin(
     color_discrete_sequence=default_qualitative,
     color_discrete_map={},
     orientation="v",
+    violinmode="group",
     log_x=False,
     log_y=False,
     range_x=None,
@@ -290,8 +291,10 @@ def violin(
             points=points,
             box=dict(visible=box),
             scalegroup=True,
+            x0=" ",
+            y0=" ",
         ),
-        layout_patch=dict(violinmode="group"),
+        layout_patch=dict(violinmode=violinmode),
     )
 
 
@@ -314,6 +317,7 @@ def box(
     color_discrete_sequence=default_qualitative,
     color_discrete_map={},
     orientation="v",
+    boxmode="group",
     log_x=False,
     log_y=False,
     range_x=None,
@@ -332,8 +336,10 @@ def box(
     return make_figure(
         args=locals(),
         constructor=go.Box,
-        trace_patch=dict(orientation=orientation, boxpoints=points, notched=notched),
-        layout_patch=dict(boxmode="group"),
+        trace_patch=dict(
+            orientation=orientation, boxpoints=points, notched=notched, x0=" ", y0=" "
+        ),
+        layout_patch=dict(boxmode=boxmode),
     )
 
 
