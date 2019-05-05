@@ -150,6 +150,51 @@ def line(
 line.__doc__ = make_docstring(line)
 
 
+def area(
+    data_frame,
+    x=None,
+    y=None,
+    line_group=None,
+    color=None,
+    hover_name=None,
+    hover_data=None,
+    text=None,
+    facet_row=None,
+    facet_col=None,
+    animation_frame=None,
+    animation_group=None,
+    category_orders={},
+    labels={},
+    color_discrete_sequence=default_qualitative,
+    color_discrete_map={},
+    orientation="v",
+    groupnorm=None,
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    line_shape=None,
+    render_mode="auto",
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
+):
+    """
+    In a stacked area plot, each row of `data_frame` is represented as vertex of a polyline mark in 2D space. The area between successive polylines is filled.
+    """
+    return make_figure(
+        args=locals(),
+        constructor=go.Scatter,
+        trace_patch=dict(
+            stackgroup=1, mode="lines", orientation=orientation, groupnorm=groupnorm
+        ),
+    )
+
+
+area.__doc__ = make_docstring(area)
+
+
 def bar(
     data_frame,
     x=None,
