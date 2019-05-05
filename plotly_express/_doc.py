@@ -267,6 +267,11 @@ docs = dict(
         "If set to `'fraction'`, the value of each bar is divided by the sum of all values at that location coordinate.",
         "`'percent'` is the same but multiplied by 100 to show percentages.",
     ],
+    groupnorm=[
+        "(string, one of `'fraction'` or `'percent'`, default is `None`)",
+        "If set to `'fraction'`, the value of each point is divided by the sum of all values at that location coordinate.",
+        "`'percent'` is the same but multiplied by 100 to show percentages.",
+    ],
     barmode=[
         "(string, one of `'group'`, `'overlay'` or `'relative'`. Default is `'relative'`)",
         "In `'relative'` mode, bars are stacked above zero for positive values and below zero for negative values.",
@@ -284,7 +289,10 @@ docs = dict(
         "In `'group'` mode, violins are placed beside each other.",
     ],
     zoom=["(integer between 0 and 20, default is 8)", "Sets map zoom level."],
-    orientation=["(string, one of `'h'` or `'v'`)", "Default is `'v'`."],
+    orientation=[
+        "(string, one of `'h'` for horizontal or `'v' for vertical`)",
+        "Default is `'v'`.",
+    ],
     line_close=[
         "(boolean, default `False`)",
         "If `True`, an extra line segment is drawn between the first and last point.",

@@ -579,10 +579,8 @@ def infer_config(args, constructor, trace_patch):
         + ["lat", "lon", "locations", "animation_group"]
     )
 
-    groupables = ["animation_frame", "facet_row", "facet_col", "line_group"]
-
     attrs = [k for k in attrables if k in args]
-    grouped_attrs = [k for k in groupables if k in args]
+    grouped_attrs = []
 
     sizeref = 0
     if "size" in args and args["size"]:
@@ -646,6 +644,10 @@ def infer_config(args, constructor, trace_patch):
         other_position = "marginal_x" if args["orientation"] == "h" else "marginal_y"
         args[position] = args["marginal"]
         args[other_position] = None
+
+    for k in ["animation_frame", "facet_row", "facet_col", "line_group"]:
+        if k in args:
+            grouped_attrs.append(k)
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)

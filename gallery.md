@@ -115,6 +115,10 @@ px.line(gapminder, x="year", y="lifeExp", color="continent", line_group="country
         line_shape="spline")
 ```
 
+```python
+px.area(gapminder, x="year", y="pop", color="continent", line_group="country")
+```
+
 ## Visualize Distributions
 
 ```python
