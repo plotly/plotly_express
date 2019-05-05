@@ -340,6 +340,56 @@ def box(
 box.__doc__ = make_docstring(box)
 
 
+def strip(
+    data_frame,
+    x=None,
+    y=None,
+    color=None,
+    facet_row=None,
+    facet_col=None,
+    hover_name=None,
+    hover_data=None,
+    animation_frame=None,
+    animation_group=None,
+    category_orders={},
+    labels={},
+    color_discrete_sequence=default_qualitative,
+    color_discrete_map={},
+    orientation="v",
+    jitter=None,
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    title=None,
+    template=default_template,
+    width=default_width,
+    height=default_height,
+):
+    """
+    In a strip plot each row of `data_frame` is represented as a jittered mark within categories.
+    """
+    return make_figure(
+        args=locals(),
+        constructor=go.Box,
+        trace_patch=dict(
+            orientation=orientation,
+            boxpoints="all",
+            pointpos=0,
+            hoveron="points",
+            fillcolor="rgba(255,255,255,0)",
+            line={"color": "rgba(255,255,255,0)"},
+            jitter=jitter,
+            x0=" ",
+            y0=" ",
+        ),
+        layout_patch=dict(boxmode="group"),
+    )
+
+
+strip.__doc__ = make_docstring(strip)
+
+
 def scatter_3d(
     data_frame,
     x=None,
