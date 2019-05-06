@@ -578,6 +578,28 @@ def infer_config(args, constructor, trace_patch):
         + ["error_y", "error_y_minus", "error_z", "error_z_minus"]
         + ["lat", "lon", "locations", "animation_group"]
     )
+    array_attrables = ["dimensions", "hover_data"]
+    group_attrables = ["animation_frame", "facet_row", "facet_col", "line_group"]
+
+    df_columns = args["data_frame"].columns
+
+    for attr in attrables + group_attrables + ["color"]:
+        if attr in args and args[attr] is not None:
+            maybe_col_list = [args[attr]] if attr not in array_attrables else args[attr]
+            for maybe_col in maybe_col_list:
+                try:
+                    in_cols = maybe_col in df_columns
+                except TypeError:
+                    in_cols = False
+                if not in_cols:
+                    value_str = (
+                        "Element of value" if attr in array_attrables else "Value"
+                    )
+                    raise ValueError(
+                        "%s of '%s' is not the name of a column in 'data_frame'. "
+                        "Expected one of %s but received: %s"
+                        % (value_str, attr, str(list(df_columns)), str(maybe_col))
+                    )
 
     attrs = [k for k in attrables if k in args]
     grouped_attrs = []
@@ -645,7 +667,7 @@ def infer_config(args, constructor, trace_patch):
         args[position] = args["marginal"]
         args[other_position] = None
 
-    for k in ["animation_frame", "facet_row", "facet_col", "line_group"]:
+    for k in group_attrables:
         if k in args:
             grouped_attrs.append(k)
 
