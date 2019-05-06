@@ -215,6 +215,8 @@ def bar(
     labels={},
     color_discrete_sequence=default_qualitative,
     color_discrete_map={},
+    color_continuous_scale=default_continuous,
+    color_continuous_midpoint=None,
     opacity=None,
     orientation="v",
     barmode="relative",
