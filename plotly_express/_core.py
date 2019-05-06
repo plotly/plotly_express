@@ -1,9 +1,26 @@
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 from collections import namedtuple, OrderedDict
-from .colors.qualitative import Plotly as default_qualitative_seq
+from .colors import qualitative, sequential
 import math
 
+
+class PxDefaults(object):
+    def __init__(self):
+        self.color_discrete_sequence = qualitative.Plotly
+        self.color_continuous_scale = sequential.Plasma
+        self.symbol_sequence = ["circle", "diamond", "square", "x", "cross"]
+        self.line_dash_sequence = ["solid", "dot", "dash", "longdash", "dashdot"] + [
+            "longdashdot"
+        ]
+        self.template = "plotly"
+        self.width = None
+        self.height = 600
+        self.size_max = 20
+
+
+defaults = PxDefaults()
+del PxDefaults
 
 MAPBOX_TOKEN = ""
 
@@ -553,7 +570,8 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
             if "color" in attrs:
                 if "marker" not in trace_spec.trace_patch:
                     trace_spec.trace_patch["marker"] = dict()
-                trace_spec.trace_patch["marker"]["color"] = default_qualitative_seq[0]
+                first_default_color = defaults.color_discrete_sequence[0]
+                trace_spec.trace_patch["marker"]["color"] = first_default_color
             result.append(trace_spec)
     if "trendline" in args and args["trendline"]:
         trace_spec = TraceSpec(
@@ -572,6 +590,14 @@ def one_group(x):
 
 
 def infer_config(args, constructor, trace_patch):
+    for param in (
+        ["color_discrete_sequence", "color_continuous_scale"]
+        + ["symbol_sequence", "line_dash_sequence", "template"]
+        + ["width", "height", "size_max"]
+    ):
+        if param in args and args[param] is None:
+            args[param] = getattr(defaults, param)
+
     attrables = (
         ["x", "y", "z", "a", "b", "c", "r", "theta", "size"]
         + ["dimensions", "hover_name", "hover_data", "text", "error_x", "error_x_minus"]

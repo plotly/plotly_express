@@ -1,16 +1,6 @@
 from ._core import make_figure
 from ._doc import make_docstring
 import plotly.graph_objs as go
-from .colors import qualitative, sequential
-
-default_qualitative = qualitative.Plotly
-default_continuous = sequential.Plotly
-default_template = "plotly"
-default_width = None
-default_height = 600
-default_max_size = 20
-default_symbol_seq = ["circle", "diamond", "square", "x", "cross"]
-default_line_dash_seq = ["solid", "dot", "dash", "longdash", "dashdot", "longdashdot"]
 
 
 def scatter(
@@ -33,14 +23,14 @@ def scatter(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    symbol_sequence=default_symbol_seq,
+    symbol_sequence=None,
     symbol_map={},
     opacity=None,
-    size_max=default_max_size,
+    size_max=None,
     marginal_x=None,
     marginal_y=None,
     trendline=None,
@@ -51,9 +41,9 @@ def scatter(
     range_y=None,
     render_mode="auto",
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a scatter plot, each row of `data_frame` is represented by a symbol mark in 2D space.
@@ -77,7 +67,7 @@ def density_contour(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     marginal_x=None,
     marginal_y=None,
@@ -88,9 +78,9 @@ def density_contour(
     range_x=None,
     range_y=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a density contour plot, rows of `data_frame` are grouped together into contour marks to \
@@ -126,9 +116,9 @@ def line(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    line_dash_sequence=default_line_dash_seq,
+    line_dash_sequence=None,
     line_dash_map={},
     log_x=False,
     log_y=False,
@@ -137,9 +127,9 @@ def line(
     line_shape=None,
     render_mode="auto",
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a 2D line plot, each row of `data_frame` is represented as vertex of a polyline mark in 2D space.
@@ -165,7 +155,7 @@ def area(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     orientation="v",
     groupnorm=None,
@@ -176,9 +166,9 @@ def area(
     line_shape=None,
     render_mode="auto",
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a stacked area plot, each row of `data_frame` is represented as vertex of a polyline mark in 2D space. The area between successive polylines is filled.
@@ -213,9 +203,9 @@ def bar(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
     opacity=None,
     orientation="v",
@@ -225,9 +215,9 @@ def bar(
     range_x=None,
     range_y=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a bar plot, each row of `data_frame` is represented as a rectangular mark.
@@ -256,7 +246,7 @@ def histogram(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     marginal=None,
     opacity=None,
@@ -272,9 +262,9 @@ def histogram(
     cumulative=None,
     nbins=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a histogram, rows of `data_frame` are grouped together into a rectangular mark to \
@@ -311,7 +301,7 @@ def violin(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     orientation="v",
     violinmode="group",
@@ -322,9 +312,9 @@ def violin(
     points=None,
     box=False,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a violin plot, rows of `data_frame` are grouped together into a curved mark to \
@@ -361,7 +351,7 @@ def box(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     orientation="v",
     boxmode="group",
@@ -372,9 +362,9 @@ def box(
     points=None,
     notched=False,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a box plot, rows of `data_frame` are grouped together into a box-and-whisker mark to \
@@ -414,12 +404,12 @@ def scatter_3d(
     animation_group=None,
     category_orders={},
     labels={},
-    size_max=default_max_size,
-    color_discrete_sequence=default_qualitative,
+    size_max=None,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    symbol_sequence=default_symbol_seq,
+    symbol_sequence=None,
     symbol_map={},
     opacity=None,
     log_x=False,
@@ -429,9 +419,9 @@ def scatter_3d(
     range_y=None,
     range_z=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a 3D scatter plot, each row of `data_frame` is represented by a symbol mark in 3D space.
@@ -463,9 +453,9 @@ def line_3d(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    line_dash_sequence=default_line_dash_seq,
+    line_dash_sequence=None,
     line_dash_map={},
     log_x=False,
     log_y=False,
@@ -474,9 +464,9 @@ def line_3d(
     range_y=None,
     range_z=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a 3D line plot, each row of `data_frame` is represented as vertex of a polyline mark in 3D space.
@@ -502,18 +492,18 @@ def scatter_ternary(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    symbol_sequence=default_symbol_seq,
+    symbol_sequence=None,
     symbol_map={},
     opacity=None,
-    size_max=default_max_size,
+    size_max=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a ternary scatter plot, each row of `data_frame` is represented by a symbol mark in ternary coordinates.
@@ -539,15 +529,15 @@ def line_ternary(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    line_dash_sequence=default_line_dash_seq,
+    line_dash_sequence=None,
     line_dash_map={},
     line_shape=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a ternary line plot, each row of `data_frame` is represented as vertex of a polyline mark in ternary coordinates.
@@ -572,23 +562,23 @@ def scatter_polar(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    symbol_sequence=default_symbol_seq,
+    symbol_sequence=None,
     symbol_map={},
     opacity=None,
     direction="clockwise",
     start_angle=90,
-    size_max=default_max_size,
+    size_max=None,
     range_r=None,
     log_r=False,
     render_mode="auto",
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a polar scatter plot, each row of `data_frame` is represented by a symbol mark in
@@ -614,9 +604,9 @@ def line_polar(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    line_dash_sequence=default_line_dash_seq,
+    line_dash_sequence=None,
     line_dash_map={},
     direction="clockwise",
     start_angle=90,
@@ -626,9 +616,9 @@ def line_polar(
     range_r=None,
     log_r=False,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a polar line plot, each row of `data_frame` is represented as vertex of a polyline mark in polar coordinates.
@@ -650,7 +640,7 @@ def bar_polar(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     barnorm="",
     barmode="relative",
@@ -659,9 +649,9 @@ def bar_polar(
     range_r=None,
     log_r=False,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a polar bar plot, each row of `data_frame` is represented as a wedge mark in polar coordinates.
@@ -690,16 +680,16 @@ def choropleth(
     animation_group=None,
     category_orders={},
     labels={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    size_max=default_max_size,
+    size_max=None,
     projection=None,
     scope=None,
     center=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a choropleth map, each row of `data_frame` is represented by a colored region mark on a map.
@@ -729,18 +719,18 @@ def scatter_geo(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    size_max=default_max_size,
+    size_max=None,
     projection=None,
     scope=None,
     center=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a geographic scatter plot, each row of `data_frame` is represented by a symbol mark on a map.
@@ -771,17 +761,17 @@ def line_geo(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    line_dash_sequence=default_line_dash_seq,
+    line_dash_sequence=None,
     line_dash_map={},
     projection=None,
     scope=None,
     center=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a geographic line plot, each row of `data_frame` is represented as vertex of a polyline mark on a map.
@@ -809,16 +799,16 @@ def scatter_mapbox(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    size_max=default_max_size,
+    size_max=None,
     zoom=8,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a Mapbox scatter plot, each row of `data_frame` is represented by a symbol mark on a Mapbox map.
@@ -842,13 +832,13 @@ def line_mapbox(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     zoom=8,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a Mapbox line plot, each row of `data_frame` is represented as vertex of a polyline mark on a Mapbox map.
@@ -869,18 +859,18 @@ def scatter_matrix(
     hover_data=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
-    symbol_sequence=default_symbol_seq,
+    symbol_sequence=None,
     symbol_map={},
     opacity=None,
-    size_max=default_max_size,
+    size_max=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a scatter plot matrix (or SPLOM), each row of `data_frame` is represented \
@@ -900,12 +890,12 @@ def parallel_coordinates(
     dimensions=None,
     color=None,
     labels={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a parallel coordinates plot, each row of `data_frame` is represented \
@@ -923,12 +913,12 @@ def parallel_categories(
     dimensions=None,
     color=None,
     labels={},
-    color_continuous_scale=default_continuous,
+    color_continuous_scale=None,
     color_continuous_midpoint=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a parallel categories (or parallel sets) plot, each row of `data_frame` is \
