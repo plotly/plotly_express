@@ -31,7 +31,12 @@ from ._chart_types import (  # noqa: F401
     density_contour,
 )
 
-from ._core import ExpressFigure, set_mapbox_access_token, defaults  # noqa: F401
+from ._core import (  # noqa: F401
+    ExpressFigure,
+    set_mapbox_access_token,
+    defaults,
+    get_trendline_results,
+)
 
 from . import data, colors  # noqa: F401
 
@@ -61,5 +66,6 @@ __all__ = [
     "data",
     "colors",
     "set_mapbox_access_token",
+    "get_trendline_results",
     "ExpressFigure",
 ]
