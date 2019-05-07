@@ -31,13 +31,14 @@ echo www.plotly.express >> CNAME
 echo plotly_express >> requirements.txt
 mv gallery.html index.html
 
-# push to gh-pages
-git init
-git add .
-git commit -m doc_build
-git push --force git@github.com:plotly/plotly_express.git master:gh-pages
+if [ "$1" == "deploy" ]
+then
+  # push to gh-pages
+  git init
+  git add .
+  git commit -m doc_build
+  git push --force git@github.com:plotly/plotly_express.git master:gh-pages
+fi
 
-# clean up
 cd ..
-rm -rf doc_build
 
