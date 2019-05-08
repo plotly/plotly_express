@@ -121,7 +121,9 @@ def make_mapping(args, variable):
     )
 
 
-def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range):
+def make_trace_kwargs(
+    args, trace_spec, g, mapping_labels, sizeref, color_range, show_colorbar
+):
 
     if "line_close" in args and args["line_close"]:
         g = g.append(g.iloc[0])
@@ -235,13 +237,10 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref, color_range)
                     [(1.0 * i) / (1.0 * d), x]
                     for i, x in enumerate(args["color_continuous_scale"])
                 ]
-                if color_range is None:
-                    colorbar_container["showscale"] = False
-                else:
-                    colorbar_container["showscale"] = True
-                    colorbar_container["colorbar"] = dict(title=v_label)
-                    colorbar_container[color_letter + "min"] = color_range[0]
-                    colorbar_container[color_letter + "max"] = color_range[1]
+                colorbar_container["showscale"] = show_colorbar
+                colorbar_container[color_letter + "min"] = color_range[0]
+                colorbar_container[color_letter + "max"] = color_range[1]
+                colorbar_container["colorbar"] = dict(title=v_label)
             elif k == "animation_group":
                 result["ids"] = g[v]
             elif k == "locations":
@@ -811,7 +810,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     group,
                     mapping_labels.copy(),
                     sizeref,
-                    color_range=color_range if frame_name not in frames else None,
+                    color_range=color_range,
+                    show_colorbar=(frame_name not in frames),
                 )
             )
             if frame_name not in frames:
