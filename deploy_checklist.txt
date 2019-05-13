@@ -1,0 +1,10 @@
+pip install -r requirements.txt
+
+rm -rf build dist plotly_express.egg-info
+python setup.py sdist bdist_wheel
+twine upload dist/*
+rm -rf build dist plotly_express.egg-info
+
+conda build recipe/ -c plotly
+
+./make_docs.sh deploy
