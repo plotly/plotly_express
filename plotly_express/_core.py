@@ -813,7 +813,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 if m.show_in_trace_name:
                     trace_name_labels[key] = str(val)
                 if m.variable == "animation_frame":
-                    frame_name = str(val)
+                    frame_name = val
         trace_name = ", ".join(k + "=" + v for k, v in trace_name_labels.items())
         if frame_name not in trace_names_by_frame:
             trace_names_by_frame[frame_name] = set()
@@ -892,7 +892,11 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             if frame_name not in frames:
                 frames[frame_name] = dict(data=[], name=frame_name)
             frames[frame_name]["data"].append(trace)
-    frame_list = [f for _, f in frames.items()]
+    frame_list = [f for f in frames.values()]
+    if len(frame_list) > 1:
+        frame_list = sorted(
+            frame_list, key=lambda f: orders[args["animation_frame"]].index(f["name"])
+        )
     layout_patch = layout_patch.copy()
     for v in ["title", "height", "width", "template"]:
         if args[v]:
