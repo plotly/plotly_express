@@ -32,7 +32,6 @@ from ._chart_types import (  # noqa: F401
 )
 
 from ._core import (  # noqa: F401
-    ExpressFigure,
     set_mapbox_access_token,
     defaults,
     get_trendline_results,

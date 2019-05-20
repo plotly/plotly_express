@@ -13,7 +13,7 @@ def _swatches(module_names, module_contents):
         if not (k.startswith("_") or k == "swatches")
     ]
 
-    return _core.ExpressFigure(
+    return go.Figure(
         data=[
             go.Bar(
                 orientation="h",

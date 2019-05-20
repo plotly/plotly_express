@@ -43,25 +43,6 @@ def set_mapbox_access_token(token):
     MAPBOX_TOKEN = token
 
 
-class ExpressFigure(go.Figure):
-    offline_initialized = False
-    """
-    Boolean that starts out `False` and is set to `True` the first time the
-    `_ipython_display_()` method is called (by a Jupyter environment), to indicate that
-    subsequent calls to that method that `plotly.offline.init_notebook_mode()` has been
-    called once and should not be called again.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(ExpressFigure, self).__init__(*args, **kwargs)
-
-    def _ipython_display_(self):
-        if not ExpressFigure.offline_initialized:
-            init_notebook_mode()
-            ExpressFigure.offline_initialized = True
-        iplot(self, show_link=False, auto_play=False)
-
-
 def get_trendline_results(fig):
     """
     Extracts fit statistics for trendlines (when applied to figures generated with
