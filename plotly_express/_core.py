@@ -60,11 +60,17 @@ def get_trendline_results(fig):
 
 Mapping = namedtuple(
     "Mapping",
-    ["show_in_trace_name", "grouper", "val_map", "sequence",
-     "updater", "variable", "facet"],
+    [
+        "show_in_trace_name",
+        "grouper",
+        "val_map",
+        "sequence",
+        "updater",
+        "variable",
+        "facet",
+    ],
 )
-TraceSpec = namedtuple("TraceSpec",
-                       ["constructor", "attrs", "trace_patch", "marginal"])
+TraceSpec = namedtuple("TraceSpec", ["constructor", "attrs", "trace_patch", "marginal"])
 
 
 def get_label(args, column):
@@ -318,67 +324,61 @@ def configure_cartesian_marginal_axes(args, fig, orders):
     row_step = 2 if args["marginal_x"] else 1
 
     ncols = len(fig._grid_ref[0])
-    col_step = 2 if args['marginal_y'] else 1
+    col_step = 2 if args["marginal_y"] else 1
 
     # Set y-axis titles and axis options in the left-most column
     for yaxis in fig.select_yaxes(col=1):
-        set_cartesian_axis_opts(args, yaxis, 'y', orders)
+        set_cartesian_axis_opts(args, yaxis, "y", orders)
 
     # Set x-axis titles and axis options in the bottom-most row
     for xaxis in fig.select_xaxes(row=1):
-        set_cartesian_axis_opts(args, xaxis, 'x', orders)
+        set_cartesian_axis_opts(args, xaxis, "x", orders)
 
     # Configure axis ticks on marginal subplots
-    if args['marginal_x']:
-        for row in range(2, nrows+1, row_step):
+    if args["marginal_x"]:
+        for row in range(2, nrows + 1, row_step):
             fig.update_yaxes(
                 showticklabels=False,
-                showgrid=args["marginal_x"] == 'histogram',
-                row=row
+                showgrid=args["marginal_x"] == "histogram",
+                row=row,
             )
-            fig.update_xaxes(
-                showgrid=True,
-                row=row
-            )
+            fig.update_xaxes(showgrid=True, row=row)
 
-    if args['marginal_y']:
-        for col in range(2, ncols+1, col_step):
+    if args["marginal_y"]:
+        for col in range(2, ncols + 1, col_step):
             fig.update_xaxes(
                 showticklabels=False,
-                showgrid=args["marginal_y"] == 'histogram',
-                col=col
+                showgrid=args["marginal_y"] == "histogram",
+                col=col,
             )
-            fig.update_yaxes(
-                showgrid=True,
-                col=col
-            )
+            fig.update_yaxes(showgrid=True, col=col)
 
     # Add axis titles to non-marginal subplots
-    y_title = get_decorated_label(args, args['y'], 'y')
+    y_title = get_decorated_label(args, args["y"], "y")
     for row in range(1, nrows + 1, row_step):
         fig.update_yaxes(title_text=y_title, row=row, col=1)
 
-    x_title = get_decorated_label(args, args['x'], 'x')
+    x_title = get_decorated_label(args, args["x"], "x")
     for col in range(1, ncols + 1, col_step):
         fig.update_xaxes(title_text=x_title, row=1, col=col)
 
     # Configure axis type across all x-axes
-    if 'log_x' in args and args['log_x']:
-        fig.update_xaxes(type='log')
+    if "log_x" in args and args["log_x"]:
+        fig.update_xaxes(type="log")
 
     # Configure axis type across all y-axes
-    if 'log_y' in args and args['log_y']:
-        fig.update_yaxes(type='log')
+    if "log_y" in args and args["log_y"]:
+        fig.update_yaxes(type="log")
 
     # Configure matching and axis type for marginal y-axes
-    matches_y = 'y' + str(ncols + 1)
+    matches_y = "y" + str(ncols + 1)
     if args["marginal_x"]:
         for row in range(2, nrows + 1, 2):
             fig.update_yaxes(matches=matches_y, type=None, row=row)
 
     if args["marginal_y"]:
         for col in range(2, ncols + 1, 2):
-            fig.update_xaxes(matches='x2', type=None, col=col)
+            fig.update_xaxes(matches="x2", type=None, col=col)
 
 
 def configure_cartesian_axes(args, fig, orders):
@@ -389,36 +389,38 @@ def configure_cartesian_axes(args, fig, orders):
         return
 
     # Set y-axis titles and axis options in the left-most column
-    y_title = get_decorated_label(args, args['y'], 'y')
+    y_title = get_decorated_label(args, args["y"], "y")
     for yaxis in fig.select_yaxes(col=1):
         yaxis.update(title_text=y_title)
-        set_cartesian_axis_opts(args, yaxis, 'y', orders)
+        set_cartesian_axis_opts(args, yaxis, "y", orders)
 
     # Set x-axis titles and axis options in the bottom-most row
-    x_title = get_decorated_label(args, args['x'], 'x')
+    x_title = get_decorated_label(args, args["x"], "x")
     for xaxis in fig.select_xaxes(row=1):
         xaxis.update(title_text=x_title)
-        set_cartesian_axis_opts(args, xaxis, 'x', orders)
+        set_cartesian_axis_opts(args, xaxis, "x", orders)
 
     # Configure axis type across all x-axes
-    if 'log_x' in args and args['log_x']:
-        fig.update_xaxes(type='log')
+    if "log_x" in args and args["log_x"]:
+        fig.update_xaxes(type="log")
 
     # Configure axis type across all y-axes
-    if 'log_y' in args and args['log_y']:
-        fig.update_yaxes(type='log')
+    if "log_y" in args and args["log_y"]:
+        fig.update_yaxes(type="log")
 
     return fig.layout
 
 
 def configure_ternary_axes(args, fig, orders):
-    fig.update(layout=dict(
-        ternary=dict(
-            aaxis=dict(title=get_label(args, args["a"])),
-            baxis=dict(title=get_label(args, args["b"])),
-            caxis=dict(title=get_label(args, args["c"])),
+    fig.update(
+        layout=dict(
+            ternary=dict(
+                aaxis=dict(title=get_label(args, args["a"])),
+                baxis=dict(title=get_label(args, args["b"])),
+                caxis=dict(title=get_label(args, args["c"])),
+            )
         )
-    ))
+    )
 
 
 def configure_polar_axes(args, fig, orders):
@@ -470,26 +472,30 @@ def configure_3d_axes(args, fig, orders):
 
 
 def configure_mapbox(args, fig, orders):
-    fig.update(layout=dict(
-        mapbox=dict(
-            accesstoken=MAPBOX_TOKEN,
-            center=dict(
-                lat=args["data_frame"][args["lat"]].mean(),
-                lon=args["data_frame"][args["lon"]].mean(),
-            ),
-            zoom=args["zoom"],
+    fig.update(
+        layout=dict(
+            mapbox=dict(
+                accesstoken=MAPBOX_TOKEN,
+                center=dict(
+                    lat=args["data_frame"][args["lat"]].mean(),
+                    lon=args["data_frame"][args["lon"]].mean(),
+                ),
+                zoom=args["zoom"],
+            )
         )
-    ))
+    )
 
 
 def configure_geo(args, fig, orders):
-    fig.update(layout=dict(
-        geo=dict(
-            center=args["center"],
-            scope=args["scope"],
-            projection=dict(type=args["projection"]),
+    fig.update(
+        layout=dict(
+            geo=dict(
+                center=args["center"],
+                scope=args["scope"],
+                projection=dict(type=args["projection"]),
+            )
         )
-    ))
+    )
 
 
 def configure_animation_controls(args, constructor, fig):
@@ -567,21 +573,21 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                     constructor=go.Histogram,
                     attrs=[letter],
                     trace_patch=dict(opacity=0.5),
-                    marginal=letter
+                    marginal=letter,
                 )
             elif args["marginal_" + letter] == "violin":
                 trace_spec = TraceSpec(
                     constructor=go.Violin,
                     attrs=[letter, "hover_name", "hover_data"],
                     trace_patch=dict(scalegroup=letter),
-                    marginal=letter
+                    marginal=letter,
                 )
             elif args["marginal_" + letter] == "box":
                 trace_spec = TraceSpec(
                     constructor=go.Box,
                     attrs=[letter, "hover_name", "hover_data"],
                     trace_patch=dict(notched=True),
-                    marginal=letter
+                    marginal=letter,
                 )
             elif args["marginal_" + letter] == "rug":
                 symbols = {"x": "line-ns-open", "y": "line-ew-open"}
@@ -596,7 +602,7 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                         hoveron="points",
                         marker={"symbol": symbols[letter]},
                     ),
-                    marginal=letter
+                    marginal=letter,
                 )
             if "color" in attrs:
                 if "marker" not in trace_spec.trace_patch:
@@ -611,7 +617,7 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
             constructor=go.Scatter,
             attrs=["trendline"],
             trace_patch=dict(mode="lines"),
-            marginal=None
+            marginal=None,
         )
         if args["trendline_color_override"]:
             trace_spec.trace_patch["line"] = dict(
@@ -831,8 +837,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
     orders, sorted_group_names = get_orderings(args, grouper, grouped)
 
-    has_marginal_x = bool(args.get('marginal_x', False))
-    has_marginal_y = bool(args.get('marginal_y', False))
+    has_marginal_x = bool(args.get("marginal_x", False))
+    has_marginal_y = bool(args.get("marginal_y", False))
 
     subplot_type = _subplot_type_for_trace_type(constructor().type)
 
@@ -915,7 +921,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                         raise
 
                 # Find row for trace, handling facet_row and marginal_x
-                if m.facet == 'row':
+                if m.facet == "row":
                     if has_marginal_x:
                         row = (m.val_map[val] - 1) * 2 + 2
                     else:
@@ -925,7 +931,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 else:
                     row = 1
 
-                if trace_spec.marginal == 'x':
+                if trace_spec.marginal == "x":
                     row -= 1
 
                 nrows = max(nrows, row)
@@ -933,7 +939,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                     trace._subplot_row = row
 
                 # Find col for trace, handling facet_col and marginal_y
-                if m.facet == 'col':
+                if m.facet == "col":
                     if has_marginal_y:
                         col = (m.val_map[val] - 1) * 2 + 1
                     else:
@@ -943,7 +949,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 else:
                     col = 1
 
-                if trace_spec.marginal == 'y':
+                if trace_spec.marginal == "y":
                     col += 1
 
                 ncols = max(ncols, col)
@@ -988,18 +994,12 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         layout_patch["legend"]["itemsizing"] = "constant"
 
     fig = init_figure(
-        args,
-        subplot_type,
-        frame_list,
-        ncols,
-        nrows,
-        has_marginal_x,
-        has_marginal_y,
+        args, subplot_type, frame_list, ncols, nrows, has_marginal_x, has_marginal_y
     )
 
     # Position traces in subplots
     for frame in frame_list:
-        for trace in frame['data']:
+        for trace in frame["data"]:
             if isinstance(trace, go.Splom):
                 # Special case that is not compatible with make_subplots
                 continue
@@ -1025,44 +1025,32 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
 
 def init_figure(
-        args,
-        subplot_type,
-        frame_list,
-        ncols,
-        nrows,
-        has_marginal_x,
-        has_marginal_y,
+    args, subplot_type, frame_list, ncols, nrows, has_marginal_x, has_marginal_y
 ):
     # Build subplot specs
     specs = [[{}] * ncols for _ in range(nrows)]
     column_titles = [None] * ncols
     row_titles = [None] * nrows
     for frame in frame_list:
-        for trace in frame['data']:
+        for trace in frame["data"]:
             row0 = nrows - trace._subplot_row
             col0 = trace._subplot_col - 1
 
             if isinstance(trace, go.Splom):
                 # Splom not compatible with make_subplots, treat as domain
-                specs[row0][col0] = {'type': 'domain'}
+                specs[row0][col0] = {"type": "domain"}
             else:
-                specs[row0][col0] = {'type': trace.type}
-            if (args.get('facet_row', None) and
-                    hasattr(trace, '_subplot_row_val')):
+                specs[row0][col0] = {"type": trace.type}
+            if args.get("facet_row", None) and hasattr(trace, "_subplot_row_val"):
                 if row0 % 2 == 0 or not has_marginal_x:
                     row_titles[row0] = (
-                            args['facet_row']
-                            + '='
-                            + str(trace._subplot_row_val)
+                        args["facet_row"] + "=" + str(trace._subplot_row_val)
                     )
 
-            if (args.get('facet_col', None) and
-                    hasattr(trace, '_subplot_col_val')):
+            if args.get("facet_col", None) and hasattr(trace, "_subplot_col_val"):
                 if col0 % 2 == 0 or not has_marginal_y:
                     column_titles[col0] = (
-                            args['facet_col']
-                            + '='
-                            + str(trace._subplot_col_val)
+                        args["facet_col"] + "=" + str(trace._subplot_col_val)
                     )
 
     # Default row/column widths uniform
@@ -1070,11 +1058,9 @@ def init_figure(
     row_heights = [1.0] * nrows
 
     # Build column_widths/row_heights
-    if subplot_type == 'xy':
+    if subplot_type == "xy":
         if has_marginal_x:
-            if args["marginal_x"] == "histogram" or (
-                    "color" in args and args["color"]
-            ):
+            if args["marginal_x"] == "histogram" or ("color" in args and args["color"]):
                 main_size = 0.74
             else:
                 main_size = 0.84
@@ -1086,14 +1072,12 @@ def init_figure(
             for r in range(1, nrows, 2):
                 for c in range(ncols):
                     if specs[r][c] is not None:
-                        specs[r][c]['t'] = vertical_spacing * 2
+                        specs[r][c]["t"] = vertical_spacing * 2
         else:
             vertical_spacing = 0.03
 
         if has_marginal_y:
-            if args["marginal_y"] == "histogram" or (
-                    "color" in args and args["color"]
-            ):
+            if args["marginal_y"] == "histogram" or ("color" in args and args["color"]):
                 main_size = 0.74
             else:
                 main_size = 0.84
@@ -1105,7 +1089,7 @@ def init_figure(
             for r in range(nrows):
                 for c in range(1, ncols, 2):
                     if specs[r][c] is not None:
-                        specs[r][c]['r'] = horizontal_spacing * 2
+                        specs[r][c]["r"] = horizontal_spacing * 2
         else:
             horizontal_spacing = 0.02
     else:
@@ -1118,13 +1102,20 @@ def init_figure(
         horizontal_spacing = 0.1
 
     # Create figure with subplots
-    fig = make_subplots(rows=nrows, cols=ncols, specs=specs,
-                        shared_xaxes='all', shared_yaxes='all',
-                        row_titles=row_titles, column_titles=column_titles,
-                        horizontal_spacing=horizontal_spacing,
-                        vertical_spacing=vertical_spacing,
-                        row_heights=row_heights, column_widths=column_widths,
-                        start_cell='bottom-left')
+    fig = make_subplots(
+        rows=nrows,
+        cols=ncols,
+        specs=specs,
+        shared_xaxes="all",
+        shared_yaxes="all",
+        row_titles=row_titles,
+        column_titles=column_titles,
+        horizontal_spacing=horizontal_spacing,
+        vertical_spacing=vertical_spacing,
+        row_heights=row_heights,
+        column_widths=column_widths,
+        start_cell="bottom-left",
+    )
 
     # Remove explicit font size of row/col titles so template can take over
     for annot in fig.layout.annotations:
