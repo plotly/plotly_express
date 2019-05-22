@@ -488,7 +488,7 @@ def configure_geo(args, fig, axes, orders):
 def configure_animation_controls(args, constructor, fig):
     def frame_args(duration):
         return {
-            "frame": {"duration": duration, "redraw": constructor != go.Scatter},
+            "frame": {"duration": duration, "redraw": True},
             "mode": "immediate",
             "fromcurrent": True,
             "transition": {"duration": duration, "easing": "linear"},
