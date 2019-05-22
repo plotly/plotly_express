@@ -396,18 +396,19 @@ def strip(
     animation_group=None,
     category_orders={},
     labels={},
-    color_discrete_sequence=default_qualitative,
+    color_discrete_sequence=None,
     color_discrete_map={},
     orientation="v",
+    stripmode="group",
     jitter=None,
     log_x=False,
     log_y=False,
     range_x=None,
     range_y=None,
     title=None,
-    template=default_template,
-    width=default_width,
-    height=default_height,
+    template=None,
+    width=None,
+    height=None,
 ):
     """
     In a strip plot each row of `data_frame` is represented as a jittered mark within categories.
@@ -426,7 +427,7 @@ def strip(
             x0=" ",
             y0=" ",
         ),
-        layout_patch=dict(boxmode="group"),
+        layout_patch=dict(boxmode=stripmode),
     )
 
 
