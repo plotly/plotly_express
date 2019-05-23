@@ -112,7 +112,7 @@ px.scatter(gapminder, x="gdpPercap", y="lifeExp", animation_frame="year", animat
 
 ```python
 px.line(gapminder, x="year", y="lifeExp", color="continent", line_group="country", hover_name="country",
-        line_shape="spline")
+        line_shape="spline", render_mode="svg")
 ```
 
 ```python
@@ -127,6 +127,10 @@ px.density_contour(iris, x="sepal_width", y="sepal_length")
 
 ```python
 px.density_contour(iris, x="sepal_width", y="sepal_length", color="species", marginal_x="rug", marginal_y="histogram")
+```
+
+```python
+px.density_heatmap(iris, x="sepal_width", y="sepal_length", marginal_x="rug", marginal_y="histogram")
 ```
 
 ```python

@@ -30,6 +30,7 @@ from ._chart_types import (  # noqa: F401
     parallel_categories,
     choropleth,
     density_contour,
+    density_heatmap,
 )
 
 from ._core import (  # noqa: F401
@@ -50,6 +51,7 @@ __all__ = [
     "scatter_geo",
     "scatter_matrix",
     "density_contour",
+    "density_heatmap",
     "line",
     "line_polar",
     "line_ternary",
