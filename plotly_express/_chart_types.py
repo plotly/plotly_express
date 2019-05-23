@@ -58,6 +58,7 @@ def density_contour(
     data_frame,
     x=None,
     y=None,
+    z=None,
     color=None,
     facet_row=None,
     facet_col=None,
@@ -77,6 +78,10 @@ def density_contour(
     log_y=False,
     range_x=None,
     range_y=None,
+    histfunc=None,
+    histnorm=None,
+    nbinsx=None,
+    nbinsy=None,
     title=None,
     template=None,
     width=None,
@@ -84,16 +89,78 @@ def density_contour(
 ):
     """
     In a density contour plot, rows of `data_frame` are grouped together into contour marks to \
-    visualize the density of their distribution in 2D space.
+    visualize the 2D distribution of an aggregate function `histfunc` (e.g. the count or sum) \
+    of the value `z`.
     """
     return make_figure(
         args=locals(),
         constructor=go.Histogram2dContour,
-        trace_patch=dict(contours=dict(coloring="none")),
+        trace_patch=dict(
+            contours=dict(coloring="none"),
+            histfunc=histfunc,
+            histnorm=histnorm,
+            nbinsx=nbinsx,
+            nbinsy=nbinsy,
+            xbingroup="x",
+            ybingroup="y",
+        ),
     )
 
 
 density_contour.__doc__ = make_docstring(density_contour)
+
+
+def density_heatmap(
+    data_frame,
+    x=None,
+    y=None,
+    z=None,
+    facet_row=None,
+    facet_col=None,
+    hover_name=None,
+    hover_data=None,
+    animation_frame=None,
+    animation_group=None,
+    category_orders={},
+    labels={},
+    color_continuous_scale=None,
+    color_continuous_midpoint=None,
+    marginal_x=None,
+    marginal_y=None,
+    opacity=None,
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    histfunc=None,
+    histnorm=None,
+    nbinsx=None,
+    nbinsy=None,
+    title=None,
+    template=None,
+    width=None,
+    height=None,
+):
+    """
+    In a density heatmap, rows of `data_frame` are grouped together into colored \
+    rectangular tiles to visualize the 2D distribution of an aggregate function \
+    `histfunc` (e.g. the count or sum) of the value `z`.
+    """
+    return make_figure(
+        args=locals(),
+        constructor=go.Histogram2d,
+        trace_patch=dict(
+            histfunc=histfunc,
+            histnorm=histnorm,
+            nbinsx=nbinsx,
+            nbinsy=nbinsy,
+            xbingroup="x",
+            ybingroup="y",
+        ),
+    )
+
+
+density_heatmap.__doc__ = make_docstring(density_heatmap)
 
 
 def line(
@@ -164,7 +231,6 @@ def area(
     range_x=None,
     range_y=None,
     line_shape=None,
-    render_mode="auto",
     title=None,
     template=None,
     width=None,
@@ -268,7 +334,8 @@ def histogram(
 ):
     """
     In a histogram, rows of `data_frame` are grouped together into a rectangular mark to \
-    visualize some aggregate quantity like count or sum.
+    visualize the 1D distribution of an aggregate function `histfunc` (e.g. the count or sum) \
+    of the value `y` (or `x` if `orientation` is `'h'`).
     """
     return make_figure(
         args=locals(),
@@ -278,8 +345,9 @@ def histogram(
             histnorm=histnorm,
             histfunc=histfunc,
             nbinsx=nbins if orientation == "v" else None,
-            nbinsy=nbins if orientation == "h" else None,
+            nbinsy=None if orientation == "v" else nbins,
             cumulative=dict(enabled=cumulative),
+            bingroup="x" if orientation == "v" else "y",
         ),
         layout_patch=dict(barmode=barmode, barnorm=barnorm),
     )
