@@ -137,9 +137,7 @@ def make_mapping(args, variable):
     )
 
 
-def make_trace_kwargs(
-    args, trace_spec, g, mapping_labels, sizeref, color_range, show_colorbar
-):
+def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
 
     if "line_close" in args and args["line_close"]:
         g = g.append(g.iloc[0])
@@ -235,11 +233,9 @@ def make_trace_kwargs(
                         v_label_col = get_decorated_label(args, col, None)
                         mapping_labels[v_label_col] = "%%{customdata[%d]}" % i
             elif k == "color":
-                colorbar_container = None
                 if trace_spec.constructor == go.Choropleth:
                     result["z"] = g[v]
-                    colorbar_container = result
-                    color_letter = "z"
+                    result["z"]["coloraxis"] = "coloraxis1"
                     mapping_labels[v_label] = "%{z}"
                 else:
                     colorable = "marker"
@@ -248,18 +244,8 @@ def make_trace_kwargs(
                     if colorable not in result:
                         result[colorable] = dict()
                     result[colorable]["color"] = g[v]
-                    colorbar_container = result[colorable]
-                    color_letter = "c"
+                    result[colorable]["coloraxis"] = "coloraxis1"
                     mapping_labels[v_label] = "%%{%s.color}" % colorable
-                d = len(args["color_continuous_scale"]) - 1
-                colorbar_container["colorscale"] = [
-                    [(1.0 * i) / (1.0 * d), x]
-                    for i, x in enumerate(args["color_continuous_scale"])
-                ]
-                colorbar_container["showscale"] = show_colorbar
-                colorbar_container[color_letter + "min"] = color_range[0]
-                colorbar_container[color_letter + "max"] = color_range[1]
-                colorbar_container["colorbar"] = dict(title=v_label)
             elif k == "animation_group":
                 result["ids"] = g[v]
             elif k == "locations":
@@ -690,7 +676,6 @@ def infer_config(args, constructor, trace_patch):
     if "size" in args and args["size"]:
         sizeref = args["data_frame"][args["size"]].max() / args["size_max"] ** 2
 
-    color_range = None
     if "color" in args:
         if "color_continuous_scale" in args:
             if "color_discrete_sequence" not in args:
@@ -708,15 +693,7 @@ def infer_config(args, constructor, trace_patch):
         else:
             grouped_attrs.append("marker.color")
 
-        if "color" in attrs and args["color"]:
-            cmin = args["data_frame"][args["color"]].min()
-            cmax = args["data_frame"][args["color"]].max()
-            if args["color_continuous_midpoint"] is not None:
-                cmid = args["color_continuous_midpoint"]
-                delta = max(cmax - cmid, cmid - cmin)
-                color_range = [cmid - delta, cmid + delta]
-            else:
-                color_range = [cmin, cmax]
+        show_colorbar = bool("color" in attrs and args["color"])
 
     if "line_dash" in args:
         grouped_attrs.append("line.dash")
@@ -753,7 +730,7 @@ def infer_config(args, constructor, trace_patch):
 
     grouped_mappings = [make_mapping(args, a) for a in grouped_attrs]
     trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
-    return trace_specs, grouped_mappings, sizeref, color_range
+    return trace_specs, grouped_mappings, sizeref, show_colorbar
 
 
 def get_orderings(args, grouper, grouped):
@@ -790,7 +767,7 @@ def get_orderings(args, grouper, grouped):
 
 def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     apply_default_cascade(args)
-    trace_specs, grouped_mappings, sizeref, color_range = infer_config(
+    trace_specs, grouped_mappings, sizeref, show_colorbar = infer_config(
         args, constructor, trace_patch
     )
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
@@ -877,13 +854,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 trace.update(marker=dict(color=trace.line.color))
 
             patch, fit_results = make_trace_kwargs(
-                args,
-                trace_spec,
-                group,
-                mapping_labels.copy(),
-                sizeref,
-                color_range=color_range,
-                show_colorbar=(frame_name not in frames),
+                args, trace_spec, group, mapping_labels.copy(), sizeref
             )
             trace.update(patch)
             if fit_results is not None:
@@ -898,6 +869,16 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             frame_list, key=lambda f: orders[args["animation_frame"]].index(f["name"])
         )
     layout_patch = layout_patch.copy()
+    if show_colorbar:
+        d = len(args["color_continuous_scale"]) - 1
+        layout_patch["coloraxis1"] = dict(
+            colorbar=dict(title=get_decorated_label(args, args["color"], "color")),
+            colorscale=[
+                [(1.0 * i) / (1.0 * d), x]
+                for i, x in enumerate(args["color_continuous_scale"])
+            ],
+            cmid=args["color_continuous_midpoint"],
+        )
     for v in ["title", "height", "width", "template"]:
         if args[v]:
             layout_patch[v] = args[v]
