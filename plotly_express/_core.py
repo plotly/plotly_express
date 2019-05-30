@@ -897,10 +897,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         )
     layout_patch = layout_patch.copy()
     if show_colorbar:
-        if "color" in args:
-            colorvar = "color"
-        elif constructor == go.Histogram2d:
-            colorvar = "z"
+        colorvar = "z" if constructor == go.Histogram2d else "color"
+        range_color = args["range_color"] or [None, None]
         d = len(args["color_continuous_scale"]) - 1
         layout_patch["coloraxis1"] = dict(
             colorscale=[
@@ -908,6 +906,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 for i, x in enumerate(args["color_continuous_scale"])
             ],
             cmid=args["color_continuous_midpoint"],
+            cmin=range_color[0],
+            cmax=range_color[1],
             colorbar=dict(title=get_decorated_label(args, args[colorvar], colorvar)),
         )
     for v in ["title", "height", "width", "template"]:

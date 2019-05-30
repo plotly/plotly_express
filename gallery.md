@@ -5,7 +5,7 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.1'
+      format_version: "1.1"
       jupytext_version: 1.1.1
   kernelspec:
     display_name: Python 3
@@ -223,7 +223,7 @@ px.line_geo(gapminder.query("year==2007"), locations="iso_alpha", color="contine
 
 ```python
 px.choropleth(gapminder, locations="iso_alpha", color="lifeExp", hover_name="country", animation_frame="year",
-             color_continuous_scale=px.colors.sequential.Plasma)
+             color_continuous_scale=px.colors.sequential.Plasma, range_color=[20,80])
 ```
 
 ## Built-in Color Scales and Sequences (and a way to see them!)
