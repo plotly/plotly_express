@@ -199,6 +199,10 @@ docs = dict(
         "(2-element list of numbers)",
         "If provided, overrides auto-scaling on the z-axis in cartesian coordinates.",
     ],
+    range_color=[
+        "(2-element list of numbers)",
+        "If provided, overrides auto-scaling on the continuous color scale.",
+    ],
     range_r=[
         "(2-element list of numbers)",
         "If provided, overrides auto-scaling on the radial axis in polar coordinates.",
