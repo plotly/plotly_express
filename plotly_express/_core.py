@@ -188,6 +188,12 @@ def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
                 result["marker"]["sizemode"] = "area"
                 result["marker"]["sizeref"] = sizeref
                 mapping_labels[v_label] = "%{marker.size}"
+            elif k == "marginal_x":
+                if trace_spec.constructor == go.Histogram:
+                    mapping_labels["count"] = "%{y}"
+            elif k == "marginal_y":
+                if trace_spec.constructor == go.Histogram:
+                    mapping_labels["count"] = "%{x}"
             elif k == "trendline":
                 if v in ["ols", "lowess"] and args["x"] and args["y"] and len(g) > 1:
                     import statsmodels.api as sm
@@ -556,7 +562,7 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
             if args["marginal_" + letter] == "histogram":
                 trace_spec = TraceSpec(
                     constructor=go.Histogram,
-                    attrs=[letter],
+                    attrs=[letter, "marginal_" + letter],
                     trace_patch=dict(opacity=0.5, bingroup=letter, **axis_map),
                 )
             elif args["marginal_" + letter] == "violin":
