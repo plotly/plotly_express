@@ -153,6 +153,10 @@ px.histogram(tips, x="sex", y="tip", histfunc="avg", color="smoker", barmode="gr
 ```
 
 ```python
+px.strip(tips, x="total_bill", y="time", orientation="h", color="smoker")
+```
+
+```python
 px.box(tips, x="day", y="total_bill", color="smoker", notched=True)
 ```
 
