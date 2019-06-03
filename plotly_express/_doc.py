@@ -303,9 +303,14 @@ docs = dict(
         "In `'overlay'` mode, violins are on drawn top of one another.",
         "In `'group'` mode, violins are placed beside each other.",
     ],
+    stripmode=[
+        "(string, one of `'group'` or `'overlay'`. Default is `'group'`)",
+        "In `'overlay'` mode, strips are on drawn top of one another.",
+        "In `'group'` mode, strips are placed beside each other.",
+    ],
     zoom=["(integer between 0 and 20, default is 8)", "Sets map zoom level."],
     orientation=[
-        "(string, one of `'h'` for horizontal or `'v' for vertical`)",
+        "(string, one of `'h'` for horizontal or `'v'` for vertical)",
         "Default is `'v'`.",
     ],
     line_close=[
