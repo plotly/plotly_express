@@ -103,5 +103,5 @@ Phew, you've made it this far! If you want to use Plotly Express yourself, just 
 Or you could go back to our [Medium announcement article](https://medium.com/@plotlygraphs/introducing-plotly-express-808df010143d) for more details on this library.
 
 ```python
-
+print(px.__version__)
 ```

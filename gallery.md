@@ -259,3 +259,7 @@ px.colors.carto.swatches()
 # Next steps
 
 Phew, you've made it this far! If you want to use Plotly Express yourself, just `pip install plotly_express` to install it and head on over to our [reference documentation](https://plotly.github.io/plotly_express/plotly_express/) or just copy-paste from the examples above!
+
+```python
+print(px.__version__)
+```
