@@ -26,6 +26,7 @@ def scatter(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     symbol_sequence=None,
     symbol_map={},
@@ -58,6 +59,7 @@ def density_contour(
     data_frame,
     x=None,
     y=None,
+    z=None,
     color=None,
     facet_row=None,
     facet_col=None,
@@ -77,6 +79,10 @@ def density_contour(
     log_y=False,
     range_x=None,
     range_y=None,
+    histfunc=None,
+    histnorm=None,
+    nbinsx=None,
+    nbinsy=None,
     title=None,
     template=None,
     width=None,
@@ -84,16 +90,79 @@ def density_contour(
 ):
     """
     In a density contour plot, rows of `data_frame` are grouped together into contour marks to \
-    visualize the density of their distribution in 2D space.
+    visualize the 2D distribution of an aggregate function `histfunc` (e.g. the count or sum) \
+    of the value `z`.
     """
     return make_figure(
         args=locals(),
         constructor=go.Histogram2dContour,
-        trace_patch=dict(contours=dict(coloring="none")),
+        trace_patch=dict(
+            contours=dict(coloring="none"),
+            histfunc=histfunc,
+            histnorm=histnorm,
+            nbinsx=nbinsx,
+            nbinsy=nbinsy,
+            xbingroup="x",
+            ybingroup="y",
+        ),
     )
 
 
 density_contour.__doc__ = make_docstring(density_contour)
+
+
+def density_heatmap(
+    data_frame,
+    x=None,
+    y=None,
+    z=None,
+    facet_row=None,
+    facet_col=None,
+    hover_name=None,
+    hover_data=None,
+    animation_frame=None,
+    animation_group=None,
+    category_orders={},
+    labels={},
+    color_continuous_scale=None,
+    range_color=None,
+    color_continuous_midpoint=None,
+    marginal_x=None,
+    marginal_y=None,
+    opacity=None,
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    histfunc=None,
+    histnorm=None,
+    nbinsx=None,
+    nbinsy=None,
+    title=None,
+    template=None,
+    width=None,
+    height=None,
+):
+    """
+    In a density heatmap, rows of `data_frame` are grouped together into colored \
+    rectangular tiles to visualize the 2D distribution of an aggregate function \
+    `histfunc` (e.g. the count or sum) of the value `z`.
+    """
+    return make_figure(
+        args=locals(),
+        constructor=go.Histogram2d,
+        trace_patch=dict(
+            histfunc=histfunc,
+            histnorm=histnorm,
+            nbinsx=nbinsx,
+            nbinsy=nbinsy,
+            xbingroup="x",
+            ybingroup="y",
+        ),
+    )
+
+
+density_heatmap.__doc__ = make_docstring(density_heatmap)
 
 
 def line(
@@ -164,7 +233,6 @@ def area(
     range_x=None,
     range_y=None,
     line_shape=None,
-    render_mode="auto",
     title=None,
     template=None,
     width=None,
@@ -206,6 +274,7 @@ def bar(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     opacity=None,
     orientation="v",
@@ -268,7 +337,8 @@ def histogram(
 ):
     """
     In a histogram, rows of `data_frame` are grouped together into a rectangular mark to \
-    visualize some aggregate quantity like count or sum.
+    visualize the 1D distribution of an aggregate function `histfunc` (e.g. the count or sum) \
+    of the value `y` (or `x` if `orientation` is `'h'`).
     """
     return make_figure(
         args=locals(),
@@ -278,8 +348,9 @@ def histogram(
             histnorm=histnorm,
             histfunc=histfunc,
             nbinsx=nbins if orientation == "v" else None,
-            nbinsy=nbins if orientation == "h" else None,
+            nbinsy=None if orientation == "v" else nbins,
             cumulative=dict(enabled=cumulative),
+            bingroup="x" if orientation == "v" else "y",
         ),
         layout_patch=dict(barmode=barmode, barnorm=barnorm),
     )
@@ -383,6 +454,55 @@ def box(
 box.__doc__ = make_docstring(box)
 
 
+def strip(
+    data_frame,
+    x=None,
+    y=None,
+    color=None,
+    facet_row=None,
+    facet_col=None,
+    hover_name=None,
+    hover_data=None,
+    animation_frame=None,
+    animation_group=None,
+    category_orders={},
+    labels={},
+    color_discrete_sequence=None,
+    color_discrete_map={},
+    orientation="v",
+    stripmode="group",
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    title=None,
+    template=None,
+    width=None,
+    height=None,
+):
+    """
+    In a strip plot each row of `data_frame` is represented as a jittered mark within categories.
+    """
+    return make_figure(
+        args=locals(),
+        constructor=go.Box,
+        trace_patch=dict(
+            orientation=orientation,
+            boxpoints="all",
+            pointpos=0,
+            hoveron="points",
+            fillcolor="rgba(255,255,255,0)",
+            line={"color": "rgba(255,255,255,0)"},
+            x0=" ",
+            y0=" ",
+        ),
+        layout_patch=dict(boxmode=stripmode),
+    )
+
+
+strip.__doc__ = make_docstring(strip)
+
+
 def scatter_3d(
     data_frame,
     x=None,
@@ -408,6 +528,7 @@ def scatter_3d(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     symbol_sequence=None,
     symbol_map={},
@@ -495,6 +616,7 @@ def scatter_ternary(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     symbol_sequence=None,
     symbol_map={},
@@ -565,6 +687,7 @@ def scatter_polar(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     symbol_sequence=None,
     symbol_map={},
@@ -681,6 +804,7 @@ def choropleth(
     category_orders={},
     labels={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     size_max=None,
     projection=None,
@@ -722,6 +846,7 @@ def scatter_geo(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     opacity=None,
     size_max=None,
@@ -803,6 +928,7 @@ def scatter_mapbox(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     opacity=None,
     size_max=None,
@@ -864,6 +990,7 @@ def scatter_matrix(
     color_discrete_sequence=None,
     color_discrete_map={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     symbol_sequence=None,
     symbol_map={},
@@ -893,6 +1020,7 @@ def parallel_coordinates(
     color=None,
     labels={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     title=None,
     template=None,
@@ -916,6 +1044,7 @@ def parallel_categories(
     color=None,
     labels={},
     color_continuous_scale=None,
+    range_color=None,
     color_continuous_midpoint=None,
     title=None,
     template=None,

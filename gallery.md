@@ -112,7 +112,7 @@ px.scatter(gapminder, x="gdpPercap", y="lifeExp", animation_frame="year", animat
 
 ```python
 px.line(gapminder, x="year", y="lifeExp", color="continent", line_group="country", hover_name="country",
-        line_shape="spline")
+        line_shape="spline", render_mode="svg")
 ```
 
 ```python
@@ -127,6 +127,10 @@ px.density_contour(iris, x="sepal_width", y="sepal_length")
 
 ```python
 px.density_contour(iris, x="sepal_width", y="sepal_length", color="species", marginal_x="rug", marginal_y="histogram")
+```
+
+```python
+px.density_heatmap(iris, x="sepal_width", y="sepal_length", marginal_x="rug", marginal_y="histogram")
 ```
 
 ```python
@@ -219,7 +223,7 @@ px.line_geo(gapminder.query("year==2007"), locations="iso_alpha", color="contine
 
 ```python
 px.choropleth(gapminder, locations="iso_alpha", color="lifeExp", hover_name="country", animation_frame="year",
-             color_continuous_scale=px.colors.sequential.Plasma)
+             color_continuous_scale=px.colors.sequential.Plasma, range_color=[20,80])
 ```
 
 ## Built-in Color Scales and Sequences (and a way to see them!)
@@ -255,3 +259,7 @@ px.colors.carto.swatches()
 # Next steps
 
 Phew, you've made it this far! If you want to use Plotly Express yourself, just `pip install plotly_express` to install it and head on over to our [reference documentation](https://plotly.github.io/plotly_express/plotly_express/) or just copy-paste from the examples above!
+
+```python
+print(px.__version__)
+```

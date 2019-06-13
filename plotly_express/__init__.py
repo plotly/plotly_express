@@ -3,7 +3,7 @@
 data exploration and figure generation. See the gallery at https://plotly.github.io/plotly_express
 """
 
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 
 from ._chart_types import (  # noqa: F401
     scatter,
@@ -23,12 +23,14 @@ from ._chart_types import (  # noqa: F401
     bar_polar,
     violin,
     box,
+    strip,
     histogram,
     scatter_matrix,
     parallel_coordinates,
     parallel_categories,
     choropleth,
     density_contour,
+    density_heatmap,
 )
 
 from ._core import (  # noqa: F401
@@ -48,6 +50,7 @@ __all__ = [
     "scatter_geo",
     "scatter_matrix",
     "density_contour",
+    "density_heatmap",
     "line",
     "line_polar",
     "line_ternary",
@@ -60,6 +63,7 @@ __all__ = [
     "bar_polar",
     "violin",
     "box",
+    "strip",
     "histogram",
     "choropleth",
     "data",

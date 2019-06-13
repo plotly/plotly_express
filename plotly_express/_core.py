@@ -4,7 +4,9 @@ from plotly.offline import init_notebook_mode, iplot
 import plotly.io as pio
 from collections import namedtuple, OrderedDict
 from .colors import qualitative, sequential
-import math, pandas
+import math
+import pandas
+
 from plotly.subplots import (
     make_subplots,
     _set_trace_grid_reference,
@@ -83,8 +85,9 @@ def get_label(args, column):
 def get_decorated_label(args, column, role):
     label = get_label(args, column)
     if "histfunc" in args and (
-        (role == "x" and args["orientation"] == "h")
-        or (role == "y" and args["orientation"] == "v")
+        (role == "x" and "orientation" in args and args["orientation"] == "h")
+        or (role == "y" and "orientation" in args and args["orientation"] == "v")
+        or (role == "z")
     ):
         if label:
             return "%s of %s" % (args["histfunc"] or "count", label)
@@ -135,9 +138,7 @@ def make_mapping(args, variable):
     )
 
 
-def make_trace_kwargs(
-    args, trace_spec, g, mapping_labels, sizeref, color_range, show_colorbar
-):
+def make_trace_kwargs(args, trace_spec, g, mapping_labels, sizeref):
 
     if "line_close" in args and args["line_close"]:
         g = g.append(g.iloc[0])
@@ -171,8 +172,13 @@ def make_trace_kwargs(
                 mapping_labels["%{xaxis.title.text}"] = "%{x}"
                 mapping_labels["%{yaxis.title.text}"] = "%{y}"
 
-        elif v is not None or (
-            trace_spec.constructor == go.Histogram and k in ["x", "y"]
+        elif (
+            v is not None
+            or (trace_spec.constructor == go.Histogram and k in ["x", "y"])
+            or (
+                trace_spec.constructor in [go.Histogram2d, go.Histogram2dContour]
+                and k == "z"
+            )
         ):
             if k == "size":
                 if "marker" not in result:
@@ -181,6 +187,12 @@ def make_trace_kwargs(
                 result["marker"]["sizemode"] = "area"
                 result["marker"]["sizeref"] = sizeref
                 mapping_labels[v_label] = "%{marker.size}"
+            elif k == "marginal_x":
+                if trace_spec.constructor == go.Histogram:
+                    mapping_labels["count"] = "%{y}"
+            elif k == "marginal_y":
+                if trace_spec.constructor == go.Histogram:
+                    mapping_labels["count"] = "%{x}"
             elif k == "trendline":
                 if v in ["ols", "lowess"] and args["x"] and args["y"] and len(g) > 1:
                     import statsmodels.api as sm
@@ -222,22 +234,28 @@ def make_trace_kwargs(
                     result[error_xy] = {}
                 result[error_xy][arr] = g[v]
             elif k == "hover_name":
-                if trace_spec.constructor not in [go.Histogram, go.Histogram2dContour]:
+                if trace_spec.constructor not in [
+                    go.Histogram,
+                    go.Histogram2d,
+                    go.Histogram2dContour,
+                ]:
                     result["hovertext"] = g[v]
                     if hover_header == "":
                         hover_header = "<b>%{hovertext}</b><br><br>"
             elif k == "hover_data":
-                if trace_spec.constructor not in [go.Histogram, go.Histogram2dContour]:
+                if trace_spec.constructor not in [
+                    go.Histogram,
+                    go.Histogram2d,
+                    go.Histogram2dContour,
+                ]:
                     result["customdata"] = g[v].values
                     for i, col in enumerate(v):
                         v_label_col = get_decorated_label(args, col, None)
                         mapping_labels[v_label_col] = "%%{customdata[%d]}" % i
             elif k == "color":
-                colorbar_container = None
                 if trace_spec.constructor == go.Choropleth:
                     result["z"] = g[v]
-                    colorbar_container = result
-                    color_letter = "z"
+                    result["coloraxis"] = "coloraxis1"
                     mapping_labels[v_label] = "%{z}"
                 else:
                     colorable = "marker"
@@ -246,18 +264,8 @@ def make_trace_kwargs(
                     if colorable not in result:
                         result[colorable] = dict()
                     result[colorable]["color"] = g[v]
-                    colorbar_container = result[colorable]
-                    color_letter = "c"
+                    result[colorable]["coloraxis"] = "coloraxis1"
                     mapping_labels[v_label] = "%%{%s.color}" % colorable
-                d = len(args["color_continuous_scale"]) - 1
-                colorbar_container["colorscale"] = [
-                    [(1.0 * i) / (1.0 * d), x]
-                    for i, x in enumerate(args["color_continuous_scale"])
-                ]
-                colorbar_container["showscale"] = show_colorbar
-                colorbar_container[color_letter + "min"] = color_range[0]
-                colorbar_container[color_letter + "max"] = color_range[1]
-                colorbar_container["colorbar"] = dict(title=v_label)
             elif k == "animation_group":
                 result["ids"] = g[v]
             elif k == "locations":
@@ -267,7 +275,7 @@ def make_trace_kwargs(
                 if v:
                     result[k] = g[v]
                 mapping_labels[v_label] = "%%{%s}" % k
-    if trace_spec.constructor not in [go.Histogram2dContour, go.Parcoords, go.Parcats]:
+    if trace_spec.constructor not in [go.Parcoords, go.Parcats]:
         hover_lines = [k + "=" + v for k, v in mapping_labels.items()]
         result["hovertemplate"] = hover_header + "<br>".join(hover_lines)
     return result, fit_results
@@ -571,8 +579,8 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
             if args["marginal_" + letter] == "histogram":
                 trace_spec = TraceSpec(
                     constructor=go.Histogram,
-                    attrs=[letter],
-                    trace_patch=dict(opacity=0.5),
+                    attrs=[letter, "marginal_" + letter],
+                    trace_patch=dict(opacity=0.5, bingroup=letter, **axis_map),
                     marginal=letter,
                 )
             elif args["marginal_" + letter] == "violin":
@@ -604,10 +612,10 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                     ),
                     marginal=letter,
                 )
-            if "color" in attrs:
+            if "color" in attrs or "color" not in args:
                 if "marker" not in trace_spec.trace_patch:
                     trace_spec.trace_patch["marker"] = dict()
-                first_default_color = args["color_discrete_sequence"][0]
+                first_default_color = args["color_continuous_scale"][0]
                 trace_spec.trace_patch["marker"]["color"] = first_default_color
             result.append(trace_spec)
 
@@ -736,18 +744,7 @@ def infer_config(args, constructor, trace_patch):
         else:
             grouped_attrs.append("marker.color")
 
-    # Compute color_range
-    color_range = None
-    if "color" in args:
-        if "color" in attrs and args["color"]:
-            cmin = args["data_frame"][args["color"]].min()
-            cmax = args["data_frame"][args["color"]].max()
-            if args["color_continuous_midpoint"] is not None:
-                cmid = args["color_continuous_midpoint"]
-                delta = max(cmax - cmid, cmid - cmin)
-                color_range = [cmid - delta, cmid + delta]
-            else:
-                color_range = [cmin, cmax]
+        show_colorbar = bool("color" in attrs and args["color"])
 
     # Compute line_dash grouping attribute
     if "line_dash" in args:
@@ -759,6 +756,11 @@ def infer_config(args, constructor, trace_patch):
 
     # Compute final trace patch
     trace_patch = trace_patch.copy()
+
+    if constructor == go.Histogram2d:
+        show_colorbar = True
+        trace_patch["coloraxis"] = "coloraxis1"
+
     if "opacity" in args:
         if args["opacity"] is None:
             if "barmode" in args and args["barmode"] == "overlay":
@@ -792,7 +794,7 @@ def infer_config(args, constructor, trace_patch):
 
     # Create trace specs
     trace_specs = make_trace_spec(args, constructor, attrs, trace_patch)
-    return trace_specs, grouped_mappings, sizeref, color_range
+    return trace_specs, grouped_mappings, sizeref, show_colorbar
 
 
 def get_orderings(args, grouper, grouped):
@@ -829,7 +831,7 @@ def get_orderings(args, grouper, grouped):
 
 def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     apply_default_cascade(args)
-    trace_specs, grouped_mappings, sizeref, color_range = infer_config(
+    trace_specs, grouped_mappings, sizeref, show_colorbar = infer_config(
         args, constructor, trace_patch
     )
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
@@ -865,8 +867,8 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
         trace_names = trace_names_by_frame[frame_name]
 
         for trace_spec in trace_specs:
-            constructor = trace_spec.constructor
-            if constructor in [go.Scatter, go.Scatterpolar]:
+            constructor_to_use = trace_spec.constructor
+            if constructor_to_use in [go.Scatter, go.Scatterpolar]:
                 if "render_mode" in args and (
                     args["render_mode"] == "webgl"
                     or (
@@ -875,22 +877,25 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                         and args["animation_frame"] is None
                     )
                 ):
-                    constructor = (
-                        go.Scattergl if constructor == go.Scatter else go.Scatterpolargl
+                    constructor_to_use = (
+                        go.Scattergl
+                        if constructor_to_use == go.Scatter
+                        else go.Scatterpolargl
                     )
-            trace = trace_spec.constructor(name=trace_name)
-            if trace_spec.constructor not in [go.Parcats, go.Parcoords, go.Choropleth]:
+            trace = constructor_to_use(name=trace_name)
+            if trace_spec.constructor not in [
+                go.Parcats,
+                go.Parcoords,
+                go.Choropleth,
+                go.Histogram2d,
+            ]:
                 trace.update(
                     legendgroup=trace_name,
                     showlegend=(trace_name != "" and trace_name not in trace_names),
                 )
             if trace_spec.constructor in [go.Bar, go.Violin, go.Box, go.Histogram]:
                 trace.update(alignmentgroup=True, offsetgroup=trace_name)
-            if trace_spec.constructor not in [
-                go.Parcats,
-                go.Parcoords,
-                go.Histogram2dContour,
-            ]:
+            if trace_spec.constructor not in [go.Parcats, go.Parcoords]:
                 trace.update(hoverlabel=dict(namelength=0))
             trace_names.add(trace_name)
 
@@ -963,13 +968,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 trace.update(marker=dict(color=trace.line.color))
 
             patch, fit_results = make_trace_kwargs(
-                args,
-                trace_spec,
-                group,
-                mapping_labels.copy(),
-                sizeref,
-                color_range=color_range,
-                show_colorbar=(frame_name not in frames),
+                args, trace_spec, group, mapping_labels.copy(), sizeref
             )
             trace.update(patch)
             if fit_results is not None:
@@ -984,6 +983,20 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
             frame_list, key=lambda f: orders[args["animation_frame"]].index(f["name"])
         )
     layout_patch = layout_patch.copy()
+    if show_colorbar:
+        colorvar = "z" if constructor == go.Histogram2d else "color"
+        range_color = args["range_color"] or [None, None]
+        d = len(args["color_continuous_scale"]) - 1
+        layout_patch["coloraxis1"] = dict(
+            colorscale=[
+                [(1.0 * i) / (1.0 * d), x]
+                for i, x in enumerate(args["color_continuous_scale"])
+            ],
+            cmid=args["color_continuous_midpoint"],
+            cmin=range_color[0],
+            cmax=range_color[1],
+            colorbar=dict(title=get_decorated_label(args, args[colorvar], colorvar)),
+        )
     for v in ["title", "height", "width", "template"]:
         if args[v]:
             layout_patch[v] = args[v]

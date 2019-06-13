@@ -16,14 +16,17 @@ docs = dict(
     x=[
         colref,
         "Values from this column are used to position marks along the x axis in cartesian coordinates.",
+        "For horizontal `histogram`s, these values are used as inputs to `histfunc`.",
     ],
     y=[
         colref,
         "Values from this column are used to position marks along the y axis in cartesian coordinates.",
+        "For vertical `histogram`s, these values are used as inputs to `histfunc`.",
     ],
     z=[
         colref,
         "Values from this column are used to position marks along the z axis in cartesian coordinates.",
+        "For `density_heatmap` and `density_contour` these values are used as the inputs to `histfunc`.",
     ],
     a=[
         colref,
@@ -196,6 +199,10 @@ docs = dict(
         "(2-element list of numbers)",
         "If provided, overrides auto-scaling on the z-axis in cartesian coordinates.",
     ],
+    range_color=[
+        "(2-element list of numbers)",
+        "If provided, overrides auto-scaling on the continuous color scale.",
+    ],
     range_r=[
         "(2-element list of numbers)",
         "If provided, overrides auto-scaling on the radial axis in polar coordinates.",
@@ -255,12 +262,20 @@ docs = dict(
         "(integer, default is 90)",
         "Sets start angle for the angular axis, with 0 being due east and 90 being due north.",
     ],
+    histfunc=[
+        "(string, one of `'count'`, `'sum'`, `'avg'`, `'min'`, `'max'`. Default is `'count'`)"
+        "Function used to aggregate values for summarization (note: can be normalized with `histnorm`).",
+        "The arguments to this function for `histogram` are the values of `y` if `orientation` is `'v'`,",
+        "otherwise the arguements are the values of `x`.",
+        "The arguments to this function for `density_heatmap` and `density_contour` are the values of `z`.",
+    ],
     histnorm=[
         "(string, one of `'percent'`, `'probability'`, `'density'`, `'probability density'`, default `None`)",
-        "If `None`, the span of each bar corresponds to the number of occurrences (i.e. the number of data points lying inside the bins).",
-        "If `'percent'` or `'probability'`, the span of each bar corresponds to the percentage / fraction of occurrences with respect to the total number of sample points (here, the sum of all bin HEIGHTS equals 100% / 1).",
-        "If `'density'`, the span of each bar corresponds to the number of occurrences in a bin divided by the size of the bin interval (here, the sum of all bin AREAS equals the total number of sample points).",
-        "If `'probability density'`, the area of each bar corresponds to the probability that an event will fall into the corresponding bin (here, the sum of all bin AREAS equals 1).",
+        "If `None`, the output of `histfunc` is used as is.",
+        "If `'probability'`, the output of `histfunc` for a given bin is divided by the sum of the output of `histfunc` for all bins.",
+        "If `'percent'`, the output of `histfunc` for a given bin is divided by the sum of the output of `histfunc` for all bins and multiplied by 100.",
+        "If `'density'`, the output of `histfunc` for a given bin is divided by the size of the bin.",
+        "If `'probability density'`, the output of `histfunc` for a given bin is normalized such that it corresponds to the probability that a random event whose distribution is described by the output of `histfunc` will fall into that bin.",
     ],
     barnorm=[
         "(string, one of `'fraction'` or `'percent'`, default is `None`)",
@@ -288,9 +303,14 @@ docs = dict(
         "In `'overlay'` mode, violins are on drawn top of one another.",
         "In `'group'` mode, violins are placed beside each other.",
     ],
+    stripmode=[
+        "(string, one of `'group'` or `'overlay'`. Default is `'group'`)",
+        "In `'overlay'` mode, strips are on drawn top of one another.",
+        "In `'group'` mode, strips are placed beside each other.",
+    ],
     zoom=["(integer between 0 and 20, default is 8)", "Sets map zoom level."],
     orientation=[
-        "(string, one of `'h'` for horizontal or `'v' for vertical`)",
+        "(string, one of `'h'` for horizontal or `'v'` for vertical)",
         "Default is `'v'`.",
     ],
     line_close=[
@@ -298,11 +318,6 @@ docs = dict(
         "If `True`, an extra line segment is drawn between the first and last point.",
     ],
     line_shape=["(string, one of `'linear'` or `'spline'`)", "Default is `'linear'`."],
-    histfunc=[
-        "(string, one of `'count'`, `'sum'`, `'avg'`, `'min'`, `'max'`. Default is `'count'`)"
-        "Function used to compute histogram bar lengths.",
-        "The arguments to this function are the values of `y` if `orientation` is `'v'`, otherwise the arguements are the values of `x`.",
-    ],
     scope=[
         "(string, one of `'world'`, `'usa'`, `'europe'`, `'asia'`, `'africa'`, `'north america'`, `'south america'`)"
         "Default is `'world'` unless `projection` is set to `'albers usa'`, which forces `'usa'`."
@@ -328,6 +343,8 @@ docs = dict(
         "If `True`, histogram values are cumulative.",
     ],
     nbins=["(positive integer)", "Sets the number of bins."],
+    nbinsx=["(positive integer)", "Sets the number of bins along the x axis."],
+    nbinsy=["(positive integer)", "Sets the number of bins along the y axis."],
 )
 
 
