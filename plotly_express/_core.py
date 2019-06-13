@@ -329,10 +329,7 @@ def configure_cartesian_marginal_axes(args, fig, orders):
         fig.layout["barmode"] = "overlay"
 
     nrows = len(fig._grid_ref)
-    row_step = 2 if args["marginal_x"] else 1
-
     ncols = len(fig._grid_ref[0])
-    col_step = 2 if args["marginal_y"] else 1
 
     # Set y-axis titles and axis options in the left-most column
     for yaxis in fig.select_yaxes(col=1):
@@ -344,30 +341,28 @@ def configure_cartesian_marginal_axes(args, fig, orders):
 
     # Configure axis ticks on marginal subplots
     if args["marginal_x"]:
-        for row in range(2, nrows + 1, row_step):
-            fig.update_yaxes(
-                showticklabels=False,
-                showgrid=args["marginal_x"] == "histogram",
-                row=row,
-            )
-            fig.update_xaxes(showgrid=True, row=row)
+        fig.update_yaxes(
+            showticklabels=False,
+            showgrid=args["marginal_x"] == "histogram",
+            row=nrows,
+        )
+        fig.update_xaxes(showgrid=True, row=nrows)
 
     if args["marginal_y"]:
-        for col in range(2, ncols + 1, col_step):
-            fig.update_xaxes(
-                showticklabels=False,
-                showgrid=args["marginal_y"] == "histogram",
-                col=col,
-            )
-            fig.update_yaxes(showgrid=True, col=col)
+        fig.update_xaxes(
+            showticklabels=False,
+            showgrid=args["marginal_y"] == "histogram",
+            col=ncols,
+        )
+        fig.update_yaxes(showgrid=True, col=ncols)
 
     # Add axis titles to non-marginal subplots
     y_title = get_decorated_label(args, args["y"], "y")
-    for row in range(1, nrows + 1, row_step):
+    for row in range(1, nrows):
         fig.update_yaxes(title_text=y_title, row=row, col=1)
 
     x_title = get_decorated_label(args, args["x"], "x")
-    for col in range(1, ncols + 1, col_step):
+    for col in range(1, ncols):
         fig.update_xaxes(title_text=x_title, row=1, col=col)
 
     # Configure axis type across all x-axes
@@ -684,6 +679,13 @@ def apply_default_cascade(args):
         if args["color_discrete_sequence"] is None:
             args["color_discrete_sequence"] = qualitative.Plotly
 
+    # If both marginals and faceting are specified, faceting wins
+    if args.get('facet_col', None) and args.get('marginal_y', None):
+        args['marginal_y'] = None
+
+    if args.get('facet_row', None) and args.get('marginal_x', None):
+        args['marginal_x'] = None
+
 
 def infer_config(args, constructor, trace_patch):
     # Declare all supported attributes, across all plot types
@@ -831,6 +833,7 @@ def get_orderings(args, grouper, grouped):
 
 def make_figure(args, constructor, trace_patch={}, layout_patch={}):
     apply_default_cascade(args)
+
     trace_specs, grouped_mappings, sizeref, show_colorbar = infer_config(
         args, constructor, trace_patch
     )
@@ -927,17 +930,13 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
                 # Find row for trace, handling facet_row and marginal_x
                 if m.facet == "row":
-                    if has_marginal_x:
-                        row = (m.val_map[val] - 1) * 2 + 2
-                    else:
-                        row = m.val_map[val]
-
+                    row = m.val_map[val]
                     trace._subplot_row_val = val
                 else:
-                    row = 1
-
-                if trace_spec.marginal == "x":
-                    row -= 1
+                    if trace_spec.marginal == "x":
+                        row = 2
+                    else:
+                        row = 1
 
                 nrows = max(nrows, row)
                 if row > 1:
@@ -945,17 +944,13 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
 
                 # Find col for trace, handling facet_col and marginal_y
                 if m.facet == "col":
-                    if has_marginal_y:
-                        col = (m.val_map[val] - 1) * 2 + 1
-                    else:
-                        col = m.val_map[val]
-
+                    col = m.val_map[val]
                     trace._subplot_col_val = val
                 else:
-                    col = 1
-
-                if trace_spec.marginal == "y":
-                    col += 1
+                    if trace_spec.marginal == "y":
+                        col = 2
+                    else:
+                        col = 1
 
                 ncols = max(ncols, col)
                 if col > 1:
@@ -1021,7 +1016,7 @@ def make_figure(args, constructor, trace_patch={}, layout_patch={}):
                 trace,
                 fig.layout,
                 fig._grid_ref,
-                nrows - trace._subplot_row + 1,
+                trace._subplot_row,
                 trace._subplot_col,
             )
 
@@ -1055,16 +1050,14 @@ def init_figure(
             else:
                 specs[row0][col0] = {"type": trace.type}
             if args.get("facet_row", None) and hasattr(trace, "_subplot_row_val"):
-                if row0 % 2 == 0 or not has_marginal_x:
-                    row_titles[row0] = (
-                        args["facet_row"] + "=" + str(trace._subplot_row_val)
-                    )
+                row_titles[row0] = (
+                    args["facet_row"] + "=" + str(trace._subplot_row_val)
+                )
 
             if args.get("facet_col", None) and hasattr(trace, "_subplot_col_val"):
-                if col0 % 2 == 0 or not has_marginal_y:
-                    column_titles[col0] = (
-                        args["facet_col"] + "=" + str(trace._subplot_col_val)
-                    )
+                column_titles[col0] = (
+                    args["facet_col"] + "=" + str(trace._subplot_col_val)
+                )
 
     # Default row/column widths uniform
     column_widths = [1.0] * ncols
@@ -1078,14 +1071,8 @@ def init_figure(
             else:
                 main_size = 0.84
 
-            row_heights = [main_size, 1 - main_size] * (nrows // 2)
+            row_heights = [main_size] * (nrows - 1) + [1 - main_size]
             vertical_spacing = 0.01
-
-            # Add padding to the top of marginal
-            for r in range(1, nrows, 2):
-                for c in range(ncols):
-                    if specs[r][c] is not None:
-                        specs[r][c]["t"] = vertical_spacing * 2
         else:
             vertical_spacing = 0.03
 
@@ -1095,14 +1082,8 @@ def init_figure(
             else:
                 main_size = 0.84
 
-            column_widths = [main_size, 1 - main_size] * (ncols // 2)
+            column_widths = [main_size] * (ncols - 1) + [1 - main_size]
             horizontal_spacing = 0.005
-
-            # Add padding to the top of marginal
-            for r in range(nrows):
-                for c in range(1, ncols, 2):
-                    if specs[r][c] is not None:
-                        specs[r][c]["r"] = horizontal_spacing * 2
         else:
             horizontal_spacing = 0.02
     else:
