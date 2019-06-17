@@ -32,7 +32,7 @@ setup(
     package_data={"plotly_express": ["data/*.csv.gz"]},
     install_requires=[
         "pandas>=0.20.0",
-        "plotly>=3.10.0",
+        "plotly>=3.10.0,<4.0.0a0",
         "statsmodels>=0.9.0",
         "scipy>=0.18",
         "patsy>=0.5",
