@@ -3,7 +3,7 @@
 data exploration and figure generation. See the gallery at https://plotly.github.io/plotly_express
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from ._chart_types import (  # noqa: F401
     scatter,

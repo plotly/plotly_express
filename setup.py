@@ -14,7 +14,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="plotly_express",
-    version="0.3.0",  # also update __version__ !
+    version="0.3.1",  # also update __version__ !
     description="Plotly Express - a high level wrapper for Plotly.py",
     long_description=long_description,
     long_description_content_type="text/markdown",
