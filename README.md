@@ -10,11 +10,11 @@ However, if you have existing code that imports from `plotly_express` explicitly
 
 ### Via `pip`
 
-Just running `pip install plotly_express==0.4.0` in your terminal should do it!
+Just running `pip install plotly_express==0.4.1` in your terminal should do it!
 
 ### Via `conda`
 
-You'll have to install from the `plotly` channel with `conda install -c plotly plotly_express==0.4.0`
+You'll have to install from the `plotly` channel with `conda install -c plotly plotly_express==0.4.1`
 
 ## Getting Help
 
